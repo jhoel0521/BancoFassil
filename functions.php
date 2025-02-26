@@ -28,3 +28,12 @@ function view($view, $data = [])
         die("Error: La vista '{$view}' no existe en '{$path}'");
     }
 }
+function route($name)
+{
+    return \Core\Router::route($name) ?? '/';
+}
+function redirect($url)
+{
+    header("Location : {$url}");
+    exit();
+}
