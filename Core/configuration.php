@@ -1,7 +1,19 @@
 <?php
 define('BASE_ROUTE', dirname(__DIR__) . DIRECTORY_SEPARATOR);
-
-// Ajusta las rutas de los archivos requeridos
+require_once BASE_ROUTE . 'autoload.php';
+// Cargar funciones y configuraciones principales
 require_once BASE_ROUTE . 'functions.php';
-require_once BASE_ROUTE . 'App' . DIRECTORY_SEPARATOR . 'Modelo' . DIRECTORY_SEPARATOR . 'Modelo.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Router.php'; // Core/Router.php está en el mismo nivel
+
+// Cargar todas las clases del directorio `App/Modelo`
+foreach (glob(BASE_ROUTE . 'App' . DIRECTORY_SEPARATOR . 'Modelo' . DIRECTORY_SEPARATOR . '*.php') as $modelFile) {
+    require_once $modelFile;
+}
+
+// Cargar todas las clases del directorio `App/Controller`
+foreach (glob(BASE_ROUTE . 'App' . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR . '*.php') as $controllerFile) {
+    require_once $controllerFile;
+}
+
+// Cargar clases del núcleo (Core)
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Router.php';
+require_once BASE_ROUTE . 'Core' . DIRECTORY_SEPARATOR . 'Exceptions' . DIRECTORY_SEPARATOR . 'RouteNotFoundException.php';

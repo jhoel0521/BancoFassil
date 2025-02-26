@@ -54,21 +54,33 @@ class Router
     public static function dispatch($uri, $method)
     {
         $method = strtoupper($method);
-
-        if (isset(self::$routes[$method][$uri])) {
-            $action = self::$routes[$method][$uri];
-
-            if (is_callable($action)) {
-                return call_user_func($action);
-            } elseif (is_array($action)) {
-                [$controller, $method] = $action;
-                if (class_exists($controller) && method_exists($controller, $method)) {
-                    $instance = new $controller();
-                    return call_user_func([$instance, $method]);
+        $relativeRoute = str_replace(BASE_URL, '', $uri);
+    
+        try {
+            if (isset(self::$routes[$method][$relativeRoute])) {
+                $action = self::$routes[$method][$relativeRoute];
+                if (is_callable($action)) {
+                    return call_user_func($action);
+                } elseif (is_array($action)) {
+                    [$controller, $method] = $action;
+                    if (class_exists($controller) && method_exists($controller, $method)) {
+                        $instance = new $controller();
+                        return call_user_func([$instance, $method]);
+                    }
                 }
+            }else{            
+                throw new \Core\Exceptions\RouteNotFoundException($relativeRoute);
             }
+        } catch (\Core\Exceptions\RouteNotFoundException $e) {
+            // Captura solo errores de rutas no encontradas
+            error_log($e->getMessage());
+            // Devuelve la vista 404
+            return view('404');
+        } catch (\Exception $e) {  // Captura errores generales
+            error_log("Error inesperado: " . $e->getMessage());
+            throw $e;
         }
-
-        return view('404');
     }
+    
+    
 }

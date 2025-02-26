@@ -20,14 +20,16 @@ function dd(...$value)
 function view($view, $data = [])
 {
     extract($data);
-    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $view . '.view.php';
-
+    
+    $viewPath = str_replace('.', DIRECTORY_SEPARATOR, $view);
+    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $viewPath . '.view.php';
     if (file_exists($path)) {
         require_once $path;
     } else {
         die("Error: La vista '{$view}' no existe en '{$path}'");
     }
 }
+
 function route($name)
 {
     return \Core\Router::route($name) ?? '/';
