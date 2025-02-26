@@ -14,3 +14,17 @@ function dd(...$value)
     //echo json_encode($value);
     die();
 }
+/**
+ * Retorna una vista
+ */
+function view($view, $data = [])
+{
+    extract($data);
+    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $view . '.view.php';
+
+    if (file_exists($path)) {
+        require_once $path;
+    } else {
+        die("Error: La vista '{$view}' no existe en '{$path}'");
+    }
+}

@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /Class/
+RewriteBase /BancoFassil/
 
 # Redirigir todas las solicitudes a index.php
 RewriteCond %{REQUEST_FILENAME} !-f

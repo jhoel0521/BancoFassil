@@ -1,22 +1,16 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR.'Core'.DIRECTORY_SEPARATOR.'configuration.php';
+
+require_once __DIR__ . '/Core/configuration.php';
+require_once __DIR__ . '/Core/Router.php';
 
 use Core\Router;
-use App\Modelo\Modelo;
-use App\Controllers\ModeloController;
-$router = new Router();
 
-// Añadir rutas
-$router->addRoute('/', function() {
-    echo "Bienvenido a la página de inicio!";
-});
+// Cargar rutas desde la carpeta /routes
+Router::loadRoutes(__DIR__ . '/../routes');
 
-$router->addRoute('/modelo', function() {
-    $modelo = new Modelo();
-    echo "Esta es la página del modelo.";
-});
-$router->addRoute('/modelo/edit', [ModeloController::class, 'edit']);
 // Obtener la ruta solicitada
-$requestedRoute = $_SERVER['REQUEST_URI'];
+$requestedRoute = strtok($_SERVER['REQUEST_URI'], '?'); // Elimina query params
+$method = $_SERVER['REQUEST_METHOD'];
+
 // Despachar la ruta solicitada
-$router->dispatch($requestedRoute);
+Router::dispatch($requestedRoute, $method);
