@@ -6,6 +6,6 @@ class HomeController
 {
     public function index()
     {
-        return view('home.index', ['title' => 'Bienvenido']);
+        return view('home.index', ['title' => 'Bienvenido'],false);
     }
 }

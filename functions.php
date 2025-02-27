@@ -17,17 +17,34 @@ function dd(...$value)
 /**
  * Retorna una vista
  */
-function view($view, $data = [])
+function view($view, $data = [],$layout='layouts/app')
 {
     extract($data);
     
     $viewPath = str_replace('.', DIRECTORY_SEPARATOR, $view);
     $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $viewPath . '.view.php';
-    if (file_exists($path)) {
-        require_once $path;
-    } else {
-        die("Error: La vista '{$view}' no existe en '{$path}'");
+    
+    if (!file_exists($path)) {
+        throw new \Exception("Vista '{$view}' no encontrada en '{$path}'");
     }
+
+    ob_start();
+    require $path;
+    $content = ob_get_clean();
+
+    if ($layout===false) {
+        echo $content;
+        die;
+    }
+
+    // Si se especifica un layout, usarlo
+    $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
+    
+    if (file_exists($layoutPath)) {
+        return require $layoutPath;
+    }
+    
+    throw new \Exception("Layout '{$layout}' no encontrado");
 }
 
 function route($name) {
