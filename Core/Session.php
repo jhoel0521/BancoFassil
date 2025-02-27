@@ -1,0 +1,62 @@
+<?php
+
+namespace Core;
+
+class Session
+{
+    /**
+     * Inicia la sesión si no está activa.
+     */
+    private static function startSession()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    /**
+     * Almacena datos en la sesión de forma persistente.
+     */
+    public static function set($key, $value)
+    {
+        self::startSession();
+        $_SESSION[$key] = $value;
+    }
+
+    /**
+     * Obtiene datos de la sesión.
+     */
+    public static function get($key, $default = null)
+    {
+        self::startSession();
+        return $_SESSION[$key] ?? $default;
+    }
+
+    /**
+     * Almacena datos temporales para la próxima solicitud (flash data).
+     */
+    public static function flash($key, $value)
+    {
+        self::startSession();
+        $_SESSION['_flash'][$key] = $value;
+    }
+
+    /**
+     * Elimina la sesión y todos sus datos.
+     */
+    public static function destroy()
+    {
+        self::startSession();
+        session_unset();
+        session_destroy();
+    }
+
+    /**
+     * Elimina los mensajes flash después de ser consumidos.
+     */
+    public static function clearFlash()
+    {
+        self::startSession();
+        unset($_SESSION['_flash']);
+    }
+}

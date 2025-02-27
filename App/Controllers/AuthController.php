@@ -19,20 +19,19 @@ class AuthController
         if (!csrf_verify($_POST['_token'])) {
             Session::flash('errors', ['general' => 'Token CSRF inválido']);
             Session::flash('old', $_POST);
-            return Router::redirect(route('login'));
+            return redirect(route('login'));
         }
 
         // Validar Validation
         $validator = new Validation();
-        $validator->validate($_POST, [
-            'email' => 'required|email',
-            'password' => 'required|min:8'
-        ]);
-
-        if ($validator->fails()) {
+        $rules = [
+            'email'    => 'required|email',
+            'password' => 'required|min:8|max:16'
+        ];
+        if (!$validator->validate($_POST, $rules)) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
-            return Router::redirect(route('login'));
+            return redirect(route('login'));
         }
 
         // Autenticar usuario (ejemplo básico)
@@ -40,18 +39,18 @@ class AuthController
 
         if ($user) {
             Session::set('user', $user);
-            return Router::redirect(route('home'));
+            return redirect(route('home'));
         }
 
         Session::flash('errors', ['general' => 'Credenciales incorrectas']);
         Session::flash('old', $_POST);
-        return Router::redirect(route('login'));
+        return redirect(route('login'));
     }
 
     public function logout()
     {
         Session::destroy();
-        return Router::redirect(route('home'));
+        return redirect(route('home'));
     }
 
     private function attempt($email, $password)
