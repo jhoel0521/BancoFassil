@@ -93,9 +93,9 @@
                 <h2 class="display-4 mb-4">Bienvenido a su Banco Digital</h2>
                 <p class="lead mb-4">Gestiona tus finanzas de manera fácil y segura</p>
                 <div class="d-flex gap-3 justify-content-center">
-                    <button class="btn btn-success btn-lg">
+                    <a class="btn btn-success btn-lg" href="<?=route('login') ?>">
                         <i class="bi bi-person-check me-2"></i>Acceder a Cuenta
-                    </button>
+                    </a>
                     <button class="btn btn-outline-light btn-lg">
                         <i class="bi bi-plus-circle me-2"></i>Abrir Nueva Cuenta
                     </button>

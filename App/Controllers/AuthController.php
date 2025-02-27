@@ -6,7 +6,7 @@ class AuthController
 {
     public function login()
     {
-        return view('auth/login');
+        return view('auth.login');
     }
 
     public function authenticate()
@@ -21,7 +21,7 @@ class AuthController
             exit;
         }
 
-        return view('auth/login', ['error' => 'Credenciales incorrectas']);
+        return view('auth/.ogin', ['error' => 'Credenciales incorrectas']);
     }
 
     public function logout()
