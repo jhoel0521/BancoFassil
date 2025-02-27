@@ -72,7 +72,7 @@ CREATE TABLE
         commentSystem VARCHAR(255) COMMENT 'System-generated comments',
         description VARCHAR(255) COMMENT 'User-provided description',
         accountId INT NOT NULL,
-        createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (accountId) REFERENCES Account (id) ON DELETE CASCADE
     );
 
