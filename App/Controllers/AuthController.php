@@ -22,7 +22,7 @@ class AuthController
             return Router::redirect(route('login'));
         }
 
-        // Validar datos
+        // Validar Validation
         $validator = new Validation();
         $validator->validate($_POST, [
             'email' => 'required|email',
