@@ -1,4 +1,5 @@
 <?php
+
 use Core\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;

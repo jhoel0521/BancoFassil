@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +13,14 @@
         body {
             background-color: #f8f9fa;
         }
+
         .main-content {
             min-height: calc(100vh - 120px);
             padding-top: 80px;
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="bg-primary text-white fixed-top shadow-sm">
@@ -43,4 +46,5 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
