@@ -1,10 +1,3 @@
-<?php
-$errors = flashGet('errors') ?? [];
-$old = flashGet('old') ?? [];
-// Limpiar mensajes flash
-clearFlash();
-?>
-
 <div class="flex-grow-1 pt-4">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
@@ -42,7 +35,7 @@ clearFlash();
                                 minlength="8"
                                 required>
                             <?php if (isset($errors['password'])): ?>
-                                <div class="invalid-feedback"><?= $errors['password'] ?></div>
+                                <div class="invalid-feedback"><?= $errors['password'] ?? '' ?></div>
                             <?php endif; ?>
                         </div>
                         <!-- sección de errores general -->

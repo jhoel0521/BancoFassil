@@ -29,6 +29,9 @@ function view($view, $data = [], $layout = 'layouts' . DIRECTORY_SEPARATOR . 'ap
     }
 
     ob_start();
+    $errors = flashGet('errors') ?? [];
+    $old = flashGet('old') ?? [];
+    clearFlash();
     require $path;
     $content = ob_get_clean();
 
@@ -38,7 +41,7 @@ function view($view, $data = [], $layout = 'layouts' . DIRECTORY_SEPARATOR . 'ap
     }
     // Si se especifica un layout, usarlo
     $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
-    
+
     if (file_exists($layoutPath)) {
         return require $layoutPath;
     }
