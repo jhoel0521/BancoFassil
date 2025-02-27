@@ -30,14 +30,18 @@ function view($view, $data = [])
     }
 }
 
-function route($name)
-{
-    return \Core\Router::route($name) ?? '/';
+function route($name) {
+    $path = \Core\Router::route($name) ?? '/';
+    return BASE_URL . $path;
 }
-function redirect($url)
-{
-    header("Location : {$url}");
-    exit();
+function redirect($url) {
+    if (!headers_sent()) {
+        header("Location: " . BASE_URL . $url);
+    }else{
+        // Fallback con JavaScript si las cabeceras ya fueron enviadas
+        echo '<script>window.location.href="'.BASE_URL.$url.'"</script>';
+    }
+    exit();  
 }
 
 function asset($path) {
