@@ -14,6 +14,9 @@
 
         body {
             background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; 
         }
 
         .header {
@@ -23,6 +26,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%;
+            z-index: 1000; 
         }
 
         .logo {
@@ -31,11 +39,12 @@
         }
 
         .rounded-image {
-            width: 50px; 
+            width: 50px;
             height: 50px;
             border-radius: 50%;
-            object-fit: cover; 
+            object-fit: cover;
         }
+
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -53,6 +62,7 @@
             color: white;
             text-align: center;
             padding: 5rem 2rem;
+            margin-top: 70px; 
         }
 
         .cta-buttons {
@@ -80,6 +90,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             padding: 3rem 2rem;
+            flex: 1; 
         }
 
         .feature-card {
@@ -95,7 +106,11 @@
             color: white;
             padding: 2rem;
             text-align: center;
-            margin-top: 3rem;
+            position: fixed; 
+            bottom: 0;
+            left: 0;
+            width: 100%; 
+            z-index: 1000; 
         }
 
         .language-switcher {
@@ -108,7 +123,7 @@
             .nav-links {
                 display: none;
             }
-            
+
             .features {
                 grid-template-columns: 1fr;
             }
