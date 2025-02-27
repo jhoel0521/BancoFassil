@@ -11,6 +11,5 @@ Router::loadRoutes(BASE_ROUTE . 'routes');
 // Obtener la ruta solicitada
 $requestedRoute = strtok($_SERVER['REQUEST_URI'], '?'); // Elimina query params
 $method = $_SERVER['REQUEST_METHOD'];
-route('login');
 // Despachar la ruta solicitada
 Router::dispatch($requestedRoute, $method);

@@ -37,3 +37,12 @@ class Session
         session_destroy();
     }
 }
+// auth()
+function auth()
+{
+    return Session::get('user');
+}
+function isAuth()
+{
+    return auth() !== null;
+}

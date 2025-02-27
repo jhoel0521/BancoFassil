@@ -6,7 +6,7 @@ use Core\Router;
 use Core\Session;
 use Core\Validation;
 
-class AuthController
+class AuthController extends Controller
 {
     public function showLoginForm()
     {
@@ -25,7 +25,7 @@ class AuthController
         // Validar Validation
         $validator = new Validation();
         $rules = [
-            'email'    => 'required|email',
+            'user'    => 'required|user',
             'password' => 'required|min:8|max:16'
         ];
         if (!$validator->validate($_POST, $rules)) {
@@ -33,9 +33,9 @@ class AuthController
             Session::flash('old', $_POST);
             return redirect(route('login'));
         }
-
+        
         // Autenticar usuario (ejemplo básico)
-        $user = $this->attempt($_POST['email'], $_POST['password']);
+        $user = $this->attempt($_POST['user'], $_POST['password']);
 
         if ($user) {
             Session::set('user', $user);
@@ -53,7 +53,7 @@ class AuthController
         return redirect(route('home'));
     }
 
-    private function attempt($email, $password)
+    private function attempt($user, $password)
     {
         // Lógica real de autenticación con base de datos
         // Ejemplo temporal:
@@ -61,8 +61,8 @@ class AuthController
             'admin@bancofassil.com' => password_hash('password123', PASSWORD_DEFAULT)
         ];
 
-        if (isset($users[$email]) && password_verify($password, $users[$email])) {
-            return ['email' => $email, 'name' => 'Usuario Demo'];
+        if (isset($users[$user]) && password_verify($password, $users[$user])) {
+            return ['user' => $user, 'name' => 'Usuario Demo'];
         }
 
         return false;

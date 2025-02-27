@@ -20,15 +20,15 @@ unset($_SESSION['old']);
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo Electrónico</label>
-                            <input type="email"
-                                class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
-                                id="email"
-                                name="email"
-                                value="<?= $old['email'] ?? '' ?>"
+                            <label for="user" class="form-label">Usuario</label>
+                            <input type="user"
+                                class="form-control <?= isset($errors['user']) ? 'is-invalid' : '' ?>"
+                                id="user"
+                                name="user"
+                                value="<?= $old['user'] ?? '' ?>"
                                 required>
-                            <?php if (isset($errors['email'])): ?>
-                                <div class="invalid-feedback"><?= $errors['email'] ?></div>
+                            <?php if (isset($errors['user'])): ?>
+                                <div class="invalid-feedback"><?= $errors['user'] ?></div>
                             <?php endif; ?>
                         </div>
 

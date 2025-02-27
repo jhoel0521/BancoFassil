@@ -7,7 +7,7 @@ class Session
     /**
      * Inicia la sesión si no está activa.
      */
-    private static function startSession()
+    public static function startSession()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

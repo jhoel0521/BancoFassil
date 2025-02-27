@@ -33,11 +33,11 @@
         <nav class="navbar navbar-expand-lg container">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="#">
-                    <img src="<?= asset('images/logo-bancofassil.jpg') ?>"
-                        alt="Bancofassil"
+                    <img src="<?= asset('images/logo-BancoFassil.jpg') ?>"
+                        alt="BancoFassil"
                         class="rounded-circle me-2"
                         style="width: 50px; height: 50px; object-fit: cover;">
-                    <h1 class="h4 mb-0">Bancofassil</h1>
+                    <h1 class="h4 mb-0">BancoFassil</h1>
                 </a>
 
                 <button class="navbar-toggler"
@@ -95,9 +95,15 @@
                 <h2 class="display-4 mb-4">Bienvenido a su Banco Digital</h2>
                 <p class="lead mb-4">Gestiona tus finanzas de manera fácil y segura</p>
                 <div class="d-flex gap-3 justify-content-center">
-                    <a class="btn btn-success btn-lg" href="<?= route('login') ?>">
-                        <i class="bi bi-person-check me-2"></i>Acceder a Cuenta
-                    </a>
+                    <?php if (isAuth()): ?>
+                        <a class="btn btn-primary btn-lg" href="<?= route('dashboard') ?>">
+                            <i class="bi bi-person-fill me-2"></i>Ir a Mis Cuentas
+                        </a>
+                    <?php else: ?>
+                        <a class="btn btn-success btn-lg" href="<?= route('login') ?>">
+                            <i class="bi bi-person-check me-2"></i>Acceder a Cuenta
+                        </a>
+                    <?php endif; ?>
                     <button class="btn btn-outline-light btn-lg">
                         <i class="bi bi-plus-circle me-2"></i>Abrir Nueva Cuenta
                     </button>
@@ -142,7 +148,7 @@
     <!-- Footer -->
     <footer class="bg-primary text-white mt-auto py-4 fixed-bottom">
         <div class="container text-center">
-            <p class="mb-2">© 2023 Bancofassil - Desarrollo de Sistemas I</p>
+            <p class="mb-2">© 2023 BancoFassil - Desarrollo de Sistemas I</p>
             <p class="mb-2">
                 <i class="bi bi-envelope me-2"></i>info@bancofassil.com
                 <i class="bi bi-telephone ms-3 me-2"></i>+591 12345678
