@@ -3,6 +3,7 @@ define('BASE_ROUTE', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 require_once BASE_ROUTE . 'autoload.php';
 // Cargar funciones y configuraciones principales
 require_once BASE_ROUTE . 'functions.php';
+require_once 'helpers.php';
 
 // Cargar todas las clases del directorio `App/Modelo`
 foreach (glob(BASE_ROUTE . 'App' . DIRECTORY_SEPARATOR . 'Modelo' . DIRECTORY_SEPARATOR . '*.php') as $modelFile) {
