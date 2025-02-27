@@ -59,4 +59,14 @@ class Session
         self::startSession();
         unset($_SESSION['_flash']);
     }
+    public static function flashGet($key)
+    {
+        self::startSession();
+        return $_SESSION['_flash'][$key] ?? null;
+    }
+    public static function flashSet($key, $value)
+    {
+        self::startSession();
+        $_SESSION['_flash'][$key] = $value;
+    }
 }

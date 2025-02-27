@@ -67,4 +67,8 @@ class AuthController extends Controller
 
         return false;
     }
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
 }

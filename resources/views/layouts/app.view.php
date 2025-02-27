@@ -10,25 +10,29 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
-        .custom-bg-gradient {
-            background: linear-gradient(rgba(0, 51, 102, 0.8), rgba(0, 51, 102, 0.8)),
-                url('<?= asset("images/bank-bg.avif") ?>');
-            background-size: cover;
+        /* Nuevos estilos agregados */
+        body {
+            padding-top: 80px;
+            /* Para el header fijo */
+            padding-bottom: 100px;
+            /* Para el footer fijo */
         }
 
-        .feature-card {
-            transition: transform 0.3s;
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .fixed-footer {
+            position: relative;
+            /* Cambiado de fixed-bottom */
+            margin-top: auto;
         }
     </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <!-- Header -->
+    <!-- Header (código anterior igual) ... -->
     <header class="bg-primary text-white fixed-top shadow-sm">
         <nav class="navbar navbar-expand-lg container">
             <div class="container-fluid">
@@ -81,20 +85,40 @@
                                 <li><a class="dropdown-item" href="#">EN</a></li>
                             </ul>
                         </li>
+                        <?php if (isAuth()): ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= route('dashboard') ?>">
+                                    <i class="bi bi-person-fill me-1"></i>Mi Cuenta
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= route('logout') ?>">
+                                    <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
+                                </a>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= route('login') ?>">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
+                                </a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-
-    <!-- Contenido principal -->
+    <!-- Contenido principal modificado -->
     <main class="main-content">
-        <?= $content ?>
+        <div class="container">
+            <?= $content ?>
+        </div>
     </main>
-    <!-- Footer -->
-    <footer class="bg-primary text-white mt-auto py-4 fixed-bottom">
+
+    <!-- Footer modificado -->
+    <footer class="bg-primary text-white py-4 fixed-footer">
         <div class="container text-center">
-            <p class="mb-2">© 2023 BancoFassil - Desarrollo de Sistemas I</p>
+            <p class="mb-2">© 2024 BancoFassil - Desarrollo de Sistemas I</p>
             <p class="mb-2">
                 <i class="bi bi-envelope me-2"></i>info@bancofassil.com
                 <i class="bi bi-telephone ms-3 me-2"></i>+591 12345678
@@ -111,8 +135,9 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- ... (scripts igual) ... -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

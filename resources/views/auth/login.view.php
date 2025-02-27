@@ -1,11 +1,11 @@
 <?php
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
-$old = $_SESSION['old'] ?? [];
-unset($_SESSION['old']);
+$errors = flashGet('errors') ?? [];
+$old = flashGet('old') ?? [];
+// Limpiar mensajes flash
+clearFlash();
 ?>
 
-<div class="container mt-5">
+<div class="flex-grow-1 pt-4">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
             <div class="card shadow">
@@ -45,6 +45,10 @@ unset($_SESSION['old']);
                                 <div class="invalid-feedback"><?= $errors['password'] ?></div>
                             <?php endif; ?>
                         </div>
+                        <!-- sección de errores general -->
+                        <?php if (isset($errors['general'])): ?>
+                            <div class="alert alert-danger"><?= $errors['general'] ?></div>
+                        <?php endif; ?>
 
                         <!-- Recordar Sesión -->
                         <div class="mb-3 form-check">

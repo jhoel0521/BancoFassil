@@ -46,3 +46,15 @@ function isAuth()
 {
     return auth() !== null;
 }
+
+function flashGet($key)
+{
+    if (!isset($_SESSION['_flash'])) {
+        return null;
+    }
+    return $_SESSION['_flash'][$key] ?? null;
+}
+function clearFlash()
+{
+    unset($_SESSION['_flash']);
+}

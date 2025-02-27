@@ -1,5 +1,22 @@
 <main class="flex-grow-1 mt-5 pt-4">
     <!-- Hero Section -->
+    <style>
+        .custom-bg-gradient {
+            background: linear-gradient(rgba(0, 51, 102, 0.8), rgba(0, 51, 102, 0.8)),
+                url('<?= asset("images/bank-bg.avif") ?>');
+            background-size: cover;
+            border-radius: 20px;
+        }
+
+        .feature-card {
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
     <section class="custom-bg-gradient text-white py-5">
         <div class="container text-center py-5">
             <h2 class="display-4 mb-4">Bienvenido a su Banco Digital</h2>
