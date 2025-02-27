@@ -17,7 +17,7 @@ function dd(...$value)
 /**
  * Retorna una vista
  */
-function view($view, $data = [], $layout = 'layouts/app')
+function view($view, $data = [], $layout = 'layouts' . DIRECTORY_SEPARATOR . 'app')
 {
     extract($data);
 
@@ -36,10 +36,9 @@ function view($view, $data = [], $layout = 'layouts/app')
         echo $content;
         die;
     }
-
     // Si se especifica un layout, usarlo
     $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
-
+    
     if (file_exists($layoutPath)) {
         return require $layoutPath;
     }
