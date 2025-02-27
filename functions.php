@@ -39,3 +39,13 @@ function redirect($url)
     header("Location : {$url}");
     exit();
 }
+
+function asset($path) {
+    $baseUrl = BASE_URL.'/public/';
+
+    // Elimina la barra inicial si existe en el path
+    $path = ltrim($path, '/');
+
+    // Retorna la ruta completa al recurso
+    return $baseUrl . $path;
+}
