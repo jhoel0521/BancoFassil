@@ -1,19 +1,17 @@
 <?php
 namespace App\Controllers;
 
+use Core\Request;
+use Core\Session;
+
 class ChangeLanguageController extends Controller
 {
-    public function changeLanguage()
+    public function changeLanguage(Request $request, $lang)
     {
-        session_start(); // Asegurar que la sesión está iniciada
-
-        // Verificar si el idioma enviado es válido
-        if (isset($_POST['lang']) && in_array($_POST['lang'], ['es', 'en'])) {
-            $_SESSION['lang'] = $_POST['lang']; // Guardar idioma en la sesión
+        if (isset($lang) && in_array($lang, ['es', 'en'])) {
+            Session::set('lang', $lang);
         }
 
-        // Redirigir a la página anterior
-        header("Location: " . $_SERVER['HTTP_REFERER']);
-        exit();
+        return redirect(back());
     }
 }

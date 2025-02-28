@@ -15,7 +15,7 @@ Router::get('/register', [AuthController::class, 'showRegisterForm'])->name('reg
 Router::post('/register', [AuthController::class, 'register'])->name('auth.register');
 
 
-Router::post('/change-language', [ChangeLanguageController::class, 'changeLanguage'])->name('change.language');
+Router::get('/change-language/{lang}', [ChangeLanguageController::class, 'changeLanguage'])->name('change.language');
 
 Router::get('/AccountController', [AccountController::class, 'index'])->name('account.index')->middleware(AuthMiddleware::class);
 Router::get('/account/create', [AccountController::class, 'create'])->name('account.create')->middleware(AuthMiddleware::class);

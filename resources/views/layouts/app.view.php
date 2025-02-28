@@ -37,17 +37,12 @@
         <nav class="navbar navbar-expand-lg container">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="<?= route('home') ?>">
-                    <img src="<?= asset('images/logo-BancoFassil.jpg') ?>"
-                        alt="BancoFassil"
-                        class="rounded-circle me-2"
+                    <img src="<?= asset('images/logo-BancoFassil.jpg') ?>" alt="BancoFassil" class="rounded-circle me-2"
                         style="width: 50px; height: 50px; object-fit: cover;">
                     <h1 class="h4 mb-0">BancoFassil</h1>
                 </a>
 
-                <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon text-white"></span>
                 </button>
 
@@ -75,25 +70,21 @@
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link text-white dropdown-toggle"
-                                href="#"
-                                role="button"
+                            <a class="nav-link text-white dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown">
                                 <i class="bi bi-translate me-1"></i> Idioma
                             </a>
 
                             <ul class="dropdown-menu">
                                 <li>
-                                    <form action="<?= route('change.language') ?>" method="POST">
-                                        <input type="hidden" name="lang" value="es">
-                                        <button type="submit" class="dropdown-item">🇪🇸 Español</button>
-                                    </form>
+                                    <a type="submit" href="<?= route('change.language', ['lang' => 'es']) ?>"
+                                        class="dropdown-item">🇪🇸
+                                        Español</a>
+
                                 </li>
                                 <li>
-                                    <form action="<?= route('change.language') ?>" method="POST">
-                                        <input type="hidden" name="lang" value="en">
-                                        <button type="submit" class="dropdown-item">🇬🇧 English</button>
-                                    </form>
+                                    <a type="submit" href="<?= route('change.language', ['lang' => 'en']) ?>"
+                                        class="dropdown-item">🇬🇧 English</a>
                                 </li>
                             </ul>
                         </li>
@@ -127,7 +118,7 @@
     <!-- Contenido principal modificado -->
     <main class="main-content">
         <div class="container">
-         <?= $layoutContent??'' ?>
+            <?= $layoutContent ?? '' ?>
         </div>
     </main>
 
