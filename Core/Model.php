@@ -1,7 +1,8 @@
 <?php
 
 namespace Core;
-class Model {
+class Model
+{
     protected $table;
     protected $primaryKey = 'id';
     protected $fillable = [];
@@ -13,36 +14,41 @@ class Model {
     private $original = [];
     private $exists = false;
 
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $this->fill($attributes);
-        
+
         if (!$this->table) {
             $this->table = strtolower(class_basename($this)) . 's';
         }
     }
 
-    public function fill(array $attributes) {
+    public function fill(array $attributes)
+    {
         foreach ($attributes as $key => $value) {
             if (in_array($key, $this->fillable)) {
                 $this->attributes[$key] = $value;
+                $this->$key = $value;
             }
         }
         return $this;
     }
 
-    public function save() {
+    public function save()
+    {
         $db = DB::getInstance();
-        
+
         if ($this->exists) {
             return $this->performUpdate($db);
         }
-        
+
         return $this->performInsert($db);
     }
 
-    protected function performInsert(DB $db) {
+    protected function performInsert(DB $db)
+    {
         $attributes = $this->getAttributesForSave();
-        
+
         if ($this->timestamps) {
             $attributes['created_at'] = date('Y-m-d H:i:s');
             $attributes['updated_at'] = date('Y-m-d H:i:s');
@@ -50,20 +56,20 @@ class Model {
 
         $columns = implode(', ', array_keys($attributes));
         $placeholders = implode(', ', array_fill(0, count($attributes), '?'));
-        
+
         $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$placeholders})";
-        
         $db->query($sql, array_values($attributes));
-        
+
         $this->attributes[$this->primaryKey] = $db->getConnection()->lastInsertId();
         $this->exists = true;
-        
+
         return $this;
     }
 
-    protected function performUpdate(DB $db) {
+    protected function performUpdate(DB $db)
+    {
         $attributes = $this->getAttributesForSave();
-        
+
         if ($this->timestamps) {
             $attributes['updated_at'] = date('Y-m-d H:i:s');
         }
@@ -72,50 +78,113 @@ class Model {
         foreach ($attributes as $key => $value) {
             $updates[] = "{$key} = ?";
         }
-        
-        $sql = "UPDATE {$this->table} SET " . implode(', ', $updates) . 
-               " WHERE {$this->primaryKey} = ?";
-        
+
+        $sql = "UPDATE {$this->table} SET " . implode(', ', $updates) .
+            " WHERE {$this->primaryKey} = ?";
+
         $bindings = array_values($attributes);
         $bindings[] = $this->getKey();
-        
+
         $db->query($sql, $bindings);
-        
+
         return $this;
     }
 
-    public function delete() {
+    public function delete()
+    {
         if ($this->softDeletes) {
             return $this->performSoftDelete();
         }
         return $this->performForceDelete();
     }
 
-    protected function performForceDelete() {
+    protected function performForceDelete()
+    {
         $db = DB::getInstance();
         $sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?";
         $db->query($sql, [$this->getKey()]);
         $this->exists = false;
         return true;
     }
+    public function getKey()
+    {
+        return $this->attributes[$this->primaryKey] ?? null;
+    }
 
-    protected function performSoftDelete() {
+    protected function performSoftDelete()
+    {
         $this->attributes['deleted_at'] = date('Y-m-d H:i:s');
         return $this->save();
     }
 
-    public static function find($id) {
-        $instance = new static();
-        return $instance->newQuery()->where($instance->primaryKey, '=', $id)->first();
-    }
-
-    public static function all() {
-        return (new static())->newQuery()->get();
-    }
-
-    protected function newQuery() {
+    protected function newQuery()
+    {
         return DB::getInstance()->table($this->table);
     }
+    protected function getAttributesForSave()
+    {
+        $attributes = [];
 
-    // Métodos mágicos y helpers adicionales...
+        // Solo incluir campos fillable
+        foreach ($this->fillable as $field) {
+            if (array_key_exists($field, $this->attributes)) {
+                $attributes[$field] = $this->attributes[$field];
+            }
+        }
+
+        // Manejo de timestamps
+        if ($this->timestamps) {
+            if (!$this->exists) {
+                $attributes['created_at'] = $this->attributes['created_at'] ?? date('Y-m-d H:i:s');
+            }
+            $attributes['updated_at'] = date('Y-m-d H:i:s');
+        }
+
+        // Manejo de soft deletes
+        if ($this->softDeletes && isset($this->attributes['deleted_at'])) {
+            $attributes['deleted_at'] = $this->attributes['deleted_at'];
+        }
+
+        return $attributes;
+    }
+    public function __get($name)
+    {
+        return $this->attributes[$name] ?? null;
+    }
+
+    public function __set($name, $value)
+    {
+        if (in_array($name, $this->fillable)) {
+            $this->attributes[$name] = $value;
+        }
+    }
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    public function getFillable()
+    {
+        return $this->fillable;
+    }
+    public static function query()
+    {
+        $instance = new static();
+        return DB::getInstance()->table($instance->table, static::class);
+    }
+
+    public static function where($column, $operator, $value = null)
+    {
+        return static::query()->where($column, $operator, $value);
+    }
+
+    public static function find($id)
+    {
+        return static::query()->where((new static())->primaryKey, '=', $id)->first();
+    }
+
+    public static function all()
+    {
+        return static::query()->get();
+    }
 }

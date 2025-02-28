@@ -2,7 +2,6 @@
 namespace App\Models;
 
 use Core\Model;
-
 class Person extends Model
 {
     protected $table = 'Person';
