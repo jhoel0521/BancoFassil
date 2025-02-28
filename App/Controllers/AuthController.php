@@ -121,7 +121,6 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             // Rollback en caso de error
             DB::getInstance()->getConnection()->rollBack();
-            throw $e;
             Session::flash('errors', ['general' => 'Error al registrar el usuario: ' . $e->getMessage()]);
             Session::flash('old', $_POST);
             return redirect(route('register'));
