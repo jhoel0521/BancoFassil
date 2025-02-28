@@ -51,3 +51,35 @@ function getLanguage()
 {
     return $_SESSION['lang'] ?? 'es';
 }
+function loadEnv($path)
+{
+    // Verificar si el archivo .env existe
+    if (!file_exists($path)) {
+        throw new Exception("El archivo .env no existe en la ruta: $path");
+    }
+
+    // Leer el archivo línea por línea
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    // Array para almacenar las variables de entorno
+    $env = [];
+
+    foreach ($lines as $line) {
+        // Ignorar comentarios (líneas que comienzan con #)
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+
+        // Separar la clave y el valor
+        list($key, $value) = explode('=', $line, 2);
+
+        // Limpiar la clave y el valor
+        $key = trim($key);
+        $value = trim($value);
+
+        // Almacenar en el array de entorno
+        $env[$key] = $value;
+    }
+
+    return $env;
+}

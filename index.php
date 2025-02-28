@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/Core/configuration.php';
 require_once __DIR__ . '/Core/Router.php';
+$_ENV = loadEnv(__DIR__ . DIRECTORY_SEPARATOR . '.env');
 
 use Core\Router;
 use Core\Request;

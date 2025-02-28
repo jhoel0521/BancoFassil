@@ -22,15 +22,18 @@ class DB
         if (!self::$instance) {
             if (!$config) {
                 $config = [
-                    'driver' => $_ENV['DB_DRIVER'] ?? 'mysql',
-                    'host' => $_ENV['DB_HOST'] ?? 'localhost',
-                    'database' => $_ENV['DB_NAME'] ?? 'bancofassil',
-                    'username' => $_ENV['DB_USER'] ?? 'root',
+                    'driver' => $_ENV['DB_DRIVER'] ?? '',
+                    'host' => $_ENV['DB_HOST'] ?? '',
+                    'database' => $_ENV['DB_NAME'] ?? '',
+                    'username' => $_ENV['DB_USER'] ?? '',
                     'password' => $_ENV['DB_PASS'] ?? '',
                     'charset' => 'utf8mb4',
                     'collation' => 'utf8mb4_unicode_ci',
                     'prefix' => '',
                 ];
+                if (empty($config['driver']) || empty($config['host']) || empty($config['database']) || empty($config['username'])) {
+                    throw new DatabaseException("Configuración de base de datos inválida.");
+                }
             }
             self::$instance = new self($config);
         }
