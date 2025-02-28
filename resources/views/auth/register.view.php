@@ -20,7 +20,8 @@
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
                     <h3 class="card-title mb-0">
-                        <i class="bi bi-person-plus me-2"></i>Registro de Cliente
+                        <i class="bi bi-person-plus me-2"></i>
+                        <?= traducir('registrarse') ?>
                     </h3>
                 </div>
 
@@ -34,7 +35,9 @@
 
                         <!-- Nombre Completo -->
                         <div class="mb-3">
-                            <label class="form-label">Nombre Completo</label>
+                            <label class="form-label">
+                                <?= traducir('nombre_completo') ?>
+                            </label>
                             <input type="text"
                                 class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>"
                                 name="name"
@@ -46,7 +49,7 @@
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label">Correo Electrónico</label>
+                            <label class="form-label"><?= traducir('correo') ?></label>
                             <input type="email"
                                 class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
                                 name="email"
@@ -58,7 +61,7 @@
 
                         <!-- Teléfono -->
                         <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
+                            <label class="form-label"> <?= traducir('teléfono') ?></label>
                             <input type="tel"
                                 class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
                                 name="phone"
@@ -67,9 +70,10 @@
                                 <div class="invalid-feedback"><?= $errors['phone'] ?></div>
                             <?php endif; ?>
                         </div>
+
                         <!-- Usuario -->
                         <div class="mb-3">
-                            <label class="form-label">Usuario</label>
+                            <label class="form-label"><?= traducir('usuario') ?></label>
                             <input type="text"
                                 class="form-control <?= isset($errors['user']) ? 'is-invalid' : '' ?>"
                                 name="user"
@@ -78,9 +82,10 @@
                                 <div class="invalid-feedback"><?= $errors['user'] ?></div>
                             <?php endif; ?>
                         </div>
+
                         <!-- Contraseña -->
                         <div class="mb-3">
-                            <label class="form-label">Contraseña</label>
+                            <label class="form-label"><?= traducir('contraseña') ?></label>
                             <input type="password"
                                 class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
                                 name="password">
@@ -91,12 +96,11 @@
 
                         <!-- Confirmar Contraseña -->
                         <div class="mb-3">
-                            <label class="form-label">Confirmar Contraseña</label>
+                            <label class="form-label"> <?= traducir('confirmar_contraseña') ?></label>
                             <input type="password"
                                 class="form-control"
                                 name="password_confirmation">
                         </div>
-
                         <!-- Términos y Condiciones -->
                         <div class="mb-3 form-check">
                             <input type="checkbox"
@@ -105,7 +109,7 @@
                                 id="terms"
                                 <?= isset($old['terms']) ? 'checked' : '' ?>>
                             <label class="form-check-label" for="terms">
-                                Acepto los <a href="#terms">Términos y Condiciones</a>
+                                 <?= traducir('acepto_términos') ?>
                             </label>
                             <?php if (isset($errors['terms'])): ?>
                                 <div class="invalid-feedback"><?= $errors['terms'] ?></div>
@@ -113,15 +117,15 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-person-check me-2"></i>Registrarse
+                            <i class="bi bi-person-check me-2"></i> <?= traducir('registrarse') ?>
                         </button>
                     </form>
                 </div>
 
                 <div class="card-footer text-center">
-                    ¿Ya tienes cuenta?
+                    <?= traducir('inicia_sesión') ?>
                     <a href="<?= route('login') ?>" class="text-decoration-none">
-                        Inicia Sesión
+                         <?= traducir('inicia_sesión') ?>
                     </a>
                 </div>
             </div>

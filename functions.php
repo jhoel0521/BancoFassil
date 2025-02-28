@@ -49,7 +49,7 @@ function view($view, $data = [], $layout = 'layouts' . DIRECTORY_SEPARATOR . 'ap
     throw new \Exception("Layout '{$layout}' no encontrado");
 }
 
-function route($name)
+function route(string $name): string
 {
     $path = \Core\Router::route($name) ?? '/';
     return BASE_URL . $path;
@@ -74,4 +74,19 @@ function asset($path)
 
     // Retorna la ruta completa al recurso
     return $baseUrl . $path;
+}
+
+function traducir(string $key): string
+{
+    // Obtener el idioma actual o usar 'es' por defecto
+    $lang = $_SESSION['lang'] ?? 'es';
+    // Verificar si el idioma es válido
+    if (!in_array($lang, $GLOBALS['idiomas_disponibles'])) {
+        $lang = 'es'; // Usar español por defecto si el idioma no es válido
+    }
+    $traducciones = $GLOBALS['translations'][$lang];
+
+
+    // Retornar la traducción o la clave si no existe
+    return $traducciones[$key] ?? $key;
 }
