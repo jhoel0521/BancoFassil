@@ -79,7 +79,7 @@ function asset($path)
 function traducir(string $key): string
 {
     // Obtener el idioma actual o usar 'es' por defecto
-    $lang = $_SESSION['lang'] ?? 'es';
+    $lang = getLanguage();
     // Verificar si el idioma es válido
     if (!in_array($lang, $GLOBALS['idiomas_disponibles'])) {
         $lang = 'es'; // Usar español por defecto si el idioma no es válido
@@ -89,4 +89,8 @@ function traducir(string $key): string
 
     // Retornar la traducción o la clave si no existe
     return $traducciones[$key] ?? $key;
+}
+function getLanguage()
+{
+    return $_SESSION['lang'] ?? 'es';
 }

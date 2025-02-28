@@ -43,6 +43,8 @@ CREATE TABLE
         status ENUM ('AC', 'IN') DEFAULT 'AC' COMMENT 'AC: Active, IN: Inactive',
         personId INT NOT NULL,
         officeId INT NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY (personId) REFERENCES Person (id) ON DELETE CASCADE,
         FOREIGN KEY (officeId) REFERENCES Office (id) ON DELETE CASCADE
     );
@@ -72,8 +74,8 @@ CREATE TABLE
         commentSystem VARCHAR(255) COMMENT 'System-generated comments',
         description VARCHAR(255) COMMENT 'User-provided description',
         accountId INT NOT NULL,
-        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY (accountId) REFERENCES Account (id) ON DELETE CASCADE
     );
 
