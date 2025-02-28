@@ -18,17 +18,12 @@ class AuthController extends Controller
 
     public function login()
     {
-        // Validar CSRF Token
-        if (!csrf_verify($_POST['_token'])) {
-            Session::flash('errors', ['general' => 'Token CSRF inválido']);
-            Session::flash('old', $_POST);
-            return redirect(route('login'));
-        }
+       
 
         // Validar Validation
         $validator = new Validation();
         $rules = [
-            'user' => 'required|user',
+            'user' => 'required|string|max:50',
             'password' => 'required|min:8|max:16'
         ];
         if (!$validator->validate($_POST, $rules)) {

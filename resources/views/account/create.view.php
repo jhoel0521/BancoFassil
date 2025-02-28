@@ -1,32 +1,81 @@
-<div class="flex-grow-1 mt-5 pt-4">
-    <h1 class="mb-4">Crear Nueva Cuenta</h1>
-    <form action="<?= route('account.store') ?>" method="POST">
-        <div class="mb-3">
-            <label for="currentBalance" class="form-label">Saldo Actual</label>
-            <input type="number" step="0.01" class="form-control" id="currentBalance" name="currentBalance" required>
-        </div>
+<div class="container mt-5">
+    <style>
+        .form-label {
+            font-weight: 500;
+            color: #003366;
+        }
 
-        <div class="mb-3">
-            <label for="type" class="form-label">Tipo de Cuenta</label>
-            <select class="form-select" id="type" name="type" required>
-                <option value="CA">Cuenta Corriente</option>
-                <option value="CC">Cuenta de Ahorros</option>
-            </select>
-        </div>
+        .card-header {
+            background: linear-gradient(135deg, #003366, #004080);
+        }
 
-        <div class="mb-3">
-            <label for="status" class="form-label">Estado</label>
-            <select class="form-select" id="status" name="status" required>
-                <option value="AC">Activa</option>
-                <option value="IN">Inactiva</option>
-            </select>
-        </div>
+        .select2-container--default .select2-selection--single {
+            border-color: #dee2e6;
+            height: 38px;
+            padding: 5px;
+        }
+    </style>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Crear Nueva Cuenta
+                    </h3>
+                </div>
 
-        <div class="mb-3">
-            <label for="officeId" class="form-label">Oficina</label>
-            <input type="number" class="form-control" id="officeId" name="officeId" required>
-        </div>
+                <div class="card-body">
+                    <?php if (!empty($success)): ?>
+                        <div class="alert alert-success"><?= $success ?></div>
+                    <?php endif; ?>
 
-        <button type="submit" class="btn btn-primary">Crear Cuenta</button>
-    </form>
+                    <form action="<?= route('account.store') ?>" method="POST">
+                        <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                      
+                        <!-- Tipo de Cuenta -->
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Cuenta</label>
+                            <select class="form-select <?= isset($errors['type']) ? 'is-invalid' : '' ?>"
+                                name="type"
+                                required>
+                                <?php foreach ($types as $key => $value): ?>
+                                    <option value="<?= $key ?>"><?= $value ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?php if (isset($errors['type'])): ?>
+                                <div class="invalid-feedback"><?= $errors['type'] ?></div>
+                            <?php endif; ?>
+                        </div>
+                                               
+                        <!-- Oficina Asociada -->
+                        <div class="mb-3">
+                            <label class="form-label">Oficina Asociada</label>
+                            <select class="form-select <?= isset($errors['officeId']) ? 'is-invalid' : '' ?>"
+                                name="officeId"
+                                required>
+                                <?php foreach ($offices as $office): ?>
+                                    <option value="<?= $office->id ?>"><?= $office->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?php if (isset($errors['officeId'])): ?>
+                                <div class="invalid-feedback"><?= $errors['officeId'] ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Botón de Envío -->
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-save me-2"></i> Crear Cuenta
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a href="<?= route('account.index') ?>" class="text-decoration-none">
+                        Volver a la lista de cuentas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

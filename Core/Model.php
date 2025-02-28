@@ -32,6 +32,11 @@ class Model
                 $this->$key = $value;
             }
         }
+        if (array_key_exists($this->primaryKey, $attributes)) {
+            $this->attributes[$this->primaryKey] = $attributes[$this->primaryKey];
+            $this->{$this->primaryKey} = $attributes[$this->primaryKey];
+            $this->exists = true; 
+        }
         return $this;
     }
 
@@ -120,7 +125,7 @@ class Model
 
     protected function newQuery()
     {
-        return DB::getInstance()->table($this->table);
+        return DB::getInstance()->table($this->table, static::class);
     }
     protected function getAttributesForSave()
     {

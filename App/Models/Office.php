@@ -5,7 +5,7 @@ use Core\Model;
 
 class Office extends Model
 {
-    protected $table = 'Person';
+    protected $table = 'Office';
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'address', 'type'];
     protected $timestamps = false;
