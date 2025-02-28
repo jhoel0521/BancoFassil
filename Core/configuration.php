@@ -18,3 +18,4 @@ foreach (glob(BASE_ROUTE . 'App' . DIRECTORY_SEPARATOR . 'Controller' . DIRECTOR
 // Cargar clases del núcleo (Core)
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Router.php';
 require_once BASE_ROUTE . 'Core' . DIRECTORY_SEPARATOR . 'Exceptions' . DIRECTORY_SEPARATOR . 'RouteNotFoundException.php';
+include_once BASE_ROUTE . 'langs' . DIRECTORY_SEPARATOR . 'translations.php';

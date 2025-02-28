@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="<?= $lang; ?>">
 
-<?php
-// Incluir el archivo de traducciones
-include_once BASE_ROUTE.'App/config/translations.php';
-?>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,22 +55,22 @@ include_once BASE_ROUTE.'App/config/translations.php';
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#home">
-                                <i class="bi bi-house-door me-1"></i> <?= $translations[$lang]['inicio'] ?>
+                                <i class="bi bi-house-door me-1"></i> <?= traducir('inicio') ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#services">
-                                <i class="bi bi-wallet2 me-1"></i> <?= $translations[$lang]['servicios'] ?>
+                                <i class="bi bi-wallet2 me-1"></i> <?= traducir('servicios') ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#accounts">
-                                <i class="bi bi-bank me-1"></i> <?= $translations[$lang]['cuentas'] ?>
+                                <i class="bi bi-bank me-1"></i> <?= traducir('cuentas') ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#contact">
-                                <i class="bi bi-chat-dots me-1"></i> <?= $translations[$lang]['contacto'] ?>
+                                <i class="bi bi-chat-dots me-1"></i> <?= traducir('contacto') ?>
                             </a>
                         </li>
 
@@ -106,20 +101,20 @@ include_once BASE_ROUTE.'App/config/translations.php';
                         <?php if (isAuth()): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="<?= route('dashboard') ?>">
-                                    <i class="bi bi-person-fill me-1"></i><?= $translations[$lang]['mi_cuenta'] ?>
+                                    <i class="bi bi-person-fill me-1"></i> <?= traducir('mi_cuenta') ?>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="<?= route('logout') ?>">
                                     <i class="bi bi-box-arrow-right me-1"></i>
-                                    <?= $translations[$lang]['cerrar_sesión'] ?>
+                                     <?= traducir('cerrar_sesión') ?>
                                 </a>
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="<?= route('login') ?>">
                                     <i class="bi bi-box-arrow-in-right me-1"></i>
-                                    <?= $translations[$lang]['iniciar_sesión'] ?>
+                                     <?= traducir('iniciar_sesión') ?>
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -139,20 +134,20 @@ include_once BASE_ROUTE.'App/config/translations.php';
     <!-- Footer modificado -->
     <footer class="bg-primary text-white py-4 fixed-footer">
         <div class="container text-center">
-            <p class="mb-2"><?= $translations[$lang]['footer_leyenda'] ?></p>
+            <p class="mb-2"> <?= traducir('footer_leyenda') ?></p>
             <p class="mb-2">
                 <i class="bi bi-envelope me-2"></i>
-                <?= $translations[$lang]['footer_email'] ?>
+                <?= traducir('footer_email') ?>
                 <i class="bi bi-telephone ms-3 me-2"></i>
-                <?= $translations[$lang]['footer_teléfono'] ?>
+                <?= traducir('footer_teléfono') ?>
             </p>
             <nav class="d-flex justify-content-center gap-3">
                 <a href="#privacy" class="text-white text-decoration-none">
-                    <?= $translations[$lang]['footer_privacidad'] ?>
+                    <?= traducir('footer_privacidad') ?>
                 </a>
                 <span>|</span>
                 <a href="#terms" class="text-white text-decoration-none">
-                    <?= $translations[$lang]['footer_términos'] ?>
+                    <?= traducir('footer_términos') ?>
                 </a>
             </nav>
         </div>

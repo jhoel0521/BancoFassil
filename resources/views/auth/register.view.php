@@ -1,8 +1,3 @@
-<?php
-// Incluir el archivo de traducciones
-include_once BASE_ROUTE.'App/config/translations.php';
-?>
-
 <div class="container mt-5">
     <style>
         .form-label {
@@ -25,7 +20,8 @@ include_once BASE_ROUTE.'App/config/translations.php';
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
                     <h3 class="card-title mb-0">
-                        <i class="bi bi-person-plus me-2"></i><?= $translations[$lang]['registrarse'] ?>
+                        <i class="bi bi-person-plus me-2"></i>
+                        <?= traducir('registrarse') ?>
                     </h3>
                 </div>
 
@@ -39,7 +35,9 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Nombre Completo -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['nombre_completo'] ?></label>
+                            <label class="form-label">
+                                <?= traducir('nombre_completo') ?>
+                            </label>
                             <input type="text"
                                 class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>"
                                 name="name"
@@ -51,7 +49,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['correo'] ?></label>
+                            <label class="form-label"><?= traducir('correo') ?></label>
                             <input type="email"
                                 class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
                                 name="email"
@@ -63,7 +61,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Teléfono -->
                         <div class="mb-3">
-                            <label class="form-label"> <?= $translations[$lang]['teléfono'] ?></label>
+                            <label class="form-label"> <?= traducir('teléfono') ?></label>
                             <input type="tel"
                                 class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
                                 name="phone"
@@ -75,7 +73,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Usuario -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['usuario'] ?></label>
+                            <label class="form-label"><?= traducir('usuario') ?></label>
                             <input type="text"
                                 class="form-control <?= isset($errors['user']) ? 'is-invalid' : '' ?>"
                                 name="user"
@@ -87,7 +85,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Contraseña -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['contraseña'] ?></label>
+                            <label class="form-label"><?= traducir('contraseña') ?></label>
                             <input type="password"
                                 class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
                                 name="password">
@@ -98,7 +96,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Confirmar Contraseña -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['confirmar_contraseña'] ?></label>
+                            <label class="form-label"> <?= traducir('confirmar_contraseña') ?></label>
                             <input type="password"
                                 class="form-control"
                                 name="password_confirmation">
@@ -106,7 +104,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
 
                         <!-- Sucursal -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['sucursal'] ?></label>
+                            <label class="form-label"><?= traducir('sucursal') ?></label>
                             <select class="form-select <?= isset($errors['office']) ? 'is-invalid' : '' ?>"
                                 name="office">
                                 <option value="">Seleccione una sucursal</option>
@@ -130,7 +128,7 @@ include_once BASE_ROUTE.'App/config/translations.php';
                                 id="terms"
                                 <?= isset($old['terms']) ? 'checked' : '' ?>>
                             <label class="form-check-label" for="terms">
-                                <?= $translations[$lang]['acepto_términos'] ?>
+                                 <?= traducir('acepto_términos') ?>
                             </label>
                             <?php if (isset($errors['terms'])): ?>
                                 <div class="invalid-feedback"><?= $errors['terms'] ?></div>
@@ -138,15 +136,15 @@ include_once BASE_ROUTE.'App/config/translations.php';
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-person-check me-2"></i><?= $translations[$lang]['registrarse'] ?>
+                            <i class="bi bi-person-check me-2"></i> <?= traducir('registrarse') ?>
                         </button>
                     </form>
                 </div>
 
                 <div class="card-footer text-center">
-                    <?= $translations[$lang]['inicia_sesión'] ?>
+                    <?= traducir('inicia_sesión') ?>
                     <a href="<?= route('login') ?>" class="text-decoration-none">
-                        <?= $translations[$lang]['inicia_sesión'] ?>
+                         <?= traducir('inicia_sesión') ?>
                     </a>
                 </div>
             </div>
