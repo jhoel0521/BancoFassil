@@ -20,7 +20,7 @@
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
                     <h3 class="card-title mb-0">
-                        <i class="bi bi-person-plus me-2"></i>Registro de Cliente
+                        <i class="bi bi-person-plus me-2"></i><?= $translations[$lang]['registrarse'] ?>
                     </h3>
                 </div>
 
@@ -34,7 +34,7 @@
 
                         <!-- Nombre Completo -->
                         <div class="mb-3">
-                            <label class="form-label">Nombre Completo</label>
+                            <label class="form-label"><?= $translations[$lang]['nombre_completo'] ?></label>
                             <input type="text"
                                 class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>"
                                 name="name"
@@ -46,7 +46,7 @@
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label">Correo Electrónico</label>
+                            <label class="form-label"><?= $translations[$lang]['correo'] ?></label>
                             <input type="email"
                                 class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
                                 name="email"
@@ -58,7 +58,7 @@
 
                         <!-- Teléfono -->
                         <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
+                            <label class="form-label"><?= $translations[$lang]['telefono'] ?></label>
                             <input type="tel"
                                 class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
                                 name="phone"
@@ -67,9 +67,10 @@
                                 <div class="invalid-feedback"><?= $errors['phone'] ?></div>
                             <?php endif; ?>
                         </div>
+
                         <!-- Usuario -->
                         <div class="mb-3">
-                            <label class="form-label">Usuario</label>
+                            <label class="form-label"><?= $translations[$lang]['usuario'] ?></label>
                             <input type="text"
                                 class="form-control <?= isset($errors['user']) ? 'is-invalid' : '' ?>"
                                 name="user"
@@ -78,9 +79,10 @@
                                 <div class="invalid-feedback"><?= $errors['user'] ?></div>
                             <?php endif; ?>
                         </div>
+
                         <!-- Contraseña -->
                         <div class="mb-3">
-                            <label class="form-label">Contraseña</label>
+                            <label class="form-label"><?= $translations[$lang]['contraseña'] ?></label>
                             <input type="password"
                                 class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
                                 name="password">
@@ -91,7 +93,7 @@
 
                         <!-- Confirmar Contraseña -->
                         <div class="mb-3">
-                            <label class="form-label">Confirmar Contraseña</label>
+                            <label class="form-label"><?= $translations[$lang]['confirmar_contraseña'] ?></label>
                             <input type="password"
                                 class="form-control"
                                 name="password_confirmation">
@@ -99,7 +101,7 @@
 
                         <!-- Sucursal -->
                         <div class="mb-3">
-                            <label class="form-label">Sucursal Preferida</label>
+                            <label class="form-label"><?= $translations[$lang]['sucursal'] ?></label>
                             <select class="form-select <?= isset($errors['office']) ? 'is-invalid' : '' ?>"
                                 name="office">
                                 <option value="">Seleccione una sucursal</option>
@@ -123,7 +125,7 @@
                                 id="terms"
                                 <?= isset($old['terms']) ? 'checked' : '' ?>>
                             <label class="form-check-label" for="terms">
-                                Acepto los <a href="#terms">Términos y Condiciones</a>
+                                <?= $translations[$lang]['acepto_terminos'] ?>
                             </label>
                             <?php if (isset($errors['terms'])): ?>
                                 <div class="invalid-feedback"><?= $errors['terms'] ?></div>
@@ -131,15 +133,15 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-person-check me-2"></i>Registrarse
+                            <i class="bi bi-person-check me-2"></i><?= $translations[$lang]['registrarse'] ?>
                         </button>
                     </form>
                 </div>
 
                 <div class="card-footer text-center">
-                    ¿Ya tienes cuenta?
+                    <?= $translations[$lang]['inicia_sesion'] ?>
                     <a href="<?= route('login') ?>" class="text-decoration-none">
-                        Inicia Sesión
+                        <?= $translations[$lang]['inicia_sesion'] ?>
                     </a>
                 </div>
             </div>

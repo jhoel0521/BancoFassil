@@ -4,6 +4,7 @@ namespace Core;
 
 class Session
 {
+    
     /**
      * Inicia la sesión si no está activa.
      */

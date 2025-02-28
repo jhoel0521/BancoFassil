@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= $lang; ?>">
+
+<?php
+// Incluir el archivo de traducciones
+include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -55,59 +60,73 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#home">
-                                <i class="bi bi-house-door me-1"></i>Inicio
+                                <i class="bi bi-house-door me-1"></i> <?= $translations[$lang]['inicio'] ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#services">
-                                <i class="bi bi-wallet2 me-1"></i>Servicios
+                                <i class="bi bi-wallet2 me-1"></i> <?= $translations[$lang]['servicios'] ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#accounts">
-                                <i class="bi bi-bank me-1"></i>Cuentas
+                                <i class="bi bi-bank me-1"></i> <?= $translations[$lang]['cuentas'] ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#contact">
-                                <i class="bi bi-chat-dots me-1"></i>Contacto
+                                <i class="bi bi-chat-dots me-1"></i> <?= $translations[$lang]['contacto'] ?>
                             </a>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link text-white dropdown-toggle"
-                                href="#"
-                                role="button"
-                                data-bs-toggle="dropdown">
-                                <i class="bi bi-translate me-1"></i>Idioma
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown">
+                               <i class="bi bi-translate me-1"></i> Idioma
                             </a>
+                            
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">ES</a></li>
-                                <li><a class="dropdown-item" href="#">EN</a></li>
+                                <li>
+                                    <form action="<?= route('change-language') ?>" method="POST">
+                                        <input type="hidden" name="lang" value="es">
+                                        <button type="submit" class="dropdown-item">🇪🇸 Español</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form action="<?= route('change-language') ?>" method="POST">
+                                        <input type="hidden" name="lang" value="en">
+                                        <button type="submit" class="dropdown-item">🇬🇧 English</button>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
+
                         <?php if (isAuth()): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= route('dashboard') ?>">
-                                    <i class="bi bi-person-fill me-1"></i>Mi Cuenta
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= route('logout') ?>">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
-                                </a>
-                            </li>
-                        <?php else: ?>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= route('login') ?>">
-                                    <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
-                                </a>
-                            </li>
+    <a class="nav-link text-white" href="<?= route('dashboard') ?>">
+        <i class="bi bi-person-fill me-1"></i><?= $translations[$lang]['mi_cuenta'] ?>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-white" href="<?= route('logout') ?>">
+        <i class="bi bi-box-arrow-right me-1"></i><?= $translations[$lang]['cerrar_sesion'] ?>
+    </a>
+</li>
+<?php else: ?>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="<?= route('login') ?>">
+            <i class="bi bi-box-arrow-in-right me-1"></i><?= $translations[$lang]['iniciar_sesion'] ?>
+        </a>
+    </li>
                         <?php endif; ?>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <!-- Contenido principal modificado -->
     <main class="main-content">
         <div class="container">
@@ -115,25 +134,26 @@
         </div>
     </main>
 
-    <!-- Footer modificado -->
-    <footer class="bg-primary text-white py-4 fixed-footer">
-        <div class="container text-center">
-            <p class="mb-2">© 2024 BancoFassil - Desarrollo de Sistemas I</p>
-            <p class="mb-2">
-                <i class="bi bi-envelope me-2"></i>info@bancofassil.com
-                <i class="bi bi-telephone ms-3 me-2"></i>+591 12345678
-            </p>
-            <nav class="d-flex justify-content-center gap-3">
-                <a href="#privacy" class="text-white text-decoration-none">
-                    Política de Privacidad
-                </a>
-                <span>|</span>
-                <a href="#terms" class="text-white text-decoration-none">
-                    Términos de Servicio
-                </a>
-            </nav>
-        </div>
-    </footer>
+<!-- Footer modificado -->
+<footer class="bg-primary text-white py-4 fixed-footer">
+    <div class="container text-center">
+        <p class="mb-2"><?= $translations[$lang]['footer_leyenda'] ?></p>
+        <p class="mb-2">
+            <i class="bi bi-envelope me-2"></i><?= $translations[$lang]['footer_email'] ?>
+            <i class="bi bi-telephone ms-3 me-2"></i><?= $translations[$lang]['footer_telefono'] ?>
+        </p>
+        <nav class="d-flex justify-content-center gap-3">
+            <a href="#privacy" class="text-white text-decoration-none">
+                <?= $translations[$lang]['footer_privacidad'] ?>
+            </a>
+            <span>|</span>
+            <a href="#terms" class="text-white text-decoration-none">
+                <?= $translations[$lang]['footer_terminos'] ?>
+            </a>
+        </nav>
+    </div>
+</footer>
+
 
     <!-- ... (scripts igual) ... -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
