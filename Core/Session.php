@@ -80,4 +80,14 @@ class Session
         self::startSession();
         return isset($_SESSION['_flash'][$key]);
     }
+    public static function remove($key)
+    {
+        self::startSession();
+        unset($_SESSION[$key]);
+    }
+    public static function removeFlash($key)
+    {
+        self::startSession();
+        unset($_SESSION['_flash'][$key]);
+    }
 }

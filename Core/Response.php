@@ -88,4 +88,9 @@ class Response
         // Enviar el contenido de la respuesta
         echo $this->content;
     }
+    public function with($key, $value)
+    {
+        Session::flashSet($key, $value);
+        return $this;
+    }
 }

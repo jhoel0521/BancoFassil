@@ -35,7 +35,12 @@ class AuthController extends Controller
 
         if ($user) {
             Session::set('user', $user);
-            return redirect(route('home'));
+            $route = route('home');
+            if (Session::has('back')) {
+                $route = Session::get('back');
+                Session::remove('back');
+            }
+            return redirect($route);
         }
 
         Session::flash('errors', ['general' => 'Credenciales incorrectas']);

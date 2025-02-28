@@ -22,7 +22,7 @@ class AuthMiddleware implements Middleware
         if (!$this->isAuthenticated()) {
             Session::flash('error', 'Debes iniciar sesión para acceder a esta página.');
             // back
-            Session::set('back', back());
+            Session::set('back', $request->uri());
             return redirect(route('login'))->with('error', 'Debes iniciar sesión para acceder a esta página.');
         }
 
