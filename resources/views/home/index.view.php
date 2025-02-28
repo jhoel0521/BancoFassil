@@ -32,9 +32,9 @@
                         <i class="bi bi-person-check me-2"></i><?= traducir('acceder') ?>
                     </a>
                 <?php endif; ?>
-                <button class="btn btn-outline-light btn-lg">
+                <a class="btn btn-outline-light btn-lg" href="<?= route('account.create') ?>">
                     <i class="bi bi-plus-circle me-2"></i><?= traducir('abrir_cuenta') ?>
-                </button>
+                </a>
             </div>
         </div>
     </section>
