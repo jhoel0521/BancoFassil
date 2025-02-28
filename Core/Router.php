@@ -29,6 +29,17 @@ class Router
     {
         return self::addRoute('POST', $uri, $action);
     }
+    /**
+     * Define una ruta DELETE.
+     * 
+     * @param string $uri
+     * @param array $action
+     * @return Route
+     */
+    public static function delete($uri, $action)
+    {
+        return self::addRoute('DELETE', $uri, $action);
+    }
 
     /**
      * Agrega una ruta a la lista de rutas.
@@ -76,7 +87,7 @@ class Router
         }
 
         // Si no se encuentra la ruta, devolver un error 404
-        return new Response('Página no encontrada', 404);
+        return view('errors.404', [], statusCode: 404);
     }
     /**
      * Normaliza la URI eliminando el BASE_URL

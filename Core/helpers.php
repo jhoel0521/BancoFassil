@@ -56,7 +56,7 @@ function back(): string
 /**
  * Retorna una vista
  */
-function view($view, $data = [], $layout = 'layouts/app'): \Core\Response
+function view($view, $data = [], $layout = 'layouts/app', $statusCode = 200): \Core\Response
 {
     // Extraer los datos para que estén disponibles en la vista
     extract($data);
@@ -77,10 +77,12 @@ function view($view, $data = [], $layout = 'layouts/app'): \Core\Response
     clearFlash();
     require $path;
     $content = ob_get_clean();
+
+    // Si no se usa layout, devolver el contenido directamente
     if ($layout === false) {
-        echo $content;
-        return new \Core\Response();
+        return new \Core\Response($content, $statusCode);
     }
+
     // Si se especifica un layout, usarlo
     $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
 
@@ -88,8 +90,10 @@ function view($view, $data = [], $layout = 'layouts/app'): \Core\Response
     if (file_exists($layoutPath)) {
         // Pasar el contenido de la vista al layout
         $layoutContent = $content;
-        require $layoutPath; // Incluir el layout
-        return new \Core\Response();
+        ob_start();
+        require $layoutPath;
+        $finalContent = ob_get_clean();
+        return new \Core\Response($finalContent, $statusCode);
     }
 
     throw new \Exception("Layout '{$layout}' no encontrado");

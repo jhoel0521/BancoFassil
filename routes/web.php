@@ -20,3 +20,7 @@ Router::post('/change-language', [ChangeLanguageController::class, 'changeLangua
 Router::get('/AccountController', [AccountController::class, 'index'])->name('account.index')->middleware(AuthMiddleware::class);
 Router::get('/account/create', [AccountController::class, 'create'])->name('account.create')->middleware(AuthMiddleware::class);
 Router::post('/account/store', [AccountController::class, 'store'])->name('account.store')->middleware(AuthMiddleware::class);
+// account.show
+// account.destroy
+Router::get('/account/{id}', [AccountController::class, 'show'])->name('account.show')->middleware(AuthMiddleware::class);
+Router::delete('/account/{id}', [AccountController::class, 'destroy'])->name('account.destroy')->middleware(AuthMiddleware::class);

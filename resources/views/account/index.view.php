@@ -12,6 +12,7 @@
                 <th>Tipo de Cuenta</th>
                 <th>Estado</th>
                 <th>Oficina</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,19 @@
                             <?= ($account->status === 'AC') ? 'Activa' : 'Inactiva' ?>
                         </td>
                         <td><?= htmlspecialchars($account->officeId) ?></td>
+                        <td>
+                            <form action="<?= route('account.destroy', ['id' => $account->id]) ?>" method="POST" class="d-inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <div class="btn-group">
+                                    <a href="<?= route('account.show', ['id' => $account->id]) ?>" class="btn btn-info btn-sm">
+                                        Ver
+                                    </a>
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
