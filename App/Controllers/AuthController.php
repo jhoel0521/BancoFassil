@@ -5,6 +5,9 @@ namespace App\Controllers;
 use Core\Router;
 use Core\Session;
 use Core\Validation;
+use Core\DB;
+use App\Models\Person;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -25,7 +28,7 @@ class AuthController extends Controller
         // Validar Validation
         $validator = new Validation();
         $rules = [
-            'user'    => 'required|user',
+            'user' => 'required|user',
             'password' => 'required|min:8|max:16'
         ];
         if (!$validator->validate($_POST, $rules)) {
@@ -69,17 +72,7 @@ class AuthController extends Controller
     }
     public function showRegisterForm()
     {
-        $offices = [
-            'La Paz',
-            'Cochabamba',
-            'Santa Cruz',
-            'Tarija',
-            'Beni',
-            'Pando',
-            'Oruro',
-            'Potosí',
-        ];
-        return view('auth.register', compact('offices'));
+        return view('auth.register');
     }
     public function register()
     {
@@ -89,24 +82,21 @@ class AuthController extends Controller
             Session::flash('old', $_POST);
             return redirect(route('register'));
         }
-
         // Validar datos
         $validator = new Validation();
         $rules = [
             'name' => 'required|string|max:50',
             'email' => 'required|email|max:100|unique:Person,email',
             'phone' => 'nullable|string|max:20',
-            'username' => 'required|string|max:50|unique:User,username',
-            'password' => 'required|string|min:8|max:16|confirmed',
-            'office' => 'required|int'
+            'user' => 'required|string|max:50|unique:User,user',
+            'password' => 'required|string|min:8|max:16|confirmed'
         ];
-        
+
         if (!$validator->validate($_POST, $rules)) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
             return redirect(route('register'));
         }
-
         try {
             // Iniciar transacción
             DB::getInstance()->getConnection()->beginTransaction();
@@ -120,12 +110,12 @@ class AuthController extends Controller
 
             // Crear Usuario
             $user = new User();
-            $user->username = $_POST['username'];
+            $user->username = $_POST['user'];
             $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $user->personId = $person->id;
-            $user->hasCard = false;
-            $user->enabledForOnlinePurchases = false;
-            $user->status = 'AC'; // Active por defecto
+            $user->hasCard = 0;
+            $user->enabledForOnlinePurchases = 0;
+            $user->status = 'AC'; 
             $user->save();
 
             // Commit transacción
@@ -137,7 +127,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             // Rollback en caso de error
             DB::getInstance()->getConnection()->rollBack();
-            
+            throw $e;
             Session::flash('errors', ['general' => 'Error al registrar el usuario: ' . $e->getMessage()]);
             Session::flash('old', $_POST);
             return redirect(route('register'));

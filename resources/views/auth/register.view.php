@@ -97,24 +97,6 @@
                                 name="password_confirmation">
                         </div>
 
-                        <!-- Sucursal -->
-                        <div class="mb-3">
-                            <label class="form-label">Sucursal Preferida</label>
-                            <select class="form-select <?= isset($errors['office']) ? 'is-invalid' : '' ?>"
-                                name="office">
-                                <option value="">Seleccione una sucursal</option>
-                                <?php foreach ($offices as $key => $value): ?>
-                                    <option value="<?= $key ?>"
-                                        <?= ($old['office'] ?? '') == $key ? 'selected' : '' ?>>
-                                        <?= $value ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?php if (isset($errors['office'])): ?>
-                                <div class="invalid-feedback"><?= $errors['office'] ?></div>
-                            <?php endif; ?>
-                        </div>
-
                         <!-- Términos y Condiciones -->
                         <div class="mb-3 form-check">
                             <input type="checkbox"

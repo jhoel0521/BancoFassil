@@ -73,6 +73,7 @@ CREATE TABLE
         description VARCHAR(255) COMMENT 'User-provided description',
         accountId INT NOT NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (accountId) REFERENCES Account (id) ON DELETE CASCADE
     );
 
