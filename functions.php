@@ -21,16 +21,6 @@ function route(string $name, $parameters = []): string
     $path = \Core\Router::route($name, $parameters) ?? '/';
     return BASE_URL . $path;
 }
-function redirect($url)
-{
-    if (!headers_sent()) {
-        header("Location: " . BASE_URL . $url);
-    } else {
-        // Fallback con JavaScript si las cabeceras ya fueron enviadas
-        echo '<script>window.location.href="' . BASE_URL . $url . '"</script>';
-    }
-    exit();
-}
 
 function asset($path)
 {

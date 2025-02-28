@@ -15,33 +15,10 @@ function csrf_verify($token)
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-// Sistema de sesiones flash
-class Session
-{
-    public static function flash($key, $value)
-    {
-        $_SESSION[$key] = $value;
-    }
-
-    public static function get($key, $default = null)
-    {
-        return $_SESSION[$key] ?? $default;
-    }
-
-    public static function set($key, $value)
-    {
-        $_SESSION[$key] = $value;
-    }
-
-    public static function destroy()
-    {
-        session_destroy();
-    }
-}
 // auth()
 function auth()
 {
-    return Session::get('user');
+    return \Core\Session::get('user');
 }
 function isAuth()
 {
@@ -50,10 +27,10 @@ function isAuth()
 
 function flashGet($key)
 {
-    if (!isset($_SESSION['_flash'])) {
+    if (!\Core\Session::hasFlash($key)) {
         return null;
     }
-    return $_SESSION['_flash'][$key] ?? null;
+    return \Core\Session::flashGet($key);
 }
 function clearFlash()
 {
@@ -116,4 +93,9 @@ function view($view, $data = [], $layout = 'layouts/app'): \Core\Response
     }
 
     throw new \Exception("Layout '{$layout}' no encontrado");
+}
+
+function redirect($url): \Core\Response
+{
+    return (new \Core\Response())->redirect($url);
 }

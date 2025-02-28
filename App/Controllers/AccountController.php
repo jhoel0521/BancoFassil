@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Office;
 use Core\Validation;
 use Core\Session;
+
 class AccountController extends Controller
 {
     public function index()
@@ -21,7 +22,8 @@ class AccountController extends Controller
         $types = Account::types();
         return view('account.create', ['title' => 'Crear Nueva Cuenta', 'offices' => $Offices, 'types' => $types]);
     }
-    public function store() {
+    public function store()
+    {
 
         $validator = new Validation();
         $rules = [

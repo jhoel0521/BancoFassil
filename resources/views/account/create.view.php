@@ -32,35 +32,41 @@
 
                     <form action="<?= route('account.store') ?>" method="POST">
                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
-                      
+
                         <!-- Tipo de Cuenta -->
                         <div class="mb-3">
                             <label class="form-label">Tipo de Cuenta</label>
                             <select class="form-select <?= isset($errors['type']) ? 'is-invalid' : '' ?>"
-                                name="type"
-                                required>
+                                name="type">
+                                <option value="">Seleccione un tipo de cuenta</option>
                                 <?php foreach ($types as $key => $value): ?>
                                     <option value="<?= $key ?>"><?= $value ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <?php if (isset($errors['type'])): ?>
-                                <div class="invalid-feedback"><?= $errors['type'] ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['type'])):
+                                foreach ($errors['type'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php
+                                endforeach;
+                            endif; ?>
                         </div>
-                                               
+
                         <!-- Oficina Asociada -->
                         <div class="mb-3">
                             <label class="form-label">Oficina Asociada</label>
                             <select class="form-select <?= isset($errors['officeId']) ? 'is-invalid' : '' ?>"
-                                name="officeId"
-                                required>
+                                name="officeId">
+                                <option value="">Seleccione una oficina</option>
                                 <?php foreach ($offices as $office): ?>
                                     <option value="<?= $office->id ?>"><?= $office->name ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <?php if (isset($errors['officeId'])): ?>
-                                <div class="invalid-feedback"><?= $errors['officeId'] ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['officeId'])):
+                                foreach ($errors['officeId'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php
+                                endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Botón de Envío -->
