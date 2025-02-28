@@ -26,7 +26,7 @@ class DB
                     'host' => $_ENV['DB_HOST'] ?? 'localhost',
                     'database' => $_ENV['DB_NAME'] ?? 'bancofassil',
                     'username' => $_ENV['DB_USER'] ?? 'root',
-                    'password' => $_ENV['DB_PASS'] ?? '123456789',
+                    'password' => $_ENV['DB_PASS'] ?? '',
                     'charset' => 'utf8mb4',
                     'collation' => 'utf8mb4_unicode_ci',
                     'prefix' => '',
@@ -66,78 +66,18 @@ class DB
         }
     }
 
-    public function table(string $table)
+    public function table(string $table, string $modelClass = '')
     {
-        return new QueryBuilder($this, $table);
+        return new QueryBuilder($this, $table, $modelClass);
     }
-
     public function getConnection()
     {
         return $this->connection;
     }
 }
 
-class QueryBuilder
-{
-    private $db;
-    private $table;
-    private $query;
-    private $bindings = [];
-
-    public function __construct(DB $db, string $table)
-    {
-        $this->db = $db;
-        $this->table = $table;
-        $this->query = new \stdClass();
-    }
-
-    public function select(array $columns = ['*'])
-    {
-        $this->query->type = 'select';
-        $this->query->select = implode(', ', $columns);
-        return $this;
-    }
-
-    public function where(string $column, string $operator, $value)
-    {
-        $this->query->where[] = "{$column} {$operator} ?";
-        $this->bindings[] = $value;
-        return $this;
-    }
-
-    public function get()
-    {
-        $sql = "SELECT {$this->query->select} FROM {$this->table}";
-
-        if (!empty($this->query->where)) {
-            $sql .= " WHERE " . implode(' AND ', $this->query->where);
-        }
-
-        return $this->db->query($sql, $this->bindings)->fetchAll();
-    }
-
-    public function first()
-    {
-        $results = $this->limit(1)->get();
-        return $results[0] ?? null;
-    }
-
-    // Implementar más métodos (join, orderBy, groupBy, etc.)
-}
 
 
 
 // Excepciones personalizadas
-class DatabaseException extends \RuntimeException
-{
-}
-class QueryException extends \RuntimeException
-{
-    public $sql;
-
-    public function __construct($message, $sql)
-    {
-        $this->sql = $sql;
-        parent::__construct($message);
-    }
-}
+class DatabaseException extends \RuntimeException {}

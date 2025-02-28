@@ -58,16 +58,13 @@ class AuthController extends Controller
 
     private function attempt($user, $password)
     {
-        // Lógica real de autenticación con base de datos
-        // Ejemplo temporal:
-        $users = [
-            'admin@bancofassil.com' => password_hash('password123', PASSWORD_DEFAULT)
-        ];
-
-        if (isset($users[$user]) && password_verify($password, $users[$user])) {
-            return ['user' => $user, 'name' => 'Usuario Demo'];
+        $users = User::where('status', '=', 'AC')->where('username', '=', $user)->first();
+        if (!isset($users)) {
+            return false;
         }
-
+        if (password_verify($password, $users->password)) {
+            return $user;
+        }
         return false;
     }
     public function showRegisterForm()
@@ -115,7 +112,7 @@ class AuthController extends Controller
             $user->personId = $person->id;
             $user->hasCard = 0;
             $user->enabledForOnlinePurchases = 0;
-            $user->status = 'AC'; 
+            $user->status = 'AC';
             $user->save();
 
             // Commit transacción
@@ -123,7 +120,6 @@ class AuthController extends Controller
 
             Session::flash('success', 'Registro exitoso. Ahora puede iniciar sesión.');
             return redirect(route('login'));
-
         } catch (\Exception $e) {
             // Rollback en caso de error
             DB::getInstance()->getConnection()->rollBack();

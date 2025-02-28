@@ -28,6 +28,7 @@ class Model
         foreach ($attributes as $key => $value) {
             if (in_array($key, $this->fillable)) {
                 $this->attributes[$key] = $value;
+                $this->$key = $value;
             }
         }
         return $this;
@@ -105,22 +106,15 @@ class Model
         $this->exists = false;
         return true;
     }
+    public function getKey()
+    {
+        return $this->attributes[$this->primaryKey] ?? null;
+    }
 
     protected function performSoftDelete()
     {
         $this->attributes['deleted_at'] = date('Y-m-d H:i:s');
         return $this->save();
-    }
-
-    public static function find($id)
-    {
-        $instance = new static();
-        return $instance->newQuery()->where($instance->primaryKey, '=', $id)->first();
-    }
-
-    public static function all()
-    {
-        return (new static())->newQuery()->get();
     }
 
     protected function newQuery()
@@ -172,5 +166,25 @@ class Model
     public function getFillable()
     {
         return $this->fillable;
+    }
+    public static function query()
+    {
+        $instance = new static();
+        return DB::getInstance()->table($instance->table, static::class);
+    }
+
+    public static function where($column, $operator, $value = null)
+    {
+        return static::query()->where($column, $operator, $value);
+    }
+
+    public static function find($id)
+    {
+        return static::query()->where((new static())->primaryKey, '=', $id)->first();
+    }
+
+    public static function all()
+    {
+        return static::query()->get();
     }
 }
