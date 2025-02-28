@@ -84,13 +84,13 @@
 
                             <ul class="dropdown-menu">
                                 <li>
-                                    <form action="<?= route('change-language') ?>" method="POST">
+                                    <form action="<?= route('change.language') ?>" method="POST">
                                         <input type="hidden" name="lang" value="es">
                                         <button type="submit" class="dropdown-item">🇪🇸 Español</button>
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="<?= route('change-language') ?>" method="POST">
+                                    <form action="<?= route('change.language') ?>" method="POST">
                                         <input type="hidden" name="lang" value="en">
                                         <button type="submit" class="dropdown-item">🇬🇧 English</button>
                                     </form>
@@ -100,7 +100,7 @@
 
                         <?php if (isAuth()): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= route('dashboard') ?>">
+                                <a class="nav-link text-white" href="#">
                                     <i class="bi bi-person-fill me-1"></i> <?= traducir('mi_cuenta') ?>
                                 </a>
                             </li>
@@ -127,7 +127,7 @@
     <!-- Contenido principal modificado -->
     <main class="main-content">
         <div class="container">
-            <?= $content ?>
+         <?= $layoutContent??'' ?>
         </div>
     </main>
 

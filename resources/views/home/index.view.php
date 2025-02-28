@@ -24,7 +24,7 @@
             <p class="lead mb-4"><?= traducir('subtítulo') ?></p>
             <div class="d-flex gap-3 justify-content-center">
                 <?php if (isAuth()): ?>
-                    <a class="btn btn-primary btn-lg" href="<?= route('dashboard') ?>">
+                    <a class="btn btn-primary btn-lg" href="#">
                         <i class="bi bi-person-fill me-2"></i><?= traducir('ir_cuentas') ?>
                     </a>
                 <?php else: ?>

@@ -5,6 +5,7 @@ use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ChangeLanguageController;
 use App\Controllers\AccountController;
+use App\Middleware\AuthMiddleware;
 
 Router::get('/', [HomeController::class, 'index'])->name('home');
 Router::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

@@ -4,7 +4,7 @@ namespace Core;
 
 class Session
 {
-    
+
     /**
      * Inicia la sesión si no está activa.
      */
@@ -69,5 +69,15 @@ class Session
     {
         self::startSession();
         $_SESSION['_flash'][$key] = $value;
+    }
+    public static function has($key)
+    {
+        self::startSession();
+        return isset($_SESSION[$key]);
+    }
+    public static function hasFlash($key)
+    {
+        self::startSession();
+        return isset($_SESSION['_flash'][$key]);
     }
 }

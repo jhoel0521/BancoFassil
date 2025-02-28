@@ -13,13 +13,11 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.login', ['title' => 'Iniciar sesión']);
     }
 
     public function login()
     {
-       
-
         // Validar Validation
         $validator = new Validation();
         $rules = [

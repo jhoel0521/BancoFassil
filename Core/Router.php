@@ -4,42 +4,139 @@ namespace Core;
 
 class Router
 {
-    private static $routes = [];
-    private static $namedRoutes = [];
-    private static $currentRoute = [];
+    protected static $routes = [];
 
     /**
-     * Registra una ruta GET
+     * Define una ruta GET.
+     *
+     * @param string $uri
+     * @param array $action
+     * @return Route
      */
-    public static function get(string $uri, $action): self
+    public static function get($uri, $action)
     {
         return self::addRoute('GET', $uri, $action);
     }
 
     /**
-     * Registra una ruta POST
+     * Define una ruta POST.
+     *
+     * @param string $uri
+     * @param array $action
+     * @return Route
      */
-    public static function post(string $uri, $action): self
+    public static function post($uri, $action)
     {
         return self::addRoute('POST', $uri, $action);
     }
 
     /**
-     * Registra una ruta PUT
+     * Agrega una ruta a la lista de rutas.
+     *
+     * @param string $method
+     * @param string $uri
+     * @param array $action
+     * @return Route
      */
-    public static function put(string $uri, $action): self
+    protected static function addRoute($method, $uri, $action)
     {
-        return self::addRoute('PUT', $uri, $action);
+        $route = new Route($method, $uri, $action);
+        self::$routes[$method][$uri] = $route;
+        return $route;
     }
 
     /**
-     * Registra una ruta DELETE
+     * Despacha la solicitud.
+     *
+     * @param Request $request
+     * @return Response
      */
-    public static function delete(string $uri, $action): self
+    public static function dispatch(Request $request)
     {
-        return self::addRoute('DELETE', $uri, $action);
-    }
+        $uri = $request->uri();
+        $uri = self::normalizeUri($uri);
+        $method = $request->method();
+        // Buscar la ruta correspondiente
+        if (isset(self::$routes[$method][$uri])) {
+            $route = self::$routes[$method][$uri];
 
+            // Ejecutar middlewares
+            foreach ($route->getMiddleware() as $middleware) {
+                $middlewareInstance = new $middleware;
+                $response = $middlewareInstance->handle($request, function ($request) use ($route) {
+                    return self::resolveAction($route->getAction(), $request);
+                });
+                // Si el middleware devuelve una respuesta, la retornamos
+                if ($response instanceof Response) {
+                    return $response;
+                }
+            }
+            // Si no hay middlewares o todos pasaron, ejecutar la acción
+            return self::resolveAction($route->getAction(), $request);
+        }
+
+        // Si no se encuentra la ruta, devolver un error 404
+        return new Response('Página no encontrada', 404);
+    }
+    /**
+     * Normaliza la URI eliminando el BASE_URL
+     */
+    private static function normalizeUri(string $uri): string
+    {
+        return '/' . trim(str_replace(BASE_URL, '', $uri), '/');
+    }
+    /**
+     * Resuelve la acción (controlador y método).
+     *
+     * @param array $action
+     * @param Request $request
+     * @return Response
+     */
+    protected static function resolveAction($action, Request $request)
+    {
+        list($controller, $method) = $action;
+
+        // Verificar si el controlador y el método existen
+        if (class_exists($controller) && method_exists($controller, $method)) {
+            $controllerInstance = new $controller;
+            return $controllerInstance->$method($request);
+        }
+        // Si no existe, devolver un error 404
+        return new Response('Página no encontrada', 404);
+    }
+    /**
+     * Obtiene la URL de una ruta por su nombre.
+     *
+     * @param string $name
+     * @param array $parameters
+     * @return string
+     * @throws \Exception Si la ruta no existe.
+     */
+    public static function route($name, $parameters = [])
+    {
+
+
+        $route = null;
+        foreach (self::$routes as $method => $routes) {
+            foreach ($routes as $r) {
+                if ($r->getName() === $name) {
+                    $route = $r;
+                    break;
+                }
+            }
+        }
+        if (!isset($route)) {
+            throw new \Exception("La ruta con nombre '$name' no existe.");
+        }
+        $uri = $route->getUri();
+
+        // Reemplazar parámetros en la URI
+        foreach ($parameters as $key => $value) {
+            $uri = str_replace("{{$key}}", $value, $uri);
+        }
+
+        return $uri;
+    }
     /**
      * Carga las rutas desde un directorio
      */
@@ -48,81 +145,5 @@ class Router
         foreach (glob($directory . '/*.php') as $file) {
             require_once $file;
         }
-    }
-
-    /**
-     * Asigna un nombre a la ruta actual
-     */
-    public static function name(string $name): self
-    {
-        if (!empty(self::$currentRoute)) {
-            self::$namedRoutes[$name] = self::$currentRoute;
-            self::$currentRoute = [];
-        }
-        return new static;
-    }
-
-    /**
-     * Obtiene la URL de una ruta nombrada
-     */
-    public static function route(string $name): ?string
-    {
-        return self::$namedRoutes[$name]['uri'] ?? null;
-    }
-
-    /**
-     * Maneja la solicitud y ejecuta la acción correspondiente
-     */
-    public static function dispatch(string $uri, string $method): mixed
-    {
-        $method = strtoupper($method);
-        $relativeRoute = self::normalizeUri($uri);
-
-        try {
-            if (isset(self::$routes[$method][$relativeRoute])) {
-                return self::resolveAction(self::$routes[$method][$relativeRoute]);
-            }
-            throw new Exceptions\RouteNotFoundException($relativeRoute);
-        } catch (Exceptions\RouteNotFoundException $e) {
-            error_log($e->getMessage());
-            return view('404');
-        }
-    }
-
-    /**
-     * Añade una nueva ruta
-     */
-    private static function addRoute(string $method, string $uri, $action): self
-    {
-        self::$routes[$method][$uri] = $action;
-        self::$currentRoute = ['method' => $method, 'uri' => $uri];
-        return new static;
-    }
-
-    /**
-     * Resuelve la acción de la ruta
-     */
-    private static function resolveAction($action): mixed
-    {
-        if (is_callable($action)) {
-            return call_user_func($action);
-        }
-
-        if (is_array($action)) {
-            [$controller, $method] = $action;
-            if (class_exists($controller) && method_exists($controller, $method)) {
-                return call_user_func([new $controller(), $method]);
-            }
-        }
-
-        throw new \InvalidArgumentException("Invalid route action");
-    }
-
-    /**
-     * Normaliza la URI eliminando el BASE_URL
-     */
-    private static function normalizeUri(string $uri): string
-    {
-        return '/' . trim(str_replace(BASE_URL, '', $uri), '/');
     }
 }

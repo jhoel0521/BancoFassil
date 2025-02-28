@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="card-footer text-center">
-                    <a href="<?= route('password.request') ?>" class="text-decoration-none">
+                    <a href="#" class="text-decoration-none">
                         <?= traducir('olvidaste_contraseña') ?>
                     </a>
                     <div class="mt-2">

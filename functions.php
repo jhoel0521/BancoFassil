@@ -14,44 +14,11 @@ function dd(...$value)
     //echo json_encode($value);
     die();
 }
-/**
- * Retorna una vista
- */
-function view($view, $data = [], $layout = 'layouts' . DIRECTORY_SEPARATOR . 'app')
+
+
+function route(string $name, $parameters = []): string
 {
-    extract($data);
-
-    $viewPath = str_replace('.', DIRECTORY_SEPARATOR, $view);
-    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $viewPath . '.view.php';
-
-    if (!file_exists($path)) {
-        throw new \Exception("Vista '{$view}' no encontrada en '{$path}'");
-    }
-
-    ob_start();
-    $errors = flashGet('errors') ?? [];
-    $old = flashGet('old') ?? [];
-    clearFlash();
-    require $path;
-    $content = ob_get_clean();
-
-    if ($layout === false) {
-        echo $content;
-        die;
-    }
-    // Si se especifica un layout, usarlo
-    $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
-
-    if (file_exists($layoutPath)) {
-        return require $layoutPath;
-    }
-
-    throw new \Exception("Layout '{$layout}' no encontrado");
-}
-
-function route(string $name): string
-{
-    $path = \Core\Router::route($name) ?? '/';
+    $path = \Core\Router::route($name, $parameters) ?? '/';
     return BASE_URL . $path;
 }
 function redirect($url)

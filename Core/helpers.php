@@ -1,4 +1,5 @@
 <?php
+
 // Generar CSRF Token
 function csrf_token()
 {
@@ -69,4 +70,50 @@ if (!function_exists('class_basename')) {
         // Devuelve el nombre de la clase sin el namespace
         return basename(str_replace('\\', '/', $class));
     }
+}
+function back(): string
+{
+    return $_SERVER['HTTP_REFERER'] ?? BASE_URL;
+}
+
+/**
+ * Retorna una vista
+ */
+function view($view, $data = [], $layout = 'layouts/app'): \Core\Response
+{
+    // Extraer los datos para que estén disponibles en la vista
+    extract($data);
+
+    // Convertir la ruta de la vista a un path de archivo
+    $viewPath = str_replace('.', DIRECTORY_SEPARATOR, $view);
+    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $viewPath . '.view.php';
+
+    // Verificar si la vista existe
+    if (!file_exists($path)) {
+        throw new \Exception("Vista '{$view}' no encontrada en '{$path}'");
+    }
+
+    // Capturar el contenido de la vista en un buffer
+    ob_start(); // Iniciar el buffer
+    $errors = flashGet('errors') ?? [];
+    $old = flashGet('old') ?? [];
+    clearFlash();
+    require $path;
+    $content = ob_get_clean();
+    if ($layout === false) {
+        echo $content;
+        return new \Core\Response();
+    }
+    // Si se especifica un layout, usarlo
+    $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
+
+    // Verificar si el layout existe
+    if (file_exists($layoutPath)) {
+        // Pasar el contenido de la vista al layout
+        $layoutContent = $content;
+        require $layoutPath; // Incluir el layout
+        return new \Core\Response();
+    }
+
+    throw new \Exception("Layout '{$layout}' no encontrado");
 }
