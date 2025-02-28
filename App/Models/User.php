@@ -20,6 +20,6 @@ class User extends Model
 
     public function person()
     {
-        return Person::find($this->personId);
+        return $this->belongsTo(Person::class, 'personId', 'id');
     }
 }

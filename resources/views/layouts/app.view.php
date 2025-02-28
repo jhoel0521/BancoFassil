@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#accounts">
+                            <a class="nav-link text-white" href="<?= route('account.index') ?>">
                                 <i class="bi bi-bank me-1"></i> <?= traducir('cuentas') ?>
                             </a>
                         </li>

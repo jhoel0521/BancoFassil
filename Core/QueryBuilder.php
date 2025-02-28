@@ -31,6 +31,13 @@ class QueryBuilder
 
     public function where(string $column, string $operator, $value)
     {
+        if (func_num_args() === 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+        if (!is_string($operator)) {
+            throw new QueryException('Invalid operator', $this->query);
+        }
         $this->query->where[] = "{$column} {$operator} ?";
         $this->bindings[] = $value;
         return $this;

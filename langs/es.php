@@ -6,7 +6,7 @@ return [
     'contacto' => 'Contacto',
     'bienvenida' => 'Bienvenido a Banco Fassil',
     'subtítulo' => 'Gestiona tus finanzas de manera fácil y segura',
-    'ir_a_cuentas' => 'Ir a Mis Cuentas',
+    'ir_cuentas' => 'Ir a Mis Cuentas',
     'acceder' => 'Acceder a Cuenta',
     'abrir_cuenta' => 'Abrir Nueva Cuenta',
     'operaciones' => 'Operaciones en Línea',

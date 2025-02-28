@@ -1,6 +1,7 @@
 <?php
 
 namespace Core;
+
 class Model
 {
     protected $table;
@@ -149,7 +150,13 @@ class Model
     }
     public function __get($name)
     {
-        return $this->attributes[$name] ?? null;
+        if (array_key_exists($name, $this->attributes)) {
+            return $this->attributes[$name];
+        }
+        if (method_exists($this, $name)) {
+            return $this->$name();
+        }
+        return null;
     }
 
     public function __set($name, $value)
@@ -186,5 +193,36 @@ class Model
     public static function all()
     {
         return static::query()->get();
+    }
+    // relaciones 
+
+    public function belongsTo($related, $foreignKey = null, $ownerKey = null)
+    {
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $ownerKey = $ownerKey ?: 'id';
+
+        $relatedModel = new $related;
+        return $relatedModel->find($this->{$foreignKey});
+    }
+    public function hasOne($related, $foreignKey = null, $localKey = null)
+    {
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $localKey = $localKey ?: 'id';
+
+        $relatedModel = new $related;
+        return $relatedModel->where($foreignKey, '=', $this->{$localKey})->first();
+    }
+    public function hasMany($related, $foreignKey = null, $localKey = null)
+    {
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $localKey = $localKey ?: 'id';
+        $relatedModel = new $related;
+        return $relatedModel->where($foreignKey, '=', $this->{$localKey})->get();
+    }
+    protected function getForeignKey()
+    {
+        $relatedClass = get_class($this);
+        $relatedClassName = class_basename($relatedClass);
+        return strtolower($relatedClassName) . 'Id';
     }
 }

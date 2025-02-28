@@ -4,6 +4,8 @@ use Core\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ChangeLanguageController;
+use App\Controllers\AccountController;
+
 Router::get('/', [HomeController::class, 'index'])->name('home');
 Router::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Router::post('/login', [AuthController::class, 'login'])->name('auth.login');
@@ -13,5 +15,7 @@ Router::post('/register', [AuthController::class, 'register'])->name('auth.regis
 
 
 Router::post('/change-language', [ChangeLanguageController::class, 'changeLanguage'])->name('change.language');
- 
-Router::post('/change-language', [ChangeLanguageController::class, 'changeLanguage'])->name('change-language');
+
+Router::get('/AccountController', [AccountController::class, 'index'])->name('account.index');
+Router::get('/account/create', [AccountController::class, 'create'])->name('account.create');
+Router::post('/account/store', [AccountController::class, 'store'])->name('account.store');

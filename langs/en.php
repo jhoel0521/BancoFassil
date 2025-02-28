@@ -6,7 +6,7 @@ return [
     'contacto' => 'Contact',
     'bienvenida' => 'Welcome to Your Digital Bank',
     'subtítulo' => 'Manage your finances easily and securely',
-    'ir_a_cuentas' => 'Go to My Accounts',
+    'ir_cuentas' => 'Go to My Accounts',
     'acceder' => 'Access Account',
     'abrir_cuenta' => 'Open New Account',
     'operaciones' => 'Online Operations',

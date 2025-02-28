@@ -58,3 +58,15 @@ function clearFlash()
 {
     unset($_SESSION['_flash']);
 }
+if (!function_exists('class_basename')) {
+    function class_basename($class)
+    {
+        // Si el parámetro es un objeto, obtén su clase
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+
+        // Devuelve el nombre de la clase sin el namespace
+        return basename(str_replace('\\', '/', $class));
+    }
+}

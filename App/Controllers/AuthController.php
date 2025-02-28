@@ -63,7 +63,7 @@ class AuthController extends Controller
             return false;
         }
         if (password_verify($password, $users->password)) {
-            return $user;
+            return $users;
         }
         return false;
     }
