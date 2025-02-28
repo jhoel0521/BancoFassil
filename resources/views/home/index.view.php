@@ -25,7 +25,7 @@ require_once __DIR__ . '/../../../App/config/translations.php';
     <section class="custom-bg-gradient text-white py-5">
         <div class="container text-center py-5">
             <h2 class="display-4 mb-4"><?= $translations[$lang]['bienvenida'] ?></h2>
-            <p class="lead mb-4"><?= $translations[$lang]['subtitulo'] ?></p>
+            <p class="lead mb-4"><?= $translations[$lang]['subtítulo'] ?></p>
             <div class="d-flex gap-3 justify-content-center">
                 <?php if (isAuth()): ?>
                     <a class="btn btn-primary btn-lg" href="<?= route('dashboard') ?>">

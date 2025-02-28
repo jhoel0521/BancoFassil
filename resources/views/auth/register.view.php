@@ -1,3 +1,8 @@
+<?php
+// Incluir el archivo de traducciones
+include_once BASE_ROUTE.'App/config/translations.php';
+?>
+
 <div class="container mt-5">
     <style>
         .form-label {
@@ -58,7 +63,7 @@
 
                         <!-- Teléfono -->
                         <div class="mb-3">
-                            <label class="form-label"><?= $translations[$lang]['telefono'] ?></label>
+                            <label class="form-label"> <?= $translations[$lang]['teléfono'] ?></label>
                             <input type="tel"
                                 class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
                                 name="phone"
@@ -125,7 +130,7 @@
                                 id="terms"
                                 <?= isset($old['terms']) ? 'checked' : '' ?>>
                             <label class="form-check-label" for="terms">
-                                <?= $translations[$lang]['acepto_terminos'] ?>
+                                <?= $translations[$lang]['acepto_términos'] ?>
                             </label>
                             <?php if (isset($errors['terms'])): ?>
                                 <div class="invalid-feedback"><?= $errors['terms'] ?></div>
@@ -139,9 +144,9 @@
                 </div>
 
                 <div class="card-footer text-center">
-                    <?= $translations[$lang]['inicia_sesion'] ?>
+                    <?= $translations[$lang]['inicia_sesión'] ?>
                     <a href="<?= route('login') ?>" class="text-decoration-none">
-                        <?= $translations[$lang]['inicia_sesion'] ?>
+                        <?= $translations[$lang]['inicia_sesión'] ?>
                     </a>
                 </div>
             </div>

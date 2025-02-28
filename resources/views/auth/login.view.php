@@ -1,6 +1,6 @@
 <?php
 // Incluir el archivo de traducciones
-include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
+include_once BASE_ROUTE . 'App/config/translations.php';
 ?>
 <div class="flex-grow-1 pt-4">
     <div class="row justify-content-center">
@@ -51,11 +51,11 @@ include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
                         <!-- Recordar sesión -->
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                            <label class="form-check-label" for="remember"><?= $translations[$lang]['recordar_sesion'] ?></label>
+                            <label class="form-check-label" for="remember"> <?= $translations[$lang]['recordar_sesión'] ?></label>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-box-arrow-in-right me-2"></i><?= $translations[$lang]['iniciar_sesion'] ?>
+                            <i class="bi bi-box-arrow-in-right me-2"></i> <?= $translations[$lang]['iniciar_sesión'] ?>
                         </button>
                     </form>
                 </div>
@@ -65,9 +65,9 @@ include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
                         <?= $translations[$lang]['olvidaste_contraseña'] ?>
                     </a>
                     <div class="mt-2">
-                        <?= $translations[$lang]['registrarse_aqui'] ?>
+                        <?= $translations[$lang]['registrarse_aquí'] ?>
                         <a href="<?= route('register') ?>" class="text-decoration-none">
-                            <?= $translations[$lang]['registrarse_aqui'] ?>
+                            <?= $translations[$lang]['registrarse_aquí'] ?>
                         </a>
                     </div>
                 </div>

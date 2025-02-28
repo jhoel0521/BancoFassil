@@ -3,7 +3,7 @@
 
 <?php
 // Incluir el archivo de traducciones
-include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
+include_once BASE_ROUTE.'App/config/translations.php';
 ?>
 
 <head>
@@ -81,12 +81,12 @@ include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
 
                         <li class="nav-item dropdown">
                             <a class="nav-link text-white dropdown-toggle"
-                               href="#"
-                               role="button"
-                               data-bs-toggle="dropdown">
-                               <i class="bi bi-translate me-1"></i> Idioma
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown">
+                                <i class="bi bi-translate me-1"></i> Idioma
                             </a>
-                            
+
                             <ul class="dropdown-menu">
                                 <li>
                                     <form action="<?= route('change-language') ?>" method="POST">
@@ -105,21 +105,23 @@ include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
 
                         <?php if (isAuth()): ?>
                             <li class="nav-item">
-    <a class="nav-link text-white" href="<?= route('dashboard') ?>">
-        <i class="bi bi-person-fill me-1"></i><?= $translations[$lang]['mi_cuenta'] ?>
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link text-white" href="<?= route('logout') ?>">
-        <i class="bi bi-box-arrow-right me-1"></i><?= $translations[$lang]['cerrar_sesion'] ?>
-    </a>
-</li>
-<?php else: ?>
-    <li class="nav-item">
-        <a class="nav-link text-white" href="<?= route('login') ?>">
-            <i class="bi bi-box-arrow-in-right me-1"></i><?= $translations[$lang]['iniciar_sesion'] ?>
-        </a>
-    </li>
+                                <a class="nav-link text-white" href="<?= route('dashboard') ?>">
+                                    <i class="bi bi-person-fill me-1"></i><?= $translations[$lang]['mi_cuenta'] ?>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= route('logout') ?>">
+                                    <i class="bi bi-box-arrow-right me-1"></i>
+                                    <?= $translations[$lang]['cerrar_sesión'] ?>
+                                </a>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= route('login') ?>">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                                    <?= $translations[$lang]['iniciar_sesión'] ?>
+                                </a>
+                            </li>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -134,25 +136,27 @@ include_once '/xampp/htdocs/BancoFassil/App/config/translations.php';
         </div>
     </main>
 
-<!-- Footer modificado -->
-<footer class="bg-primary text-white py-4 fixed-footer">
-    <div class="container text-center">
-        <p class="mb-2"><?= $translations[$lang]['footer_leyenda'] ?></p>
-        <p class="mb-2">
-            <i class="bi bi-envelope me-2"></i><?= $translations[$lang]['footer_email'] ?>
-            <i class="bi bi-telephone ms-3 me-2"></i><?= $translations[$lang]['footer_telefono'] ?>
-        </p>
-        <nav class="d-flex justify-content-center gap-3">
-            <a href="#privacy" class="text-white text-decoration-none">
-                <?= $translations[$lang]['footer_privacidad'] ?>
-            </a>
-            <span>|</span>
-            <a href="#terms" class="text-white text-decoration-none">
-                <?= $translations[$lang]['footer_terminos'] ?>
-            </a>
-        </nav>
-    </div>
-</footer>
+    <!-- Footer modificado -->
+    <footer class="bg-primary text-white py-4 fixed-footer">
+        <div class="container text-center">
+            <p class="mb-2"><?= $translations[$lang]['footer_leyenda'] ?></p>
+            <p class="mb-2">
+                <i class="bi bi-envelope me-2"></i>
+                <?= $translations[$lang]['footer_email'] ?>
+                <i class="bi bi-telephone ms-3 me-2"></i>
+                <?= $translations[$lang]['footer_teléfono'] ?>
+            </p>
+            <nav class="d-flex justify-content-center gap-3">
+                <a href="#privacy" class="text-white text-decoration-none">
+                    <?= $translations[$lang]['footer_privacidad'] ?>
+                </a>
+                <span>|</span>
+                <a href="#terms" class="text-white text-decoration-none">
+                    <?= $translations[$lang]['footer_términos'] ?>
+                </a>
+            </nav>
+        </div>
+    </footer>
 
 
     <!-- ... (scripts igual) ... -->
