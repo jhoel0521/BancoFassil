@@ -25,4 +25,19 @@ class Account extends Model
             ];
         }
     }
+    /**
+     * Relación con la tabla Card.
+     */
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'accountId', 'id');
+    }
+
+    /**
+     * Relación con la tabla Transaction.
+     */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'accountId', 'id');
+    }
 }

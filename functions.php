@@ -19,6 +19,9 @@ function dd(...$value)
 function route(string $name, $parameters = []): string
 {
     $path = \Core\Router::route($name, $parameters) ?? '/';
+    foreach ($parameters as $key => $value) {
+        $path = str_replace("{{$key}}", $value, $path);
+    }
     return BASE_URL . $path;
 }
 

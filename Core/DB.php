@@ -60,9 +60,22 @@ class DB
 
     public function query(string $sql, array $params = [])
     {
+        // Depuración: Verificar la consulta SQL y los parámetros
+        error_log("SQL: $sql");
+        error_log("Params: " . print_r($params, true));
+
         try {
             $stmt = $this->connection->prepare($sql);
+
+            // Depuración: Verificar el estado de la preparación
+            if ($stmt === false) {
+                $errorInfo = $this->connection->errorInfo();
+                throw new QueryException("Error al preparar la consulta: " . $errorInfo[2], $sql);
+            }
+
+            // Ejecutar la consulta
             $stmt->execute($params);
+
             return $stmt;
         } catch (PDOException $e) {
             throw new QueryException("Error en la consulta: " . $e->getMessage(), $sql);

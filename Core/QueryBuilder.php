@@ -74,6 +74,11 @@ class QueryBuilder
         $this->query->limit = $limit;
         return $this;
     }
+    public function orderBy(string $column, string $direction = 'ASC')
+    {
+        $this->query->orderBy = "ORDER BY {$column} {$direction}";
+        return $this;
+    }
 }
 class QueryException extends \RuntimeException
 {

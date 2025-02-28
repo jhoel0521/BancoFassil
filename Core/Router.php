@@ -68,14 +68,13 @@ class Router
         $uri = self::normalizeUri($uri);
         $method = $request->method();
         // Buscar la ruta correspondiente
-        if (isset(self::$routes[$method][$uri])) {
-            $route = self::$routes[$method][$uri];
-
+        $route = self::findRoute($method, $uri);
+        if ($route) {
             // Ejecutar middlewares
             foreach ($route->getMiddleware() as $middleware) {
                 $middlewareInstance = new $middleware;
                 $response = $middlewareInstance->handle($request, function ($request) use ($route) {
-                    return self::resolveAction($route->getAction(), $request);
+                    return self::resolveAction($route->getAction(), $request, $route->getParameters());
                 });
                 // Si el middleware devuelve una respuesta, la retornamos
                 if ($response instanceof Response) {
@@ -83,11 +82,35 @@ class Router
                 }
             }
             // Si no hay middlewares o todos pasaron, ejecutar la acción
-            return self::resolveAction($route->getAction(), $request);
+            return self::resolveAction($route->getAction(), $request, $route->getParameters());
         }
 
         // Si no se encuentra la ruta, devolver un error 404
         return view('errors.404', [], statusCode: 404);
+    }
+    protected static function findRoute($method, $uri): Route|null
+    {
+        foreach (self::$routes[$method] as $routeUri => $route) {
+            if (self::uriMatchesRoute($routeUri, $uri)) {
+                return $route->setParameters($uri);
+            }
+        }
+        return null;
+    }
+
+    protected static function uriMatchesRoute($routeUri, $requestUri)
+    {
+        // Convertir la ruta definida en una expresión regular
+        $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $routeUri);
+        $pattern = '#^' . $pattern . '$#';
+
+        if (preg_match($pattern, $requestUri, $matches)) {
+            array_shift($matches);
+
+            return true;
+        }
+
+        return false;
     }
     /**
      * Normaliza la URI eliminando el BASE_URL
@@ -103,14 +126,13 @@ class Router
      * @param Request $request
      * @return Response
      */
-    protected static function resolveAction($action, Request $request)
+    protected static function resolveAction($action, Request $request, $parameters = [])
     {
         list($controller, $method) = $action;
-
         // Verificar si el controlador y el método existen
         if (class_exists($controller) && method_exists($controller, $method)) {
             $controllerInstance = new $controller;
-            return $controllerInstance->$method($request);
+            return $controllerInstance->$method($request, ...$parameters);
         }
         // Si no existe, devolver un error 404
         return new Response('Página no encontrada', 404);

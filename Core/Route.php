@@ -9,6 +9,7 @@ class Route
     protected $method;
     protected $middleware = [];
     protected $name;
+    protected $routeParameters = [];
 
     public function __construct($method, $uri, $action)
     {
@@ -89,5 +90,38 @@ class Route
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Asigna parámetros a la ruta.
+     * @param string $parameters 
+     * @return self
+     */
+    public function setParameters(string $parameters)
+    {
+        // verificar si la ruta tiene parámetros
+        if (strpos($this->uri, '{') !== false) {
+            $as = explode('/', $parameters);
+            $as2 = explode('/', $this->uri);
+            for ($i = 0; $i < count($as); $i++) {
+                if (strpos($as2[$i], '{') !== false) {
+
+                    $param = $as[$i];
+                    $param = trim($param, '');
+                    if (is_numeric($param)) {
+                        $param = (int) $param;
+                    }
+                    $this->routeParameters[] = $param;
+                }
+            }
+        }
+        return $this;
+    }
+    /**
+     * Obtiene los parámetros de la ruta.
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->routeParameters;
     }
 }
