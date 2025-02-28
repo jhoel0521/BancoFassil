@@ -36,7 +36,7 @@
     <header class="bg-primary text-white fixed-top shadow-sm">
         <nav class="navbar navbar-expand-lg container">
             <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="<?= route('home') ?>">
                     <img src="<?= asset('images/logo-BancoFassil.jpg') ?>"
                         alt="BancoFassil"
                         class="rounded-circle me-2"
@@ -54,7 +54,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#home">
+                            <a class="nav-link text-white" href="<?= route('home') ?>">
                                 <i class="bi bi-house-door me-1"></i> <?= traducir('inicio') ?>
                             </a>
                         </li>
@@ -107,14 +107,14 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="<?= route('logout') ?>">
                                     <i class="bi bi-box-arrow-right me-1"></i>
-                                     <?= traducir('cerrar_sesión') ?>
+                                    <?= traducir('cerrar_sesión') ?>
                                 </a>
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="<?= route('login') ?>">
                                     <i class="bi bi-box-arrow-in-right me-1"></i>
-                                     <?= traducir('iniciar_sesión') ?>
+                                    <?= traducir('iniciar_sesión') ?>
                                 </a>
                             </li>
                         <?php endif; ?>
