@@ -115,4 +115,31 @@ class AccountController extends Controller
         Session::flash('success', 'Transferencia realizada correctamente');
         return redirect(route('account.show', ['id' => $accountId]));
     }
+    public function createCard(Request $request, $accountId): Response
+    {
+        $account = Account::find($accountId);
+        if (!$account || $account->personId !== auth()->id) {
+            return new Response('Cuenta no encontrada', 404);
+        }
+        $validator = new Validation();
+        $rules = [
+            'pin' => 'required|numeric|min:4|max:4',
+            'cardType' => 'required|string|max:1|in:D',
+        ];
+        if (!$validator->validate($_POST, $rules)) {
+            Session::flash('errors', $validator->errors());
+            return redirect(route('account.show', ['id' => $accountId]));
+        }
+        $card = new Card();
+        $card->cardNumber = Card::generateCardNumber();
+        $expirationDate = date('Y-m', strtotime('+4 years'));
+        $card->expirationDate = substr($expirationDate, 2);
+        $card->cvv = Card::generateCVV();
+        $card->pin = password_hash($_POST['pin'], PASSWORD_DEFAULT);
+        $card->accountId = $accountId;
+       //dd($card);
+        $card->save();
+        Session::flash('success', 'Tarjeta creada correctamente');
+        return redirect(route('account.show', ['id' => $accountId]));
+    }
 }

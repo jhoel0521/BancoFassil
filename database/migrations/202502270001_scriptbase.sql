@@ -57,7 +57,7 @@ CREATE TABLE
         expirationDate VARCHAR(5) NOT NULL COMMENT 'Format: MM/YY',
         cardType ENUM ('D', 'C') NOT NULL COMMENT 'D: Debit, C: Credit',
         cvv VARCHAR(3) NOT NULL,
-        pin VARCHAR(4) NOT NULL COMMENT 'Hash',
+        pin VARCHAR(255) NOT NULL COMMENT 'Hash',
         accountId INT UNIQUE NOT NULL,
         failedAttempts INT DEFAULT 0,
         FOREIGN KEY (accountId) REFERENCES Account (id) ON DELETE CASCADE
@@ -118,4 +118,4 @@ DROP TABLE Person;
 
 
 DROP DATABASE BancoFassil;
-*/
+ */

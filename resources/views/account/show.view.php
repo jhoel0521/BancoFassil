@@ -89,7 +89,17 @@
 
                                     <div class="mb-3">
                                         <div class="text-muted small">Número de tarjeta</div>
-                                        <div class="fw-bold">•••• •••• •••• <?= substr($card->cardNumber, -4) ?></div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="numberCard me-2">
+                                                <?= substr($card->cardNumber, 0, 4) ?>
+                                                <?= substr($card->cardNumber, 4, 4) ?>
+                                                <?= substr($card->cardNumber, 8, 4) ?>
+                                                <?= substr($card->cardNumber, 12, 4) ?>
+                                            </span>
+                                            <button class="btn btn-sm btn-outline-secondary toggle-numberCard">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -106,9 +116,6 @@
                                             <div class="text-muted small">PIN</div>
                                             <div class="d-flex align-items-center">
                                                 <span class="pin me-2">••••</span>
-                                                <button class="btn btn-sm btn-outline-secondary toggle-pin">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -198,7 +205,6 @@
                             </label>
                             <select class="form-select" id="cardType" name="cardType" required>
                                 <option value="D">Débito</option>
-                                <option value="C">Crédito</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -237,19 +243,10 @@
         });
     });
 
-    document.querySelectorAll('.toggle-pin').forEach(button => {
+    document.querySelectorAll('.toggle-numberCard').forEach(button => {
         button.addEventListener('click', () => {
             const icon = button.querySelector('i');
-            const pinSpan = button.previousElementSibling;
-            if (pinSpan.textContent === '••••') {
-                pinSpan.textContent = '<?= $card->pin ?>';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            } else {
-                pinSpan.textContent = '••••';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            }
+            const numberCardSpan = button.previousElementSibling;
         });
     });
 </script>

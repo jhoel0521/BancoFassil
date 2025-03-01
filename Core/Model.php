@@ -2,6 +2,7 @@
 
 namespace Core;
 
+
 class Model
 {
     protected $table;
@@ -190,7 +191,44 @@ class Model
 
     public static function where($column, $operator, $value = null)
     {
+        if (!static::isOperator($operator) && !isset($value)) {
+            $value = $operator;
+            $operator = '=';
+        } else if (!isset($value) && static::isOperator($operator)) {
+            throw new \Core\QueryException('Operador no válido', $operator);
+        }
         return static::query()->where($column, $operator, $value);
+    }
+    protected static function isOperator($operator): bool
+    {
+        $operators = [
+            '=',
+            '<',
+            '>',
+            '<=',
+            '>=',
+            '<>',
+            '!=',
+            'like',
+            'not like',
+            'between',
+            'ilike',
+            '&',
+            '|',
+            '^',
+            '<<',
+            '>>',
+            'rlike',
+            'regexp',
+            'not regexp',
+            '~',
+            '~*',
+            '!~',
+            '!~*',
+            'similar to',
+            'not similar to'
+        ];
+        return in_array(strtolower($operator), $operators);
     }
 
     public static function find($id)
