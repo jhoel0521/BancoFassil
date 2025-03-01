@@ -96,4 +96,6 @@ class DB
 
 
 // Excepciones personalizadas
-class DatabaseException extends \RuntimeException {}
+class DatabaseException extends \RuntimeException
+{
+}

@@ -65,7 +65,7 @@ class AccountController extends Controller
 
         return view('account.show', [
             'account' => $account,
-            'cards' => Card::where('accountId', $accountId)->get(),
+            'cards' => Card::where('accountId', '=', $accountId)->get(),
             'transactions' => Transaction::where('accountId', '=', $accountId)
                 ->orderBy('created_at', 'DESC')
                 ->limit(5)

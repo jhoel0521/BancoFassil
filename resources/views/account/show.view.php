@@ -41,7 +41,7 @@
                                     <i class="bi bi-arrow-up-circle text-danger fs-4 me-3"></i>
                                 <?php endif; ?>
                                 <span class="fw-bold"><?= $transaction->description ?></span>
-                                <div class="text-muted small"><?= $transaction->created_at->format('d/m/Y H:i') ?></div>
+                                <div class="text-muted small"><?= $transaction->created_at ?></div>
                             </div>
                             <div class="text-end">
                                 <div class="<?= $transaction->type === 'D' ? 'text-success' : 'text-danger' ?>">

@@ -35,7 +35,7 @@ class Model
         if (array_key_exists($this->primaryKey, $attributes)) {
             $this->attributes[$this->primaryKey] = $attributes[$this->primaryKey];
             $this->{$this->primaryKey} = $attributes[$this->primaryKey];
-            $this->exists = true; 
+            $this->exists = true;
         }
         return $this;
     }
@@ -43,7 +43,6 @@ class Model
     public function save()
     {
         $db = DB::getInstance();
-
         if ($this->exists) {
             return $this->performUpdate($db);
         }
