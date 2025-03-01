@@ -37,6 +37,10 @@ class Model
             $this->{$this->primaryKey} = $attributes[$this->primaryKey];
             $this->exists = true;
         }
+        if ($this->timestamps) {
+            $this->attributes['created_at'] = date('Y-m-d H:i:s');
+            $this->attributes['updated_at'] = date('Y-m-d H:i:s');
+        }
         return $this;
     }
 

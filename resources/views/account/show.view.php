@@ -86,12 +86,12 @@
                                         </h5>
                                         <i class="bi bi-<?= $card->cardType === 'D' ? 'safe' : 'cash-coin' ?> fs-4"></i>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <div class="text-muted small">Número de tarjeta</div>
                                         <div class="fw-bold">•••• •••• •••• <?= substr($card->cardNumber, -4) ?></div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="text-muted small">CVV</div>
@@ -112,7 +112,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mt-3 text-muted small">
                                         <i class="bi bi-calendar-check me-1"></i>
                                         Expira: <?= $card->expirationDate ?>
