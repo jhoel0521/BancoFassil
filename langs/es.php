@@ -52,6 +52,23 @@ return [
     'csrf_invalido' => 'Token CSRF inválido',
     'registro_exitoso' => 'Registro exitoso. Ahora puede iniciar sesión.',
     'error_registro' => 'Error al registrar el usuario',
+//lista de cuenta
+    'Lista de Cuentas' => 'Lista de Cuentas',
+    'Crear Nueva Cuenta' => 'Crear Nueva Cuenta',
+    'Cuenta creada correctamente' => 'Cuenta creada correctamente',
+    'Cuenta no encontrada' => 'Cuenta no encontrada',
+    'Saldo insuficiente' => 'Saldo insuficiente',
+    'Transferencia' => 'Transferencia',
+    'Transferencia de fondos' => 'Transferencia de fondos',
+    'Transferencia realizada correctamente' => 'Transferencia realizada correctamente',
+    'Tarjeta creada correctamente' => 'Tarjeta creada correctamente',
 
-
+'crear_nueva_cuenta' => 'Crear Nueva Cuenta',
+            'tipo_de_cuenta' => 'Tipo de Cuenta',
+            'seleccione_un_tipo' => 'Seleccione un tipo de cuenta',
+            'oficina_asociada' => 'Oficina Asociada',
+            'seleccione_una_oficina' => 'Seleccione una oficina',
+            
+            'volver_lista_cuentas' => 'Volver a la lista de cuentas'
+      
 ];

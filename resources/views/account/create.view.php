@@ -21,7 +21,7 @@
                 <div class="card-header bg-primary text-white">
                     <h3 class="card-title mb-0">
                         <i class="bi bi-plus-circle me-2"></i>
-                        Crear Nueva Cuenta
+                        <?= traducir('crear_nueva_cuenta') ?>
                     </h3>
                 </div>
 
@@ -35,10 +35,10 @@
 
                         <!-- Tipo de Cuenta -->
                         <div class="mb-3">
-                            <label class="form-label">Tipo de Cuenta</label>
+                            <label class="form-label"><?= traducir('tipo_de_cuenta') ?></label>
                             <select class="form-select <?= isset($errors['type']) ? 'is-invalid' : '' ?>"
                                 name="type">
-                                <option value="">Seleccione un tipo de cuenta</option>
+                                <option value=""><?= traducir('seleccione_un_tipo') ?></option>
                                 <?php foreach ($types as $key => $value): ?>
                                     <option value="<?= $key ?>"><?= $value ?></option>
                                 <?php endforeach; ?>
@@ -53,10 +53,10 @@
 
                         <!-- Oficina Asociada -->
                         <div class="mb-3">
-                            <label class="form-label">Oficina Asociada</label>
+                            <label class="form-label"><?= traducir('oficina_asociada') ?></label>
                             <select class="form-select <?= isset($errors['officeId']) ? 'is-invalid' : '' ?>"
                                 name="officeId">
-                                <option value="">Seleccione una oficina</option>
+                                <option value=""><?= traducir('seleccione_una_oficina') ?></option>
                                 <?php foreach ($offices as $office): ?>
                                     <option value="<?= $office->id ?>"><?= $office->name ?></option>
                                 <?php endforeach; ?>
@@ -71,14 +71,14 @@
 
                         <!-- Botón de Envío -->
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-save me-2"></i> Crear Cuenta
+                            <i class="bi bi-save me-2"></i> <?= traducir('crear_cuenta') ?>
                         </button>
                     </form>
                 </div>
 
                 <div class="card-footer text-center">
                     <a href="<?= route('account.index') ?>" class="text-decoration-none">
-                        Volver a la lista de cuentas
+                        <?= traducir('volver_lista_cuentas') ?>
                     </a>
                 </div>
             </div>

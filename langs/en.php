@@ -72,9 +72,24 @@ return [
     'Password Invalido' => 'Invalid password',
     'Debes aceptar los términos y condiciones' => 'You must accept the terms and conditions',
 
- 
+    //lista de cuenta
+    'Lista de Cuentas' => 'Account List',
+    'Crear Nueva Cuenta' => 'Create New Account',
+    'Cuenta creada correctamente' => 'Account created successfully',
+    'Cuenta no encontrada' => 'Account not found',
+    'Saldo insuficiente' => 'Insufficient balance',
+    'Transferencia' => 'Transfer',
+    'Transferencia de fondos' => 'Funds Transfer',
+    'Transferencia realizada correctamente' => 'Transfer completed successfully',
+    'Tarjeta creada correctamente' => 'Card created successfully',
   
- 
+    'crear_nueva_cuenta' => 'Create New Account',
+    'tipo_de_cuenta' => 'Account Type',
+    'seleccione_un_tipo' => 'Select an account type',
+    'oficina_asociada' => 'Associated Office',
+    'seleccione_una_oficina' => 'Select an office',
+    
+    'volver_lista_cuentas' => 'Back to account list',
  
  
 
