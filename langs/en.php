@@ -91,8 +91,51 @@ return [
     
     'volver_lista_cuentas' => 'Back to account list',
  
- 
+    'error_404' => '404 - Page not found',
+            'error_404_message' => 'Sorry, but the page you are looking for does not exist.',
+            'volver_pagina_principal' => 'Back to the main page',
+//tarjeta para añadir fondo y quitar y trasaccion
+            'balance' => 'Current Balance',
+            'add_card' => 'Add Card',
+            'make_transfer' => 'Make Transfer',
+            'no_transactions' => 'No transactions recorded',
+            'no_cards' => 'You don’t have any cards associated',
+            'account' => 'Account',
+            'current_balance' => 'Current Balance',
+           
 
-
-    
-];
+                'last_transactions' => 'Last Transactions',
+                'card_number' => 'Card Number',
+                'cvv' => 'CVV',
+                'pin' => 'PIN',
+                'expire' => 'Expires:',
+                'deposit' => 'Deposit',
+                'withdraw' => 'Withdraw',
+                'add_funds' => 'Add funds to the account',
+                'withdraw_funds' => 'Withdraw funds from the account',
+                'confirm_transfer' => 'Confirm Transfer',
+                'create_card' => 'Create Card',
+                'card_type' => 'Card Type',
+                'create_card_btn' => 'Create Card',
+                'recent_transactions' => 'Recent Transactions',
+                'associated_cards' => 'Associated Cards',
+                'no_cards_associated' => 'You have no associated cards',
+                'debit' => 'Debit',
+                'expires' => 'Expires',
+                'amount' => 'Amount',
+                'transaction_type' => 'Transaction Type',
+                'account_list' => 'Account List',
+                'create_account' => 'Create New Account',
+                'id' => 'ID',
+                
+                'account_type' => 'Account Type',
+                'status' => 'Status',
+                'office' => 'Office',
+                'actions' => 'Actions',
+                'active' => 'Active',
+                'inactive' => 'Inactive',
+                'view' => 'View',
+                'delete' => 'Delete',
+                'no_accounts' => 'No accounts registered.',
+            ];
+            
