@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login', ['title' => 'Iniciar sesión']);
+        return view('auth.login', ['title' => traducir('inicia_sesión')]);
     }
 
     public function login()

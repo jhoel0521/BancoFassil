@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BancoFassil - Su Banco Digital</title>
+    <title>BancoFassil - <?=$title??traducir('title')?></title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -105,7 +105,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="<?= route('login') ?>">
                                     <i class="bi bi-box-arrow-in-right me-1"></i>
-                                    <?= traducir('iniciar_sesión') ?>
+                                    <?= traducir('inicia_sesión') ?>
                                 </a>
                             </li>
                         <?php endif; ?>
