@@ -40,6 +40,26 @@ class Router
     {
         return self::addRoute('DELETE', $uri, $action);
     }
+    /**
+     * Define una ruta PUT.
+     * @param string $uri
+     * @param array $action
+     * @return Route
+     */
+    public static function put($uri, $action)
+    {
+        return self::addRoute('PUT', $uri, $action);
+    }
+    /**
+     * Define una ruta PATCH.
+     * @param string $uri
+     * @param array $action
+     * @return Route
+     */
+    public static function patch($uri, $action)
+    {
+        return self::addRoute('PATCH', $uri, $action);
+    }
 
     /**
      * Agrega una ruta a la lista de rutas.
@@ -55,7 +75,6 @@ class Router
         self::$routes[$method][$uri] = $route;
         return $route;
     }
-
     /**
      * Despacha la solicitud.
      *
@@ -84,7 +103,13 @@ class Router
             // Si no hay middlewares o todos pasaron, ejecutar la acción
             return self::resolveAction($route->getAction(), $request, $route->getParameters());
         }
-
+        // Manejar 404 para API
+        if (str_starts_with($uri, '/api/')) {
+            return Response::json([
+                'success' => false,
+                'message' => 'Endpoint no encontrado'
+            ], 404);
+        }
         // Si no se encuentra la ruta, devolver un error 404
         return view('errors.404', [], statusCode: 404);
     }

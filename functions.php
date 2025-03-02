@@ -1,5 +1,6 @@
 <?php
 define('BASE_URL', "/BancoFassil");
+define('API_PREFIX', '/api');
 
 /**
  * @param mixed $value Valor a imprimir
