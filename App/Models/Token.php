@@ -61,8 +61,7 @@ class Token extends Model
      */
     public static function isValid(string $token): bool
     {
-        $token = self::where('token', $token)
-            ->where('expirationDate', '>', date('Y-m-d H:i:s'))
+        $token = Token::where('token', '=', $token)->where('expirationDate', '>', date('Y-m-d H:i:s'))
             ->first();
 
         return $token !== null;
@@ -76,10 +75,9 @@ class Token extends Model
      */
     public static function getUserByToken(string $token): ?User
     {
-        $token = self::where('token', $token)
+        $token = Token::where('token', '=', $token)
             ->where('expirationDate', '>', date('Y-m-d H:i:s'))
             ->first();
-
         if ($token) {
             return User::find($token->userId);
         }

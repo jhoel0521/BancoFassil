@@ -32,11 +32,11 @@ class AuthApiController extends ApiController
             }
             $acount = $card->account;
             $person = $acount->person;
-            $user=$person->user;
+            $user = $person->user;
             $token = Token::createToken($user->id, 'ATM', strtotime('+1 hour'));
             $card->failedAttempts = 0;
             $card->save();
-            return $this->success(['token' => $token, 'user' => $user]);
+            return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
         } catch (\Exception $e) {
             return $this->error(['message' => $e->getMessage(), 'line' => $e->getLine()], StatusCode::INTERNAL_SERVER_ERROR);
         }
@@ -47,5 +47,9 @@ class AuthApiController extends ApiController
         $token = $request->header('Authorization');
         Token::revokeToken($token);
         return $this->success([], StatusCode::NO_CONTENT);
+    }
+    public function me(Request $request): Response
+    {
+        return $this->success(['user' => $request->user()->getAttributes()]);
     }
 }

@@ -14,10 +14,21 @@ class AuthenticateApi
         // Obtener el token del encabezado Authorization
         $token = $request->header('Authorization');
 
-        if (!$token || !Token::isValid($token)) {
+        // Verificar el formato del token
+        if (empty($token) || !is_string($token) || !str_starts_with($token, 'Bearer ')) {
             return Response::json([
                 'success' => false,
-                'message' => 'No autorizado'
+                'message' => 'Formato de token inválido'
+            ], StatusCode::UNAUTHORIZED);
+        }
+
+        // Extraer el token (eliminar 'Bearer ')
+        $token = str_replace('Bearer ', '', $token);
+        // Verificar si el token es válido
+        if (!Token::isValid($token)) {
+            return Response::json([
+                'success' => false,
+                'message' => 'Token no válido o expirado'
             ], StatusCode::UNAUTHORIZED);
         }
 
