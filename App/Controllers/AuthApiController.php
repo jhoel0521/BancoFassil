@@ -52,4 +52,14 @@ class AuthApiController extends ApiController
     {
         return $this->success(['user' => $request->user()->getAttributes()]);
     }
+    public function accounts(Request $request): Response
+    {
+        $user = $request->user();
+        $accounts = $user->person->accounts;
+        $result = [];
+        foreach ($accounts as $account) {
+            $result[] = $account->getAttributes();
+        }
+        return $this->success(['accounts' => $result]);
+    }
 }
