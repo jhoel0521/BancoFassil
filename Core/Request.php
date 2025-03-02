@@ -2,10 +2,13 @@
 
 namespace Core;
 
+use App\Models\Token;
+
 class Request
 {
     protected $data = [];
     protected $user;
+    protected $token;
     public function __construct()
     {
         // Obtenemos los datos de la solicitud
@@ -112,5 +115,21 @@ class Request
     public function setUser($user)
     {
         $this->user = $user;
+    }
+    /**
+     * Asignan el token
+     * @param \App\Models\Token $token
+     */
+    public function setToken(Token $token)
+    {
+        $this->token = $token;
+    }
+    /**
+     * Obtiene el token
+     * @return \App\Models\Token|null
+     */
+    public function token()
+    {
+        return $this->token;
     }
 }

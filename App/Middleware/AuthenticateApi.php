@@ -34,7 +34,6 @@ class AuthenticateApi
 
         // Obtener el usuario asociado al token
         $user = Token::getUserByToken($token);
-
         if (!$user) {
             return Response::json([
                 'success' => false,
@@ -44,6 +43,7 @@ class AuthenticateApi
 
         // Asignar el usuario a la solicitud
         $request->setUser($user);
+        $request->setToken(Token::where('token', '=', $token)->first());
 
         return $next($request);
     }

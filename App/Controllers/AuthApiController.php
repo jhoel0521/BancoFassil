@@ -4,8 +4,10 @@
 namespace App\Controllers;
 
 use App\Enums\StatusCode;
+use App\Models\Account;
 use App\Models\Card;
 use App\Models\Token;
+use App\Models\Transaction;
 use Core\Request;
 use Core\Response;
 use App\Models\User;
@@ -61,5 +63,40 @@ class AuthApiController extends ApiController
             $result[] = $account->getAttributes();
         }
         return $this->success(['accounts' => $result]);
+    }
+    public function withdraw(Request $request): Response
+    {
+        $token = $request->token();
+        // validamos que token sea de tipo ATM
+        if ($token->type !== 'ATM') {
+            return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
+        }
+        $account = Account::find($request->account_id);
+        if (!$account) {
+            return $this->error(['message' => 'Cuenta no encontrada'], StatusCode::NOT_FOUND);
+        }
+        // validamos que la cuenta pertenezca al usuario autenticado
+        $person = $account->person;
+        if ($person->id != $request->user()->personId) {
+            return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
+        }
+        $amount = $request->amount;
+        if ($account->currentBalance < $amount) {
+            return $this->error(['message' => 'Fondos insuficientes'], StatusCode::UNPROCESSABLE_ENTITY);
+        }
+
+        $newTs = new Transaction();
+        $newTs->accountId = $account->id;
+        $newTs->type = 'W';
+        $newTs->previousBalance = $account->currentBalance;
+        $newTs->newBalance = $account->currentBalance - $amount;
+        $newTs->amount = $amount;
+        $newTs->commentSystem = 'Retiro ATM';
+        $newTs->description = '';
+        $newTs->save();
+        $account->currentBalance = $newTs->newBalance;
+        $account->save();
+
+        return $this->success(['message' => 'Retiro exitoso']);
     }
 }

@@ -15,3 +15,6 @@ Router::post(API_PREFIX . '/login', [AuthApiController::class, 'login'])->name('
 Router::post(API_PREFIX . '/me', [AuthApiController::class, 'me'])->name('api.auth.me')->middleware(AuthenticateApi::class);
 // getAccounts
 Router::get(API_PREFIX . '/accounts', [AuthApiController::class, 'accounts'])->name('api.auth.getAccounts')->middleware(AuthenticateApi::class);
+
+// account/withdraw
+Router::post(API_PREFIX . '/account/withdraw', [AuthApiController::class, 'withdraw'])->name('api.auth.withdraw')->middleware(AuthenticateApi::class);
