@@ -59,7 +59,7 @@ class AccountController extends Controller
     {
         $account = Account::find($accountId);
 
-        if (!$account || $account->personId !== auth()->id) {
+        if (!$account || $account->personId !== auth()->personId) {
             return new Response('Cuenta no encontrada', 404);
         }
 
@@ -75,7 +75,7 @@ class AccountController extends Controller
     public function transfer(Request $request, $accountId): Response
     {
         $account = Account::find($accountId);
-        if (!$account || $account->personId !== auth()->id) {
+        if (!$account || $account->personId !== auth()->personId) {
             return new Response('Cuenta no encontrada', 404);
         }
         $validator = new Validation();
@@ -95,7 +95,6 @@ class AccountController extends Controller
                 Session::flash('errors', ['amount' => 'Saldo insuficiente']);
                 return redirect(route('account.show', ['id' => $accountId]));
             }
-            $amount = $amount * -1;
         }
         $tf = new Transaction();
         $tf->type = $type;
@@ -118,7 +117,7 @@ class AccountController extends Controller
     public function createCard(Request $request, $accountId): Response
     {
         $account = Account::find($accountId);
-        if (!$account || $account->personId !== auth()->id) {
+        if (!$account || $account->personId !== auth()->personId) {
             return new Response('Cuenta no encontrada', 404);
         }
         $validator = new Validation();
@@ -137,7 +136,7 @@ class AccountController extends Controller
         $card->cvv = Card::generateCVV();
         $card->pin = password_hash($_POST['pin'], PASSWORD_DEFAULT);
         $card->accountId = $accountId;
-       //dd($card);
+        //dd($card);
         $card->save();
         Session::flash('success', 'Tarjeta creada correctamente');
         return redirect(route('account.show', ['id' => $accountId]));
