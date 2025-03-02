@@ -18,3 +18,6 @@ Router::get(API_PREFIX . '/accounts', [AuthApiController::class, 'accounts'])->n
 
 // account/withdraw
 Router::post(API_PREFIX . '/account/withdraw', [AuthApiController::class, 'withdraw'])->name('api.auth.withdraw')->middleware(AuthenticateApi::class);
+
+// purchase/online
+Router::post(API_PREFIX . '/purchase/online', [AuthApiController::class, 'purchaseOnline'])->name('api.auth.purchaseOnline')->middleware(AuthenticateApi::class);
