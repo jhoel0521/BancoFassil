@@ -95,6 +95,7 @@ class AccountController extends Controller
                 Session::flash('errors', ['amount' => 'Saldo insuficiente']);
                 return redirect(route('account.show', ['id' => $accountId]));
             }
+            
         }
         $tf = new Transaction();
         $tf->type = $type;

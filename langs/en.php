@@ -16,6 +16,10 @@ return [
     'historial' => 'Transaction History',
     'historial_desc' => 'Check and download your banking transactions',
 
+
+ 
+//formulario de register.view
+
     'nombre_completo' => 'Full Name',
     'correo' => 'Email',
     'teléfono' => 'Phone',
@@ -34,4 +38,46 @@ return [
     'footer_términos' => 'Terms of Service',
     'mi_cuenta' => 'My Account',
     'cerrar_sesión' => 'Log Out',
+    
+    'lista_cuentas' => 'Account List',
+    'crear_cuenta' => 'Create New Account',
+    'cuenta_no_valida' => 'Invalid account type',
+    'cuenta_creada' => 'Account created successfully',
+    'cuenta_no_encontrada' => 'Account not found',
+    'saldo_insuficiente' => 'Insufficient funds',
+    'transferencia_realizada' => 'Transfer completed successfully',
+    'tarjeta_creada' => 'Card created successfully',
+ 
+    'error_nombre_invalido' => 'Invalid name',
+     
+    'credenciales_incorrectas' => 'Invalid credentials',
+    'csrf_invalido' => 'Invalid CSRF token',
+    'registro_exitoso' => 'Registration successful. You can now log in.',
+    'error_registro' => 'Error registering user',
+    'Registrarse' => 'Register',
+    'Nombre Completo' => 'Full Name',
+    'Correo Electrónico' => 'Email',
+    'Teléfono' => 'Phone',
+    'Usuario' => 'Username',
+    'Contraseña' => 'Password',
+    'Confirmar Contraseña' => 'Confirm Password',
+    'Acepto los términos y condiciones' => 'I accept the terms and conditions',
+    'Inicia sesión' => 'Log in',
+    'Ya tienes una cuenta?' => 'Already have an account?',
+    'Registro Exitoso' => 'Successful Registration',
+    'Nombre Invalido' => 'Invalid name',
+    'Email Invalido' => 'Invalid email',
+    'Phone Invalido' => 'Invalid phone',
+    'User Invalido' => 'Invalid username',
+    'Password Invalido' => 'Invalid password',
+    'Debes aceptar los términos y condiciones' => 'You must accept the terms and conditions',
+
+ 
+  
+ 
+ 
+ 
+
+
+    
 ];

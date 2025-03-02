@@ -16,6 +16,9 @@ return [
     'historial' => 'Historial de Transacciones',
     'historial_desc' => 'Consulta y descarga tus movimientos bancarios',
     
+
+
+        //formulario de register.view.php
     'nombre_completo' => 'Nombre Completo',
     'correo' => 'Correo Electrónico',
     'teléfono' => 'Teléfono',
@@ -34,4 +37,21 @@ return [
     'footer_términos' => 'Términos de Servicio',
     'mi_cuenta' => 'Mi Cuenta',
     'cerrar_sesión' => 'Cerrar Sesión',
+
+    'lista_cuentas' => 'Lista de Cuentas',
+    'crear_cuenta' => 'Crear Nueva Cuenta',
+    'cuenta_no_valida' => 'Tipo de cuenta no válido',
+    'cuenta_creada' => 'Cuenta creada correctamente',
+    'cuenta_no_encontrada' => 'Cuenta no encontrada',
+    'saldo_insuficiente' => 'Saldo insuficiente',
+    'transferencia_realizada' => 'Transferencia realizada correctamente',
+    'tarjeta_creada' => 'Tarjeta creada correctamente',
+
+    'error_nombre_invalido' => 'Nombre inválido',
+    'credenciales_incorrectas' => 'Credenciales incorrectas',
+    'csrf_invalido' => 'Token CSRF inválido',
+    'registro_exitoso' => 'Registro exitoso. Ahora puede iniciar sesión.',
+    'error_registro' => 'Error al registrar el usuario',
+
+
 ];

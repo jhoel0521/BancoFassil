@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        // Validar Validation
+        // Validar datos
         $validator = new Validation();
         $rules = [
             'user' => 'required|string|max:50',
@@ -30,7 +30,7 @@ class AuthController extends Controller
             return redirect(route('login'));
         }
 
-        // Autenticar usuario (ejemplo básico)
+        // Autenticar usuario
         $user = $this->attempt($_POST['user'], $_POST['password']);
 
         if ($user) {
@@ -43,7 +43,7 @@ class AuthController extends Controller
             return redirect($route);
         }
 
-        Session::flash('errors', ['general' => 'Credenciales incorrectas']);
+        Session::flash('errors', ['general' => traducir('credenciales_incorrectas')]);
         Session::flash('old', $_POST);
         return redirect(route('login'));
     }
@@ -65,18 +65,21 @@ class AuthController extends Controller
         }
         return false;
     }
+
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('auth.register', ['title' => traducir('registrarse')]);
     }
+
     public function register()
     {
         // Validar CSRF Token
         if (!csrf_verify($_POST['_token'])) {
-            Session::flash('errors', ['general' => 'Token CSRF inválido']);
+            Session::flash('errors', ['general' => traducir('csrf_invalido')]);
             Session::flash('old', $_POST);
             return redirect(route('register'));
         }
+
         // Validar datos
         $validator = new Validation();
         $rules = [
@@ -92,6 +95,7 @@ class AuthController extends Controller
             Session::flash('old', $_POST);
             return redirect(route('register'));
         }
+
         try {
             // Iniciar transacción
             DB::getInstance()->getConnection()->beginTransaction();
@@ -116,12 +120,12 @@ class AuthController extends Controller
             // Commit transacción
             DB::getInstance()->getConnection()->commit();
 
-            Session::flash('success', 'Registro exitoso. Ahora puede iniciar sesión.');
+            Session::flash('success', traducir('registro_exitoso'));
             return redirect(route('login'));
         } catch (\Exception $e) {
             // Rollback en caso de error
             DB::getInstance()->getConnection()->rollBack();
-            Session::flash('errors', ['general' => 'Error al registrar el usuario: ' . $e->getMessage()]);
+            Session::flash('errors', ['general' => traducir('error_registro') . ': ' . $e->getMessage()]);
             Session::flash('old', $_POST);
             return redirect(route('register'));
         }
