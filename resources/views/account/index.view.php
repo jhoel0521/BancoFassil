@@ -6,10 +6,11 @@ require_once 'langs/translations.php'; // Ajusta la ruta si es necesario
 $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según lo que elijas
 ?>
 <div class="flex-grow-1 mt-5 pt-4">
-    <h1 class="mb-4"><?= $GLOBALS['translations'][$lang]['account_list'] ?></h1>
+    <h1 class="mb-4"><?= traducir('account_list') ?></h1>
     <a href="<?= route('account.create') ?>" class="btn btn-primary mb-4">
-        <?= $GLOBALS['translations'][$lang]['create_account'] ?>
+        <?= traducir('create_account') ?>
     </a>
+
 
     <table class="table table-bordered table-striped">
     <thead>
