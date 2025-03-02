@@ -16,7 +16,7 @@ function csrf_verify($token)
 }
 
 // auth()
-function auth()
+function auth(): \App\Models\User|null
 {
     return \Core\Session::get('user');
 }

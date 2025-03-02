@@ -25,7 +25,7 @@ class AuthMiddleware implements Middleware
             Session::set('back', $request->uri());
             return redirect(route('login'))->with('error', 'Debes iniciar sesión para acceder a esta página.');
         }
-
+        $request->setUser(auth());
         // Si el usuario está autenticado, continúa con la solicitud
         return $next($request);
     }

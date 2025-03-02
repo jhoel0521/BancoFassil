@@ -4,6 +4,13 @@ namespace Core;
 
 class Request
 {
+    protected $data = [];
+    protected $user;
+    public function __construct()
+    {
+        // Obtenemos los datos de la solicitud
+        $this->data = json_decode(file_get_contents('php://input'), true);
+    }
     /**
      * Obtiene el método HTTP de la solicitud.
      *
@@ -77,5 +84,33 @@ class Request
     public function cookie($key, $default = null)
     {
         return $_COOKIE[$key] ?? $default;
+    }
+
+    // escrifimos funciones los geters y seters
+    public function __get($name)
+    {
+        // verificamos si $name existe en $this->data
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+        return null;
+    }
+    /**
+     * Obtiene el usuario autenticado.
+     *
+     * @return \App\Models\User|null
+     */
+    public function user()
+    {
+        return $this->user;
+    }
+    /**
+     * Asigna el usuario autenticado.
+     *
+     * @param \App\Models\User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }

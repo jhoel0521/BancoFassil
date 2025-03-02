@@ -40,4 +40,8 @@ class Account extends Model
     {
         return $this->hasMany(Transaction::class, 'accountId', 'id');
     }
+    public function person()
+    {
+        return $this->belongsTo(Person::class, 'personId', 'id');
+    }
 }
