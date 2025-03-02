@@ -10,27 +10,27 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     <!-- Encabezado con saldo actual -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
-            <i class="bi bi-wallet2 me-2"></i><?= $GLOBALS['translations'][$lang]['account'] ?> #<?= $account->accountNumber ?>
+            <i class="bi bi-wallet2 me-2"></i><?= traducir('account') ?> #<?= $account->accountNumber ?>
         </h1>
         <div class="d-flex align-items-center bg-primary text-white p-3 rounded-3">
             <i class="bi bi-cash-coin fs-3 me-2"></i>
             <div>
-                <span class="small d-block"><?= $GLOBALS['translations'][$lang]['current_balance'] ?></span>
+                <span class="small d-block"><?= traducir('current_balance') ?></span>
                 <h3 class="mb-0">$<?= number_format($account->currentBalance, 2) ?></h3>
             </div>
         </div>
     </div>
-
+</div>
 
 <!-- Sección de acciones rápidas -->
 <div class="d-grid gap-3 d-md-flex justify-content-md-end mb-4">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCardModal">
         <i class="bi bi-credit-card me-2"></i>
-        <?= $GLOBALS['translations'][$lang]['add_card'] ?>
+        <?= traducir('add_card') ?>
     </button>
     <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">
         <i class="bi bi-arrow-left-right me-2"></i>
-        <?= $GLOBALS['translations'][$lang]['make_transfer'] ?>
+        <?= traducir('make_transfer') ?>
     </button>
 </div>
 
@@ -39,7 +39,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     <div class="card-header">
         <h5 class="mb-0">
             <i class="bi bi-clock-history me-2"></i>
-            <?= $GLOBALS['translations'][$lang]['recent_transactions'] ?>
+            <?= traducir('recent_transactions') ?>
         </h5>
     </div>
     <div class="card-body p-0">
@@ -62,34 +62,33 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                 $<?= number_format($transaction->amount, 2) ?>
                             </div>
                             <div class="text-muted small">
-                                <?= $GLOBALS['translations'][$lang]['balance'] ?>: $<?= number_format($transaction->newBalance, 2) ?>
+                                <?= traducir('balance') ?>: $<?= number_format($transaction->newBalance, 2) ?>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="list-group-item text-center text-muted py-4">
-                    <?= $GLOBALS['translations'][$lang]['no_transactions'] ?>
+                    <?= traducir('no_transactions') ?>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 </div>
 
-
 <!-- Tarjetas asociadas -->
 <div class="card">
     <div class="card-header">
         <h5 class="mb-0">
             <i class="bi bi-credit-card-2-front me-2"></i>
-            <?= $GLOBALS['translations'][$lang]['associated_cards'] ?>
+            <?= traducir('associated_cards') ?>
         </h5>
     </div>
     <div class="card-body">
         <?php if (empty($cards)): ?>
             <div class="text-center text-muted py-4">
                 <i class="bi bi-credit-card-2-back fs-1 text-muted"></i>
-                <p class="mt-3"><?= $GLOBALS['translations'][$lang]['no_cards_associated'] ?></p>
+                <p class="mt-3"><?= traducir('no_cards_associated') ?></p>
             </div>
         <?php else: ?>
             <div class="row">
@@ -100,13 +99,13 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="card-title mb-0">
                                         <i class="bi bi-credit-card-2-front me-2"></i>
-                                        <?= $card->cardType === 'D' ? $GLOBALS['translations'][$lang]['debit'] : $GLOBALS['translations'][$lang]['credit'] ?>
+                                        <?= $card->cardType === 'D' ? traducir('debit') : traducir('credit') ?>
                                     </h5>
                                     <i class="bi bi-<?= $card->cardType === 'D' ? 'safe' : 'cash-coin' ?> fs-4"></i>
                                 </div>
 
                                 <div class="mb-3">
-                                    <div class="text-muted small"><?= $GLOBALS['translations'][$lang]['card_number'] ?></div>
+                                    <div class="text-muted small"><?= traducir('card_number') ?></div>
                                     <div class="d-flex align-items-center">
                                         <span class="numberCard me-2">
                                             <?= substr($card->cardNumber, 0, 4) ?>
@@ -122,7 +121,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
 
                                 <div class="row">
                                     <div class="col-6">
-                                        <div class="text-muted small"><?= $GLOBALS['translations'][$lang]['cvv'] ?></div>
+                                        <div class="text-muted small"><?= traducir('cvv') ?></div>
                                         <div class="d-flex align-items-center">
                                             <span class="cvv me-2">•••</span>
                                             <button class="btn btn-sm btn-outline-secondary toggle-cvv">
@@ -131,7 +130,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="text-muted small"><?= $GLOBALS['translations'][$lang]['pin'] ?></div>
+                                        <div class="text-muted small"><?= traducir('pin') ?></div>
                                         <div class="d-flex align-items-center">
                                             <span class="pin me-2">••••</span>
                                         </div>
@@ -140,7 +139,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
 
                                 <div class="mt-3 text-muted small">
                                     <i class="bi bi-calendar-check me-1"></i>
-                                    <?= $GLOBALS['translations'][$lang]['expires'] ?>: <?= $card->expirationDate ?>
+                                    <?= traducir('expires') ?>: <?= $card->expirationDate ?>
                                 </div>
                             </div>
                         </div>
@@ -151,14 +150,14 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     </div>
 </div>
 
-   <!-- Modal para Transferencias -->
+ <!-- Modal para Transferencias -->
 <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="transferModalLabel">
                     <i class="bi bi-arrow-left-right me-2"></i>
-                    <?= $GLOBALS['translations'][$lang]['make_transfer'] ?>
+                    <?= traducir('make_transfer') ?>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -167,42 +166,42 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                     <div class="mb-3">
                         <label for="amount" class="form-label">
-                            <i class="bi bi-cash-coin me-1"></i><?= $GLOBALS['translations'][$lang]['amount'] ?>
+                            <i class="bi bi-cash-coin me-1"></i><?= traducir('amount') ?>
                         </label>
                         <input type="number" class="form-control" id="amount" name="amount" required>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">
-                            <i class="bi bi-cash-coin me-1"></i><?= $GLOBALS['translations'][$lang]['description'] ?>
+                            <i class="bi bi-cash-coin me-1"></i><?= traducir('description') ?>
                         </label>
                         <input type="text" class="form-control" id="description" name="description" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">
-                            <i class="bi bi-arrow-repeat me-1"></i><?= $GLOBALS['translations'][$lang]['transaction_type'] ?>
+                            <i class="bi bi-arrow-repeat me-1"></i><?= traducir('transaction_type') ?>
                         </label>
                         <div class="d-flex gap-3">
                             <div class="form-check flex-grow-1">
                                 <input class="form-check-input" type="radio" name="type" id="deposit" value="D" checked>
                                 <label class="form-check-label w-100 p-3 bg-success bg-opacity-10 rounded" for="deposit">
                                     <i class="bi bi-arrow-down-circle fs-4 text-success me-2"></i>
-                                    <span class="d-block fw-bold"><?= $GLOBALS['translations'][$lang]['deposit'] ?></span>
-                                    <small class="text-muted"><?= $GLOBALS['translations'][$lang]['add_funds'] ?></small>
+                                    <span class="d-block fw-bold"><?= traducir('deposit') ?></span>
+                                    <small class="text-muted"><?= traducir('add_funds') ?></small>
                                 </label>
                             </div>
                             <div class="form-check flex-grow-1">
                                 <input class="form-check-input" type="radio" name="type" id="withdraw" value="W">
                                 <label class="form-check-label w-100 p-3 bg-danger bg-opacity-10 rounded" for="withdraw">
                                     <i class="bi bi-arrow-up-circle fs-4 text-danger me-2"></i>
-                                    <span class="d-block fw-bold"><?= $GLOBALS['translations'][$lang]['withdraw'] ?></span>
-                                    <small class="text-muted"><?= $GLOBALS['translations'][$lang]['withdraw_funds'] ?></small>
+                                    <span class="d-block fw-bold"><?= traducir('withdraw') ?></span>
+                                    <small class="text-muted"><?= traducir('withdraw_funds') ?></small>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle me-2"></i><?= $GLOBALS['translations'][$lang]['confirm_transfer'] ?>
+                            <i class="bi bi-check-circle me-2"></i><?= traducir('confirm_transfer') ?>
                         </button>
                     </div>
                 </form>
@@ -211,14 +210,15 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     </div>
 </div>
 
-  <!-- Modal para Crear Tarjetas -->
+
+ <!-- Modal para Crear Tarjetas -->
 <div class="modal fade" id="createCardModal" tabindex="-1" aria-labelledby="createCardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createCardModalLabel">
                     <i class="bi bi-credit-card me-2"></i>
-                    <?= $GLOBALS['translations'][$lang]['create_card'] ?>
+                    <?= traducir('create_card') ?>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -227,21 +227,21 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                     <div class="mb-3">
                         <label for="cardType" class="form-label">
-                            <i class="bi bi-card-heading me-1"></i><?= $GLOBALS['translations'][$lang]['card_type'] ?>
+                            <i class="bi bi-card-heading me-1"></i><?= traducir('card_type') ?>
                         </label>
                         <select class="form-select" id="cardType" name="cardType" required>
-                            <option value="D"><?= $GLOBALS['translations'][$lang]['debit'] ?></option>
+                            <option value="D"><?= traducir('debit') ?></option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="pin" class="form-label">
-                            <i class="bi bi-lock me-1"></i><?= $GLOBALS['translations'][$lang]['pin'] ?>
+                            <i class="bi bi-lock me-1"></i><?= traducir('pin') ?>
                         </label>
                         <input type="password" class="form-control" id="pin" name="pin" required>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle me-2"></i><?= $GLOBALS['translations'][$lang]['create_card_btn'] ?>
+                            <i class="bi bi-check-circle me-2"></i><?= traducir('create_card_btn') ?>
                         </button>
                     </div>
                 </form>

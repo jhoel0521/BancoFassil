@@ -12,49 +12,48 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     </a>
 
     <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th><?= $GLOBALS['translations'][$lang]['id'] ?></th>
-                <th><?= $GLOBALS['translations'][$lang]['current_balance'] ?></th>
-                <th><?= $GLOBALS['translations'][$lang]['account_type'] ?></th>
-                <th><?= $GLOBALS['translations'][$lang]['status'] ?></th>
-                <th><?= $GLOBALS['translations'][$lang]['office'] ?></th>
-                <th><?= $GLOBALS['translations'][$lang]['actions'] ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($accounts)): ?>
-                <?php foreach ($accounts as $account): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($account->id) ?></td>
-                        <td><?= htmlspecialchars($account->currentBalance) ?></td>
-                        <td>
-                            <?= $types[$account->type] ?>
-                        </td>
-                        <td>
-                            <?= ($account->status === 'AC') ? $GLOBALS['translations'][$lang]['active'] : $GLOBALS['translations'][$lang]['inactive'] ?>
-                        </td>
-                        <td><?= htmlspecialchars($account->officeId) ?></td>
-                        <td>
-                            <form action="<?= route('account.destroy', ['id' => $account->id]) ?>" method="POST" class="d-inline">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <div class="btn-group">
-                                    <a href="<?= route('account.show', ['id' => $account->id]) ?>" class="btn btn-info btn-sm">
-                                        <?= $GLOBALS['translations'][$lang]['view'] ?>
-                                    </a>
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <?= $GLOBALS['translations'][$lang]['delete'] ?>
-                                    </button>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+    <thead>
+        <tr>
+            <th><?= traducir('id') ?></th>
+            <th><?= traducir('current_balance') ?></th>
+            <th><?= traducir('account_type') ?></th>
+            <th><?= traducir('status') ?></th>
+            <th><?= traducir('office') ?></th>
+            <th><?= traducir('actions') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($accounts)): ?>
+            <?php foreach ($accounts as $account): ?>
                 <tr>
-                    <td colspan="6" class="text-center"><?= $GLOBALS['translations'][$lang]['no_accounts'] ?></td>
+                    <td><?= htmlspecialchars($account->id) ?></td>
+                    <td><?= htmlspecialchars($account->currentBalance) ?></td>
+                    <td>
+                        <?= $types[$account->type] ?>
+                    </td>
+                    <td>
+                        <?= ($account->status === 'AC') ? traducir('active') : traducir('inactive') ?>
+                    </td>
+                    <td><?= htmlspecialchars($account->officeId) ?></td>
+                    <td>
+                        <form action="<?= route('account.destroy', ['id' => $account->id]) ?>" method="POST" class="d-inline">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <div class="btn-group">
+                                <a href="<?= route('account.show', ['id' => $account->id]) ?>" class="btn btn-info btn-sm">
+                                    <?= traducir('view') ?>
+                                </a>
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <?= traducir('delete') ?>
+                                </button>
+                            </div>
+                        </form>
+                    </td>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="6" class="text-center"><?= traducir('no_accounts') ?></td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
