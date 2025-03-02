@@ -88,7 +88,8 @@ class AccountController extends Controller
         $validator = new Validation();
         $rules = [
             'amount' => 'required|numeric|min:1',
-            'type' => 'required|string|in:D,W'
+            'type' => 'required|string|in:D,W',
+            'description'=>'string'
         ];
         
         if (!$validator->validate($_POST, $rules)) {
@@ -112,8 +113,8 @@ class AccountController extends Controller
         $tf->previousBalance = $account->currentBalance;
         $tf->newBalance = $type === 'D' ? $account->currentBalance + $amount : $account->currentBalance - $amount;
         $tf->amount = $amount;
-        $tf->commentSystem = traducir('Transferencia');
-        $tf->description = traducir('Transferencia de fondos');
+        $tf->commentSystem = $type === 'D'?'Deposito':'Retiro';
+        $tf->description = $_POST['description'];
         $tf->accountId = $accountId;
         $tf->save();
 

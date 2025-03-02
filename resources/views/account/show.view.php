@@ -53,7 +53,8 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                             <?php else: ?>
                                 <i class="bi bi-arrow-up-circle text-danger fs-4 me-3"></i>
                             <?php endif; ?>
-                            <span class="fw-bold"><?= $transaction->description ?></span>
+                            <span class="fw-bold"><?= traducir($transaction->commentSystem) ?></span>
+                            <span class="fw-bold"><?= traducir($transaction->description) ?></span>
                             <div class="text-muted small"><?= $transaction->created_at ?></div>
                         </div>
                         <div class="text-end">
@@ -169,6 +170,12 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                             <i class="bi bi-cash-coin me-1"></i><?= $GLOBALS['translations'][$lang]['amount'] ?>
                         </label>
                         <input type="number" class="form-control" id="amount" name="amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            <i class="bi bi-cash-coin me-1"></i><?= $GLOBALS['translations'][$lang]['description'] ?>
+                        </label>
+                        <input type="text" class="form-control" id="description" name="description" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">
