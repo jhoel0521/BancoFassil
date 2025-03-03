@@ -116,5 +116,8 @@ return [
     'view' => 'Ver',
     'delete' => 'Eliminar',
     'no_accounts' => 'No hay cuentas registradas.',
-    'Deposito'=>'Deposito'
+    'Deposito' => 'Deposito',
+    'enabledForOnlinePurchases' => 'Habilitado para compras por internet',
+    'enable' => 'Habilitar',
+    'disable' => 'Deshabilitar',
 ];

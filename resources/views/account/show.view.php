@@ -96,6 +96,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                     <div class="col-md-6 col-xl-4 mb-4">
                         <div class="card border-<?= $card->cardType === 'D' ? 'primary' : 'warning' ?>">
                             <div class="card-body">
+                                <!-- Encabezado de la tarjeta -->
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="card-title mb-0">
                                         <i class="bi bi-credit-card-2-front me-2"></i>
@@ -104,6 +105,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                     <i class="bi bi-<?= $card->cardType === 'D' ? 'safe' : 'cash-coin' ?> fs-4"></i>
                                 </div>
 
+                                <!-- Número de la tarjeta -->
                                 <div class="mb-3">
                                     <div class="text-muted small"><?= traducir('card_number') ?></div>
                                     <div class="d-flex align-items-center">
@@ -111,14 +113,17 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                             <?= substr($card->cardNumber, 0, 4) ?>
                                             <?= substr($card->cardNumber, 4, 4) ?>
                                             <?= substr($card->cardNumber, 8, 4) ?>
+                                        </span>
+                                        <span>
                                             <?= substr($card->cardNumber, 12, 4) ?>
                                         </span>
                                         <button class="btn btn-sm btn-outline-secondary toggle-numberCard">
-                                            <i class="bi bi-eye"></i>
+                                            <i class="bi bi-eye-slash"></i>
                                         </button>
                                     </div>
                                 </div>
 
+                                <!-- CVV y PIN -->
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="text-muted small"><?= traducir('cvv') ?></div>
@@ -137,9 +142,33 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                     </div>
                                 </div>
 
+                                <!-- Fecha de expiración -->
                                 <div class="mt-3 text-muted small">
                                     <i class="bi bi-calendar-check me-1"></i>
                                     <?= traducir('expires') ?>: <?= $card->expirationDate ?>
+                                </div>
+
+                                <!-- Habilitar/Deshabilitar compras en línea -->
+                                <div class="mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="bi bi-globe me-1"></i>
+                                            <span class="small"><?= traducir('enabledForOnlinePurchases') ?></span>
+                                        </div>
+                                        <div>
+                                            <form action="<?= route('account.purchaseOnline', ['idAccont' => $account->id, 'idCard' => $card->id]) ?>" method="POST" class="d-inline">
+                                                <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="onlinePurchasesSwitch"
+                                                        <?= $card->enabledForOnlinePurchases ? 'checked' : '' ?>
+                                                        onchange="this.form.submit()">
+                                                    <label class="form-check-label" for="onlinePurchasesSwitch">
+                                                        <?= $card->enabledForOnlinePurchases ? traducir('enabled') : traducir('disabled') ?>
+                                                    </label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +179,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     </div>
 </div>
 
- <!-- Modal para Transferencias -->
+<!-- Modal para Transferencias -->
 <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -210,7 +239,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     </div>
 </div>
 
- <!-- Modal para Crear Tarjetas -->
+<!-- Modal para Crear Tarjetas -->
 <div class="modal fade" id="createCardModal" tabindex="-1" aria-labelledby="createCardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -269,9 +298,22 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     });
 
     document.querySelectorAll('.toggle-numberCard').forEach(button => {
-        button.addEventListener('click', () => {
-            const icon = button.querySelector('i');
-            const numberCardSpan = button.previousElementSibling;
+        button.addEventListener('click', (event) => {
+            const btn = event.currentTarget;
+            const span = btn.parentElement.querySelector('.numberCard');
+            const icon = btn.querySelector('i');
+
+            if (span.dataset.oldText) {
+                span.textContent = span.dataset.oldText;
+                delete span.dataset.oldText;
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                span.dataset.oldText = span.textContent;
+                span.textContent = '**** **** **** ****';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
         });
     });
 </script>

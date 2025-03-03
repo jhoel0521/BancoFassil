@@ -74,8 +74,8 @@ class AccountController extends Controller
             'transactions' => Transaction::where('accountId', '=', $accountId)
                 ->orderBy('created_at', 'DESC')
                 ->limit(5)
-                ->get()
-                ,'title'=>traducir('Cuenta')
+                ->get(),
+            'title' => traducir('Cuenta')
         ]);
     }
 
@@ -90,7 +90,7 @@ class AccountController extends Controller
         $rules = [
             'amount' => 'required|numeric|min:1',
             'type' => 'required|string|in:D,W',
-            'description'=>'string'
+            'description' => 'string'
         ];
 
         if (!$validator->validate($_POST, $rules)) {
@@ -114,7 +114,7 @@ class AccountController extends Controller
         $tf->previousBalance = $account->currentBalance;
         $tf->newBalance = $type === 'D' ? $account->currentBalance + $amount : $account->currentBalance - $amount;
         $tf->amount = $amount;
-        $tf->commentSystem = $type === 'D'?'Deposito':'Retiro';
+        $tf->commentSystem = $type === 'D' ? 'Deposito' : 'Retiro';
         $tf->description = $_POST['description'];
         $tf->accountId = $accountId;
         $tf->save();
@@ -162,5 +162,16 @@ class AccountController extends Controller
 
         Session::flash('success', traducir('Tarjeta creada correctamente'));
         return redirect(route('account.show', ['id' => $accountId]));
+    }
+    public function purchaseOnline(Request $request, $idAccont, $idCard)
+    {
+        $card = Card::find($idCard);
+        if (!$card || $card->accountId !== $idAccont) {
+            return new Response(traducir('Tarjeta no encontrada'), 404);
+        }
+        $card->enabledForOnlinePurchases = $card->enabledForOnlinePurchases ? 0 : 1;
+        $card->save();
+        Session::flash('success', traducir('Tarjeta actualizada correctamente'));
+        return redirect(route('account.show', ['id' => $idAccont]));
     }
 }
