@@ -143,6 +143,6 @@ return [
     'Cajero automático de Retiro' => 'ATM Withdrawal',
     'Compra en línea' => 'Buy online',
     'enabledForOnlinePurchases' => 'Enabled for online purchases',
-    'enable' => 'Enable',
-    'disable' => 'Disable',
+    'enabled' => 'Enable',
+    'disabled' => 'Disable',
 ];

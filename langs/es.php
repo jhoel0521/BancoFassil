@@ -118,6 +118,6 @@ return [
     'no_accounts' => 'No hay cuentas registradas.',
     'Deposito' => 'Deposito',
     'enabledForOnlinePurchases' => 'Habilitado para compras por internet',
-    'enable' => 'Habilitar',
-    'disable' => 'Deshabilitar',
+    'enabled' => 'Habilitar',
+    'disabled' => 'Deshabilitar',
 ];
