@@ -35,7 +35,7 @@ class AccountController extends Controller
             'type' => 'required|string|max:2',
             'officeId' => 'required|numeric'
         ];
-        
+
         if (!$validator->validate($_POST, $rules)) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
@@ -91,7 +91,7 @@ class AccountController extends Controller
             'type' => 'required|string|in:D,W',
             'description'=>'string'
         ];
-        
+
         if (!$validator->validate($_POST, $rules)) {
             Session::flash('errors', $validator->errors());
             return redirect(route('account.show', ['id' => $accountId]));
@@ -147,13 +147,15 @@ class AccountController extends Controller
             Session::flash('errors', $validator->errors());
             return redirect(route('account.show', ['id' => $accountId]));
         }
-
+        $account->hasCard = true;
+        $account->save();
         $card = new Card();
         $card->cardNumber = Card::generateCardNumber();
         $expirationDate = date('Y-m', strtotime('+4 years'));
         $card->expirationDate = substr($expirationDate, 2);
         $card->cvv = Card::generateCVV();
         $card->pin = password_hash($_POST['pin'], PASSWORD_DEFAULT);
+        $card->enabledForOnlinePurchases = 1;
         $card->accountId = $accountId;
         $card->save();
 

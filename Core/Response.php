@@ -93,4 +93,34 @@ class Response
         Session::flashSet($key, $value);
         return $this;
     }
+    /**
+     * Crea una respuesta JSON
+     * 
+     * @param mixed $data
+     * @param int $statusCode
+     * @param array $headers
+     * @return self
+     */
+    public static function json($data, $statusCode = 200, $headers = [])
+    {
+        $response = new static(json_encode($data), $statusCode, $headers);
+        $response->header('Content-Type', 'application/json');
+        return $response;
+    }
+    /**
+     * Crea una respuesta de error
+     * 
+     * @param string $message
+     * @param int $statusCode
+     * @param array $errors
+     * @return self
+     */
+    public static function error($message, $statusCode = 400, $errors = [])
+    {
+        return static::json([
+            'success' => false,
+            'message' => $message,
+            'errors' => $errors
+        ], $statusCode);
+    }
 }

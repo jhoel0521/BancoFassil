@@ -15,6 +15,8 @@ class Card extends Model
         'cvv',
         'pin',
         'accountId',
+        'status',
+        'enabledForOnlinePurchases',
         'failedAttempts',
     ];
     protected $timestamps = false;
