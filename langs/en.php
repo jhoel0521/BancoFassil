@@ -137,4 +137,9 @@ return [
     'view' => 'View',
     'delete' => 'Delete',
     'no_accounts' => 'No accounts registered.',
+    'Deposito' => 'Deposit',
+    'Retiro' => 'Withdrawal',
+    'Cuenta' => 'Account',
+    'Cajero automático de Retiro' => 'ATM Withdrawal',
+    'Compra en línea' => 'Buy online'
 ];

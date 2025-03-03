@@ -4,7 +4,7 @@ use App\Controllers\AuthApiController;
 use App\Middleware\AuthenticateApi;
 use Core\Router;
 
-// se deve usar la constante API_PREFIX para definir la ruta de la api
+// se debe usar la constante API_PREFIX para definir la ruta de la api
 
 
 // rutas de login

@@ -116,4 +116,5 @@ return [
     'view' => 'Ver',
     'delete' => 'Eliminar',
     'no_accounts' => 'No hay cuentas registradas.',
+    'Deposito'=>'Deposito'
 ];

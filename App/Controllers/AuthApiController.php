@@ -25,7 +25,7 @@ class AuthApiController extends ApiController
             if (!is_numeric($numberCard)) {
                 return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
             }
-            // loega por Card por ende se debe enviar el card y el pin
+            // por Card por ende se debe enviar el card y el pin
             $card = Card::where("cardNumber", "=", $numberCard)->first();
             if (!isset($card)) {
                 return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
@@ -131,7 +131,7 @@ class AuthApiController extends ApiController
         $newTs->previousBalance = $account->currentBalance;
         $newTs->newBalance = $account->currentBalance - $amount;
         $newTs->amount = $amount;
-        $newTs->commentSystem = 'Retiro ATM';
+        $newTs->commentSystem = 'Cajero automático de Retiro';
         $newTs->description = '';
         $newTs->save();
         $account->currentBalance = $newTs->newBalance;

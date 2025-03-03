@@ -75,6 +75,7 @@ class AccountController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->limit(5)
                 ->get()
+                ,'title'=>traducir('Cuenta')
         ]);
     }
 
