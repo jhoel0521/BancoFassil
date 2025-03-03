@@ -17,28 +17,62 @@ class AuthApiController extends ApiController
     public function login(Request $request): Response
     {
         try {
+            $numberCard = $request->cardNumber;
+            if (!isset($numberCard) || empty($numberCard)) {
+                return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
+            }
+            // $numberCard es numero
+            if (!is_numeric($numberCard)) {
+                return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
+            }
             // loega por Card por ende se debe enviar el card y el pin
-            $card = Card::where("cardNumber", "=", $request->cardNumber)->first();
+            $card = Card::where("cardNumber", "=", $numberCard)->first();
             if (!isset($card)) {
                 return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
             }
             if ($card->failedAttempts >= 3) {
                 return $this->error(['message' => 'Tarjeta bloqueada'], StatusCode::UNAUTHORIZED);
             }
-            // verificamos que el pin sea correcto
-            if (!password_verify($request->pin, $card->pin)) {
-                // incrementamos failedAttempts
-                $card->failedAttempts += 1;
+            $pin = $request->pin;
+            $cvv = $request->cvv;
+            $expirationDate = $request->expirationDate;
+            if (isset($pin)) {
+                // verificamos que el pin sea correcto
+                if (!password_verify($pin, $card->pin)) {
+                    // incrementamos failedAttempts
+                    $card->failedAttempts += 1;
+                    $card->save();
+                    return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
+                }
+                $acount = $card->account;
+                $person = $acount->person;
+                $user = $person->user;
+                $token = Token::createToken($user->id, 'ATM', strtotime('+1 hour'));
+                $card->failedAttempts = 0;
                 $card->save();
+                return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
+            } else if (isset($cvv) && isset($expirationDate)) {
+                if ($card->cvv != $cvv || $card->expirationDate != $expirationDate) {
+                    $card->failedAttempts += 1;
+                    $card->save();
+                    return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
+                }
+                if ($card->failedAttempts >= 3) {
+                    return $this->error(['message' => 'Tarjeta bloqueada'], StatusCode::UNAUTHORIZED);
+                }
+                $card->failedAttempts = 0;
+                $card->save();
+                if (!$card->enabledForOnlinePurchases) {
+                    return $this->error(['message' => 'Tarjeta no habilitada para compras en línea'], StatusCode::UNAUTHORIZED);
+                }
+                $acount = $card->account;
+                $person = $acount->person;
+                $user = $person->user;
+                $token = Token::createToken($user->id, 'OL', strtotime('+1 hour'));
+                return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
+            } else {
                 return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
             }
-            $acount = $card->account;
-            $person = $acount->person;
-            $user = $person->user;
-            $token = Token::createToken($user->id, 'ATM', strtotime('+1 hour'));
-            $card->failedAttempts = 0;
-            $card->save();
-            return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
         } catch (\Exception $e) {
             return $this->error(['message' => $e->getMessage(), 'line' => $e->getLine()], StatusCode::INTERNAL_SERVER_ERROR);
         }

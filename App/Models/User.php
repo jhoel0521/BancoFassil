@@ -9,7 +9,7 @@ class User extends Model
 
     protected $table = 'User';
     protected $primaryKey = 'id';
-    protected $fillable = ['username', 'password', 'personId', 'hasCard', 'enabledForOnlinePurchases', 'status'];
+    protected $fillable = ['username', 'password', 'personId', 'hasCard', 'status'];
     protected $hidden = ['password'];
     protected $timestamps = false;
 
@@ -26,7 +26,7 @@ class User extends Model
      *
      * @return bool
      */
-   
+
     public function tokens()
     {
         return $this->hasMany(Token::class, 'userId', 'id');

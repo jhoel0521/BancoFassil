@@ -20,7 +20,6 @@ CREATE TABLE
         password VARCHAR(255) NOT NULL, -- Hash bcrypt
         personId INT UNIQUE NOT NULL,
         hasCard BOOLEAN DEFAULT FALSE,
-        enabledForOnlinePurchases BOOLEAN DEFAULT FALSE,
         status ENUM ('AC', 'IN', 'B') DEFAULT 'AC' COMMENT 'AC: Active, IN: Inactive, B: Blocked',
         FOREIGN KEY (personId) REFERENCES Person (id) ON DELETE CASCADE
     );
@@ -60,6 +59,8 @@ CREATE TABLE
         pin VARCHAR(255) NOT NULL COMMENT 'Hash',
         accountId INT UNIQUE NOT NULL,
         failedAttempts INT DEFAULT 0,
+        enabledForOnlinePurchases BOOLEAN DEFAULT FALSE,
+        status ENUM ('AC', 'IN') DEFAULT 'AC' COMMENT 'AC: Active, IN: Inactive',
         FOREIGN KEY (accountId) REFERENCES Account (id) ON DELETE CASCADE
     );
 

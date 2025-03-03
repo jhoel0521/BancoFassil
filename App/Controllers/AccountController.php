@@ -154,6 +154,7 @@ class AccountController extends Controller
         $card->expirationDate = substr($expirationDate, 2);
         $card->cvv = Card::generateCVV();
         $card->pin = password_hash($_POST['pin'], PASSWORD_DEFAULT);
+        $card->enabledForOnlinePurchases = 1;
         $card->accountId = $accountId;
         $card->save();
 
