@@ -50,7 +50,7 @@ class AuthApiController extends ApiController
                 $token = Token::createToken($user->id, $card->id, 'ATM', strtotime('+1 hour'));
                 $card->failedAttempts = 0;
                 $card->save();
-                $data= $user->getAttributes();
+                $data = $user->getAttributes();
                 unset($data['password']);
                 unset($data['hasCard']);
                 return $this->success(['token' => $token, 'user' => $data]);
@@ -72,7 +72,10 @@ class AuthApiController extends ApiController
                 $person = $acount->person;
                 $user = $person->user;
                 $token = Token::createToken($user->id, $card->id, 'OL', strtotime('+1 hour'));
-                return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
+                $data = $user->getAttributes();
+                unset($data['password']);
+                unset($data['hasCard']);
+                return $this->success(['token' => $token, 'user' => $data]);
             } else {
                 return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
             }
@@ -90,7 +93,7 @@ class AuthApiController extends ApiController
     public function me(Request $request): Response
     {
         $data = $request->user();
-        unset($data['password']);   
+        unset($data['password']);
         unset($data['hasCard']);
         return $this->success(['user' => $data]);
     }
