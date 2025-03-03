@@ -52,7 +52,12 @@ class QueryBuilder
         if (!empty($this->query->where)) {
             $sql .= " WHERE " . implode(' AND ', $this->query->where);
         }
-
+        if (!empty($this->query->orderBy)) {
+            $sql .= " {$this->query->orderBy}";
+        }
+        if (!empty($this->query->limit)) {
+            $sql .= " LIMIT {$this->query->limit}";
+        }
         $results = $this->db->query($sql, $this->bindings)->fetchAll();
         if ($this->modelClass) {
             $results = array_map(function ($result) {
