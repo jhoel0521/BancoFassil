@@ -17,10 +17,6 @@ class User extends Model
     {
         return $this->belongsTo(Person::class, 'personId', 'id');
     }
-    public function createToken(): string
-    {
-        return Token::createToken($this->id);
-    }
     /**
      * Revoca todos los tokens del usuario.
      *

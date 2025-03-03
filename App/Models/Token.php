@@ -8,8 +8,8 @@ class Token extends Model
 {
     protected $table = 'Token';
     protected $primaryKey = 'id';
-    protected $fillable = ['token', 'type', 'expirationDate', 'userId'];
-    protected $timestamps = false;
+    protected $fillable = ['token', 'type', 'expirationDate', 'userId', 'cardId'];
+    protected $timestamps = true;
 
 
     /**
@@ -19,7 +19,7 @@ class Token extends Model
      * @param string $type
      * @return string
      */
-    public static function createToken(int $userId, string $type = 'OL', $limit = null): string
+    public static function createToken(int $userId, int $cardId, string $type = 'OL', $limit = null): string
     {
         // Generar un token único
         $token = bin2hex(random_bytes(32));
@@ -31,6 +31,7 @@ class Token extends Model
         $instacia->type = $type;
         $instacia->expirationDate = $expirationDate;
         $instacia->token = $token;
+        $instacia->cardId = $cardId;
         $instacia->save();
         return $token;
     }
@@ -83,5 +84,9 @@ class Token extends Model
         }
 
         return null;
+    }
+    public function card()
+    {
+        return $this->belongsTo(Card::class, 'cardId');
     }
 }

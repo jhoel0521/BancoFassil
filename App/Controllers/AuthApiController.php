@@ -47,7 +47,7 @@ class AuthApiController extends ApiController
                 $acount = $card->account;
                 $person = $acount->person;
                 $user = $person->user;
-                $token = Token::createToken($user->id, 'ATM', strtotime('+1 hour'));
+                $token = Token::createToken($user->id, $card->id, 'ATM', strtotime('+1 hour'));
                 $card->failedAttempts = 0;
                 $card->save();
                 return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
@@ -68,7 +68,7 @@ class AuthApiController extends ApiController
                 $acount = $card->account;
                 $person = $acount->person;
                 $user = $person->user;
-                $token = Token::createToken($user->id, 'OL', strtotime('+1 hour'));
+                $token = Token::createToken($user->id, $card->id, 'OL', strtotime('+1 hour'));
                 return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
             } else {
                 return $this->error(['message' => 'Datos incorrectos'], StatusCode::UNAUTHORIZED);
@@ -140,7 +140,11 @@ class AuthApiController extends ApiController
         if ($token->type !== 'OL') {
             return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
         }
-        $account = Account::find($request->account_id);
+        $card = Card::find($token->cardId);
+        if (!$card) {
+            return $this->error(['message' => 'Tarjeta no encontrada'], StatusCode::NOT_FOUND);
+        }
+        $account = $card->account;
         if (!$account) {
             return $this->error(['message' => 'Cuenta no encontrada'], StatusCode::NOT_FOUND);
         }
@@ -161,7 +165,7 @@ class AuthApiController extends ApiController
         $newTs->newBalance = $account->currentBalance - $amount;
         $newTs->amount = $amount;
         $newTs->commentSystem = 'Compra en línea';
-        $newTs->description = '';
+        $newTs->description = $request->description;
         $newTs->save();
         $account->currentBalance = $newTs->newBalance;
         $account->save();
