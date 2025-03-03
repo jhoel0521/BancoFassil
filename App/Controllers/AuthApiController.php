@@ -144,6 +144,10 @@ class AuthApiController extends ApiController
         if (!$card) {
             return $this->error(['message' => 'Tarjeta no encontrada'], StatusCode::NOT_FOUND);
         }
+        // validamos que la tarjeta este habilitada para compras en línea
+        if (!$card->enabledForOnlinePurchases) {
+            return $this->error(['message' => 'Tarjeta no habilitada para compras en línea'], StatusCode::UNAUTHORIZED);
+        }
         $account = $card->account;
         if (!$account) {
             return $this->error(['message' => 'Cuenta no encontrada'], StatusCode::NOT_FOUND);
