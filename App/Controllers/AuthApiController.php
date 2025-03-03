@@ -80,8 +80,8 @@ class AuthApiController extends ApiController
 
     public function logout(Request $request): Response
     {
-        $token = $request->header('Authorization');
-        Token::revokeToken($token);
+        $token =  $request->token();
+        $token->delete();
         return $this->success([], StatusCode::NO_CONTENT);
     }
     public function me(Request $request): Response

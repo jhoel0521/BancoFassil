@@ -37,24 +37,6 @@ class Token extends Model
     }
 
     /**
-     * Revoca un token (lo marca como expirado).
-     *
-     * @param string $token
-     * @return bool
-     */
-    public static function revokeToken(string $token): bool
-    {
-        // Marcar el token como expirado
-        $token = self::where('token', '=', $token)->first();
-        if ($token) {
-            $token->expirationDate = date('Y-m-d H:i:s');
-            $token->save();
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Verifica si un token es válido.
      *
      * @param string $token
