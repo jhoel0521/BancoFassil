@@ -210,7 +210,6 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
     </div>
 </div>
 
-
  <!-- Modal para Crear Tarjetas -->
 <div class="modal fade" id="createCardModal" tabindex="-1" aria-labelledby="createCardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
