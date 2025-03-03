@@ -50,7 +50,10 @@ class AuthApiController extends ApiController
                 $token = Token::createToken($user->id, $card->id, 'ATM', strtotime('+1 hour'));
                 $card->failedAttempts = 0;
                 $card->save();
-                return $this->success(['token' => $token, 'user' => $user->getAttributes()]);
+                $data= $user->getAttributes();
+                unset($data['password']);
+                unset($data['hasCard']);
+                return $this->success(['token' => $token, 'user' => ]);
             } else if (isset($cvv) && isset($expirationDate)) {
                 if ($card->cvv != $cvv || $card->expirationDate != $expirationDate) {
                     $card->failedAttempts += 1;
@@ -86,7 +89,10 @@ class AuthApiController extends ApiController
     }
     public function me(Request $request): Response
     {
-        return $this->success(['user' => $request->user()->getAttributes()]);
+        $data = $request->user();
+        unset($data['password']);   
+        unset($data['hasCard']);
+        return $this->success(['user' => $data]);
     }
     public function accounts(Request $request): Response
     {
