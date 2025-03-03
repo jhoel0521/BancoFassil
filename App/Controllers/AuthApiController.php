@@ -53,7 +53,7 @@ class AuthApiController extends ApiController
                 $data= $user->getAttributes();
                 unset($data['password']);
                 unset($data['hasCard']);
-                return $this->success(['token' => $token, 'user' => ]);
+                return $this->success(['token' => $token, 'user' => $data]);
             } else if (isset($cvv) && isset($expirationDate)) {
                 if ($card->cvv != $cvv || $card->expirationDate != $expirationDate) {
                     $card->failedAttempts += 1;
