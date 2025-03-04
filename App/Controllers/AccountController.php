@@ -89,7 +89,7 @@ class AccountController extends Controller
 
         $validator = new Validation();
         $rules = [
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|number|min:0.01|max:99999999.99',
             'type' => 'required|string|in:D,W',
             'description' => 'string|max:255'
         ];
@@ -107,6 +107,13 @@ class AccountController extends Controller
             if ($account->currentBalance <= $amount) {
                 Session::flash('errors', ['amount' => traducir('Saldo insuficiente')]);
                 return Response::json(['errors' => ['amount' => traducir('Saldo insuficiente')]], StatusCode::BAD_REQUEST);
+            }
+        }
+        if ($type === 'D') {
+            $amount = number_format($amount + $account->currentBalance, 2, '.', '');
+            if ($amount > 99999999.99) {
+                Session::flash('errors', ['amount' => traducir('El monto supera el límite permitido')]);
+                return Response::json(['errors' => ['amount' => traducir('El monto supera el límite permitido')]], StatusCode::BAD_REQUEST);
             }
         }
 
