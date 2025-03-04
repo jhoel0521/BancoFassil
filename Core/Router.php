@@ -142,7 +142,9 @@ class Router
      */
     private static function normalizeUri(string $uri): string
     {
-        return '/' . trim(str_replace(BASE_URL, '', $uri), '/');
+        $url= '/' . trim(str_replace(BASE_URL, '', $uri), '/');
+        $url = explode('?', $url)[0];
+        return $url;
     }
     /**
      * Resuelve la acción (controlador y método).
