@@ -1,13 +1,14 @@
 RewriteEngine On
 RewriteBase /BancoFassil/
 
-# Permitir cabeceras personalizadas (Authorization, Accept, etc.)
+
 <IfModule mod_headers.c>
+    # Permitir la cabecera Authorization
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
     # Configurar CORS
     Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-    Header set Access-Control-Allow-Headers "Authorization, Content-Type, Accept, X-Requested-With"
-    Header set Access-Control-Allow-Credentials "true"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control"
 </IfModule>
 
 # Redirigir todas las solicitudes a index.php
