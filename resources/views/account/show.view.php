@@ -1,16 +1,17 @@
 <?php
-// Cargar el idioma desde el archivo de configuraciones
-require_once 'langs/translations.php'; // Ajusta la ruta si es necesario
 
-// Asignar el idioma de la sesión o establecer uno por defecto
-$lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según lo que elijas
+/**
+ * @var \App\Models\Account $account
+ * @var \App\Models\Transaction[] $transactions
+ * @var \App\Models\Card[] $cards
+ */
 ?>
 <!-- show/account.view.php -->
 <div class="container mt-5">
     <!-- Encabezado con saldo actual -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
-            <i class="bi bi-wallet2 me-2"></i><?= traducir('account') ?> #<?= $account->accountNumber ?>
+            <i class="bi bi-wallet2 me-2"></i><?= traducir('account') ?> # <?= str_pad($account->id, 8, '0', STR_PAD_LEFT); ?>
         </h1>
         <div class="d-flex align-items-center bg-primary text-white p-3 rounded-3">
             <i class="bi bi-cash-coin fs-3 me-2"></i>
@@ -159,10 +160,10 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                                             <form action="<?= route('account.purchaseOnline', ['idAccont' => $account->id, 'idCard' => $card->id]) ?>" method="POST" class="d-inline">
                                                 <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="onlinePurchasesSwitch"
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="onlinePurchasesSwitch<?= $card->id ?>"
                                                         <?= $card->enabledForOnlinePurchases ? 'checked' : '' ?>
                                                         onchange="this.form.submit()">
-                                                    <label class="form-check-label" for="onlinePurchasesSwitch">
+                                                    <label class="form-check-label" for="onlinePurchasesSwitch<?= $card->id ?>">
                                                         <?= $card->enabledForOnlinePurchases ? traducir('enabled') : traducir('disabled') ?>
                                                     </label>
                                                 </div>
@@ -191,7 +192,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="<?= route('account.transfer', ['id' => $account->id]) ?>" method="POST">
+                <form action="<?= route('account.transfer', ['id' => $account->id]) ?>" method="POST" id="transferForm">
                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                     <div class="mb-3">
                         <label for="amount" class="form-label">
@@ -203,7 +204,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                         <label for="description" class="form-label">
                             <i class="bi bi-cash-coin me-1"></i><?= traducir('description') ?>
                         </label>
-                        <input type="text" class="form-control" id="description" name="description" required>
+                        <input type="text" class="form-control" id="description" name="description">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">
@@ -234,6 +235,42 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                         </button>
                     </div>
                 </form>
+                <script>
+                    document.getElementById('transferForm').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const form = event.currentTarget;
+                        const data = new FormData(form);
+                        fetch(form.action, {
+                                method: 'POST',
+                                body: data
+                            }).then(response => response.json())
+                            .then(data => {
+                                if (data.errors) {
+                                    const errors = data.errors;
+                                    if (errors.general) {
+                                        const feedback = document.createElement('div');
+                                        feedback.classList.add('alert', 'alert-danger');
+                                        feedback.textContent = errors.general;
+                                        form.prepend(feedback);
+                                    }
+                                    for (const key in errors) {
+                                        const input = form.querySelector(`[name="${key}"]`);
+                                        const feedback = document.createElement('div');
+                                        feedback.classList.add('invalid-feedback');
+                                        if (Array.isArray(errors[key])) {
+                                            feedback.textContent = errors[key].join(', ');
+                                        } else {
+                                            feedback.textContent = errors[key];
+                                        }
+                                        input.classList.add('is-invalid');
+                                        input.after(feedback);
+                                    }
+                                } else {
+                                    window.location.reload();
+                                }
+                            });
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -251,7 +288,7 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="<?= route('card.create', ['id' => $account->id]) ?>" method="POST">
+                <form action="<?= route('card.create', ['id' => $account->id]) ?>" method="POST" id="createCardForm">
                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                     <div class="mb-3">
                         <label for="cardType" class="form-label">
@@ -273,6 +310,42 @@ $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'es'; // o 'en', según l
                         </button>
                     </div>
                 </form>
+                <script>
+                    document.getElementById('createCardForm').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const form = event.currentTarget;
+                        const data = new FormData(form);
+                        fetch(form.action, {
+                                method: 'POST',
+                                body: data
+                            }).then(response => response.json())
+                            .then(data => {
+                                if (data.errors) {
+                                    const errors = data.errors;
+                                    if (errors.general) {
+                                        const feedback = document.createElement('div');
+                                        feedback.classList.add('alert', 'alert-danger');
+                                        feedback.textContent = errors.general;
+                                        form.prepend(feedback);
+                                    }
+                                    for (const key in errors) {
+                                        const input = form.querySelector(`[name="${key}"]`);
+                                        const feedback = document.createElement('div');
+                                        feedback.classList.add('invalid-feedback');
+                                        if (Array.isArray(errors[key])) {
+                                            feedback.textContent = errors[key].join(', ');
+                                        } else {
+                                            feedback.textContent = errors[key];
+                                        }
+                                        input.classList.add('is-invalid');
+                                        input.after(feedback);
+                                    }
+                                } else {
+                                    window.location.reload();
+                                }
+                            });
+                    });
+                </script>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Enums\StatusCode;
 use App\Models\Account;
 use App\Models\Card;
 use App\Models\Office;
@@ -83,19 +84,19 @@ class AccountController extends Controller
     {
         $account = Account::find($accountId);
         if (!$account || $account->personId !== auth()->personId) {
-            return new Response(traducir('Cuenta no encontrada'), 404);
+            return  Response::json(['errors' => ['general' => traducir('Cuenta no encontrada')]], StatusCode::NOT_FOUND);
         }
 
         $validator = new Validation();
         $rules = [
             'amount' => 'required|numeric|min:1',
             'type' => 'required|string|in:D,W',
-            'description' => 'string'
+            'description' => 'string|max:255'
         ];
 
         if (!$validator->validate($_POST, $rules)) {
             Session::flash('errors', $validator->errors());
-            return redirect(route('account.show', ['id' => $accountId]));
+            return Response::json(['errors' => $validator->errors()], StatusCode::BAD_REQUEST);
         }
 
         $amount = $_POST['amount'];
@@ -105,7 +106,7 @@ class AccountController extends Controller
             // Validar que tenga saldo suficiente
             if ($account->currentBalance <= $amount) {
                 Session::flash('errors', ['amount' => traducir('Saldo insuficiente')]);
-                return redirect(route('account.show', ['id' => $accountId]));
+                return Response::json(['errors' => ['amount' => traducir('Saldo insuficiente')]], StatusCode::BAD_REQUEST);
             }
         }
 
@@ -119,23 +120,18 @@ class AccountController extends Controller
         $tf->accountId = $accountId;
         $tf->save();
 
-        if ($type === 'W' && $account->currentBalance < $amount) {
-            Session::flash('errors', ['amount' => traducir('Saldo insuficiente')]);
-            return redirect(route('account.show', ['id' => $accountId]));
-        }
-
         $account->currentBalance = $type === 'D' ? $account->currentBalance + $amount : $account->currentBalance - $amount;
         $account->save();
 
         Session::flash('success', traducir('Transferencia realizada correctamente'));
-        return redirect(route('account.show', ['id' => $accountId]));
+        return Response::json(['success' => traducir('Transferencia realizada correctamente')], StatusCode::CREATED);
     }
 
     public function createCard(Request $request, $accountId): Response
     {
         $account = Account::find($accountId);
         if (!$account || $account->personId !== auth()->personId) {
-            return new Response(traducir('Cuenta no encontrada'), 404);
+            return Response::json(['errors' => ['general' => traducir('Cuenta no encontrada')]], StatusCode::NOT_FOUND);
         }
 
         $validator = new Validation();
@@ -144,9 +140,9 @@ class AccountController extends Controller
             'cardType' => 'required|string|max:1|in:D',
         ];
 
-        if (!$validator->validate($_POST, $rules)) {
+        if (!$validator->validate($request->all(), $rules)) {
             Session::flash('errors', $validator->errors());
-            return redirect(route('account.show', ['id' => $accountId]));
+            return Response::json(['errors' => $validator->errors()], StatusCode::BAD_REQUEST);
         }
         $account->hasCard = true;
         $account->save();
@@ -161,7 +157,7 @@ class AccountController extends Controller
         $card->save();
 
         Session::flash('success', traducir('Tarjeta creada correctamente'));
-        return redirect(route('account.show', ['id' => $accountId]));
+        return Response::json(['success' => traducir('Tarjeta creada correctamente')], StatusCode::CREATED);
     }
     public function purchaseOnline(Request $request, $idAccont, $idCard)
     {

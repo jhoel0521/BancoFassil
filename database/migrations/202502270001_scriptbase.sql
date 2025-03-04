@@ -58,7 +58,7 @@
             cardType ENUM ('D', 'C') NOT NULL COMMENT 'D: Debit, C: Credit',
             cvv VARCHAR(3) NOT NULL,
             pin VARCHAR(255) NOT NULL COMMENT 'Hash',
-            accountId INT UNIQUE NOT NULL,
+            accountId INT NOT NULL,
             failedAttempts INT DEFAULT 0,
             enabledForOnlinePurchases BOOLEAN DEFAULT FALSE,
             status ENUM ('AC', 'IN') DEFAULT 'AC' COMMENT 'AC: Active, IN: Inactive',
