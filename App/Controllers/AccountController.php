@@ -110,8 +110,8 @@ class AccountController extends Controller
             }
         }
         if ($type === 'D') {
-            $amount = number_format($amount + $account->currentBalance, 2, '.', '');
-            if ($amount > 99999999.99) {
+            $amountLimit = number_format($amount + $account->currentBalance, 2, '.', '');
+            if ($amountLimit > 99999999.99) {
                 Session::flash('errors', ['amount' => traducir('El monto supera el límite permitido')]);
                 return Response::json(['errors' => ['amount' => traducir('El monto supera el límite permitido')]], StatusCode::BAD_REQUEST);
             }

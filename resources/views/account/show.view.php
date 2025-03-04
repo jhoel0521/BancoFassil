@@ -55,7 +55,12 @@
                                 <i class="bi bi-arrow-up-circle text-danger fs-4 me-3"></i>
                             <?php endif; ?>
                             <span class="fw-bold"><?= traducir($transaction->commentSystem) ?></span>
-                            <span class="fw-bold"><?= traducir($transaction->description) ?></span>
+                            <?php if (!empty($transaction->description)): ?>
+                                <div class="text-muted small"> <span class="fw-bold"><?= traducir('description') ?>: </span> <?= $transaction->description ?></div>
+                            <?php else: ?>
+                                <div class="text-muted
+                                small"><?= traducir('no_description') ?></div>
+                            <?php endif; ?>
                             <div class="text-muted small"><?= $transaction->created_at ?></div>
                         </div>
                         <div class="text-end">

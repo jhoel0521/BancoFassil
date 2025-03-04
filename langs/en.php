@@ -154,4 +154,5 @@ return [
     'terms' => 'Terms',
     'officeId' => 'Office',
     'El monto supera el límite permitido' => 'The amount exceeds the allowed limit',
+    'no_description' => 'No description',
 ];

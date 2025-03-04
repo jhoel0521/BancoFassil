@@ -128,4 +128,5 @@ return [
     'type' => 'Tipo',
     'terms' => 'Términos',
     'officeId' => 'Oficina',
+    'no_description' => 'Sin descripción',
 ];
