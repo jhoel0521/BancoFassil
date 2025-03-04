@@ -169,4 +169,7 @@ return [
     'cajeros_automaticos' => 'ATMs',
     'tienda_virtual_desc' => 'Simulate purchases in our associated virtual store',
     'operaciones_protegidas' => 'All operations are protected with our banking security system.',
+    'transferir_fondos' => 'Transfer funds',
+    'gestionar_tarjetas' => 'Manage cards',
+    'compra_en_línea' => 'Online purchase',
 ];

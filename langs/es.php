@@ -143,4 +143,7 @@ return [
     'cajeros_automaticos' => 'Cajeros Automáticos',
     'tienda_virtual_desc' => 'Simula compras en nuestra tienda virtual asociada',
     'operaciones_protegidas' => 'Todas las operaciones están protegidas con nuestro sistema de seguridad bancaria.',
+    'transferir_fondos' => 'Transferir fondos',
+    'gestionar_tarjetas' => 'Gestionar tarjetas',
+    'compra_en_línea' => 'Compra en línea',
 ];
