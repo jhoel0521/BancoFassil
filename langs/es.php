@@ -120,4 +120,9 @@ return [
     'enabledForOnlinePurchases' => 'Habilitado para compras por internet',
     'enabled' => 'Habilitar',
     'disabled' => 'Deshabilitar',
+    'name' => 'Nombre',
+    'email' => 'Correo Electrónico',
+    'phone' => 'Teléfono',
+    'user' => 'Usuario',
+    'password' => 'Contraseña',
 ];

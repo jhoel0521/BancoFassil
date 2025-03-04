@@ -145,4 +145,10 @@ return [
     'enabledForOnlinePurchases' => 'Enabled for online purchases',
     'enabled' => 'Enable',
     'disabled' => 'Disable',
+    'name' => 'Name',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'user' => 'User',
+    'password' => 'Password',
+    
 ];

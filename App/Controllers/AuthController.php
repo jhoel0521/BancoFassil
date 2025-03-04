@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Core\Request;
 use Core\Router;
 use Core\Session;
 use Core\Validation;
@@ -71,7 +72,7 @@ class AuthController extends Controller
         return view('auth.register', ['title' => traducir('registrarse')]);
     }
 
-    public function register()
+    public function register(Request $request)
     {
         // Validar CSRF Token
         if (!csrf_verify($_POST['_token'])) {
@@ -85,12 +86,12 @@ class AuthController extends Controller
         $rules = [
             'name' => 'required|string|max:50',
             'email' => 'required|email|max:100|unique:Person,email',
-            'phone' => 'nullable|string|max:20',
-            'user' => 'required|string|max:50|unique:User,user',
-            'password' => 'required|string|min:8|max:16|confirmed'
+            'phone' => 'nullable|string|max:20|min:8',
+            'user' => 'required|string|max:50|unique:User,username',
+            'password' => 'required|string|min:8|max:16|confirmed',
+            'terms' => 'required|in:on',
         ];
-
-        if (!$validator->validate($_POST, $rules)) {
+        if (!$validator->validate($request->all(), $rules)) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
             return redirect(route('register'));

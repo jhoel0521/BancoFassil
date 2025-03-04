@@ -42,9 +42,11 @@
                                 class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>"
                                 name="name"
                                 value="<?= $old['name'] ?? '' ?>">
-                            <?php if (isset($errors['name'])): ?>
-                                <div class="invalid-feedback"><?= traducir('Nombre Invalido') ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['name'])):
+                                foreach ($errors['name'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Email -->
@@ -54,9 +56,11 @@
                                 class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
                                 name="email"
                                 value="<?= $old['email'] ?? '' ?>">
-                            <?php if (isset($errors['email'])): ?>
-                                <div class="invalid-feedback"><?= traducir('Email Invalido') ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['email'])):
+                                foreach ($errors['email'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Teléfono -->
@@ -66,9 +70,11 @@
                                 class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
                                 name="phone"
                                 value="<?= $old['phone'] ?? '' ?>">
-                            <?php if (isset($errors['phone'])): ?>
-                                <div class="invalid-feedback"><?= traducir('Phone Invalido') ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['phone'])):
+                                foreach ($errors['phone'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Usuario -->
@@ -78,9 +84,11 @@
                                 class="form-control <?= isset($errors['user']) ? 'is-invalid' : '' ?>"
                                 name="user"
                                 value="<?= $old['user'] ?? '' ?>">
-                            <?php if (isset($errors['user'])): ?>
-                                <div class="invalid-feedback"><?= traducir('User Invalido') ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['user'])):
+                                foreach ($errors['user'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Contraseña -->
@@ -89,9 +97,11 @@
                             <input type="password"
                                 class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
                                 name="password">
-                            <?php if (isset($errors['password'])): ?>
-                                <div class="invalid-feedback"><?= traducir('Password Invalido') ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['password'])):
+                                foreach ($errors['password'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Confirmar Contraseña -->
@@ -109,11 +119,13 @@
                                 id="terms"
                                 <?= isset($old['terms']) ? 'checked' : '' ?>>
                             <label class="form-check-label" for="terms">
-                                 <?= traducir('Acepto los términos y condiciones') ?>
+                                <?= traducir('Acepto los términos y condiciones') ?>
                             </label>
-                            <?php if (isset($errors['terms'])): ?>
-                                <div class="invalid-feedback"><?= traducir('Debes aceptar los términos y condiciones') ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['terms'])):
+                                foreach ($errors['terms'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
@@ -125,7 +137,7 @@
                 <div class="card-footer text-center">
                     <?= traducir('Ya tienes una cuenta?') ?>
                     <a href="<?= route('login') ?>" class="text-decoration-none">
-                         <?= traducir('Inicia sesión') ?>
+                        <?= traducir('Inicia sesión') ?>
                     </a>
                 </div>
             </div>

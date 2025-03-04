@@ -51,7 +51,7 @@ function traducir(string $key): string
     // Retornar la traducción o la clave si no existe
     return $traducciones[$key] ?? $key;
 }
-function getLanguage()
+function getLanguage(): string
 {
     return $_SESSION['lang'] ?? 'es';
 }
