@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BancoFassil - <?= $title ?? traducir('title') ?></title>
+    <!-- meta - ceo -->
+    <meta property="og:title" content="BancoFassil - <?= $title ?? traducir('title') ?>">
+    <meta property="og:description" content="<?= traducir('descripcion') ?>">
+    <meta property="og:image" content="<?= asset('images/logo-bancofassil.jpg') ?>">
+    <meta property="og:url" content="<?= currentUrl() ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="<?= getLanguage() === 'es' ? 'es_ES' : 'en_US' ?>">
+
     <!-- ico -->
     <link rel="icon" href="<?= asset('images/favicon.ico') ?>" type="image/x-icon">
     <!-- Bootstrap CSS -->

@@ -53,6 +53,9 @@ function traducir(string $key): string
 }
 function getLanguage(): string
 {
+    if (isset($_GET['lang'])) {
+        $_SESSION['lang'] = $_GET['lang'];
+    }
     return $_SESSION['lang'] ?? 'es';
 }
 function loadEnv($path)
