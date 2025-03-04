@@ -17,7 +17,7 @@ class AuthController extends Controller
         return view('auth.login', ['title' => traducir('inicia_sesión')]);
     }
 
-    public function login()
+    public function login(Request $request)
     {
         // Validar datos
         $validator = new Validation();
@@ -25,14 +25,15 @@ class AuthController extends Controller
             'user' => 'required|string|max:50',
             'password' => 'required|min:8|max:16'
         ];
-        if (!$validator->validate($_POST, $rules)) {
+        if (!$validator->validate($request->all(), $rules)) {
             Session::flash('errors', $validator->errors());
-            Session::flash('old', $_POST);
+            Session::flash('old', $request->all());
             return redirect(route('login'));
         }
-
+        $user = $request->all()['user'];
+        $password = $request->all()['password'];
         // Autenticar usuario
-        $user = $this->attempt($_POST['user'], $_POST['password']);
+        $user = $this->attempt($user, $password);
 
         if ($user) {
             Session::set('user', $user);

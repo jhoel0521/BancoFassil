@@ -125,4 +125,7 @@ return [
     'phone' => 'Teléfono',
     'user' => 'Usuario',
     'password' => 'Contraseña',
+    'type' => 'Tipo',
+    'terms' => 'Términos',
+    'officeId' => 'Oficina',
 ];

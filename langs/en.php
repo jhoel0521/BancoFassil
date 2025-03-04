@@ -150,5 +150,7 @@ return [
     'phone' => 'Phone',
     'user' => 'User',
     'password' => 'Password',
-    
+    'type' => 'Type',
+    'terms' => 'Terms',
+    'officeId' => 'Office',
 ];

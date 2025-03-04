@@ -20,9 +20,11 @@
                                 name="user"
                                 value="<?= $old['user'] ?? '' ?>"
                                 required>
-                            <?php if (isset($errors['user'])): ?>
-                                <div class="invalid-feedback"><?= $errors['user'] ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['user'])):
+                                foreach ($errors['user'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Contraseña -->
@@ -34,9 +36,11 @@
                                 name="password"
                                 minlength="8"
                                 required>
-                            <?php if (isset($errors['password'])): ?>
-                                <div class="invalid-feedback"><?= $errors['password'] ?? '' ?></div>
-                            <?php endif; ?>
+                            <?php if (isset($errors['password'])):
+                                foreach ($errors['password'] as $error): ?>
+                                    <div class="invalid-feedback"><?= $error ?></div>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <!-- Sección de errores generales -->
@@ -44,7 +48,7 @@
                             <div class="alert alert-danger"><?= $errors['general'] ?></div>
                         <?php endif; ?>
 
-                            <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-box-arrow-in-right me-2"></i> <?= traducir('inicia_sesión') ?>
                         </button>
                     </form>
