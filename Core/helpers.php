@@ -63,7 +63,7 @@ function view($view, $data = [], $layout = 'layouts/app', $statusCode = 200): \C
 
     // Convertir la ruta de la vista a un path de archivo
     $viewPath = str_replace('.', DIRECTORY_SEPARATOR, $view);
-    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $viewPath . '.view.php';
+    $path = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $viewPath . '.view.php';
 
     // Verificar si la vista existe
     if (!file_exists($path)) {
@@ -84,7 +84,7 @@ function view($view, $data = [], $layout = 'layouts/app', $statusCode = 200): \C
     }
 
     // Si se especifica un layout, usarlo
-    $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
+    $layoutPath = BASE_ROUTE . 'resources' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $layout) . '.view.php';
 
     // Verificar si el layout existe
     if (file_exists($layoutPath)) {

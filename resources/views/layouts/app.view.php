@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BancoFassil - <?=$title??traducir('title')?></title>
+    <title>BancoFassil - <?= $title ?? traducir('title') ?></title>
     <!-- ico -->
     <link rel="icon" href="<?= asset('images/favicon.ico') ?>" type="image/x-icon">
     <!-- Bootstrap CSS -->
@@ -39,7 +39,7 @@
         <nav class="navbar navbar-expand-lg container">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="<?= route('home') ?>">
-                    <img src="<?= asset('images/logo-BancoFassil.jpg') ?>" alt="BancoFassil" class="rounded-circle me-2"
+                    <img src="<?= asset('images/logo-bancofassil.jpg') ?>" alt="BancoFassil" class="rounded-circle me-2"
                         style="width: 50px; height: 50px; object-fit: cover;">
                     <h1 class="h4 mb-0">BancoFassil</h1>
                 </a>
