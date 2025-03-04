@@ -146,4 +146,5 @@ return [
     'transferir_fondos' => 'Transferir fondos',
     'gestionar_tarjetas' => 'Gestionar tarjetas',
     'compra_en_línea' => 'Compra en línea',
+    'descripcion-meta' => 'Simulación del sistema bancario de Banco Fassil (Bolivia). Proyecto educativo para la materia de Desarrollo de Sistemas I en la UPDS. Explora cómo funcionaría un banco en línea.',
 ];

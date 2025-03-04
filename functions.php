@@ -28,8 +28,7 @@ function route(string $name, $parameters = []): string
 
 function asset($path)
 {
-    $baseUrl = BASE_URL . '/public/';
-
+    $baseUrl = getBaseUrl() . BASE_URL . '/public/';
     // Elimina la barra inicial si existe en el path
     $path = ltrim($path, '/');
 
@@ -96,4 +95,10 @@ function currentUrl(): string
     $host = $_SERVER['HTTP_HOST'];
     $uri = $_SERVER['REQUEST_URI'];
     return $protocol . $host . $uri;
+}
+function getBaseUrl(): string
+{
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    return $protocol . $host;
 }

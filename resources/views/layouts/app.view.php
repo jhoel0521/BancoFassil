@@ -7,7 +7,7 @@
     <title>BancoFassil - <?= $title ?? traducir('title') ?></title>
     <!-- meta - ceo -->
     <meta property="og:title" content="BancoFassil - <?= $title ?? traducir('title') ?>">
-    <meta property="og:description" content="<?= traducir('descripcion') ?>">
+    <meta property="og:description" content="<?= traducir('descripcion-meta') ?>">
     <meta property="og:image" content="<?= asset('images/logo-bancofassil.jpg') ?>">
     <meta property="og:url" content="<?= currentUrl() ?>">
     <meta property="og:type" content="website">

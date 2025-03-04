@@ -172,4 +172,5 @@ return [
     'transferir_fondos' => 'Transfer funds',
     'gestionar_tarjetas' => 'Manage cards',
     'compra_en_línea' => 'Online purchase',
+    'descripcion-meta' => "Simulation of Banco Fassil's banking system (Bolivia). Educational project for the Development of Systems I course at UPDS. Explore how an online bank would work.",
 ];
