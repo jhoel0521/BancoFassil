@@ -13,7 +13,7 @@ Router::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Router::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Router::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Router::post('/register', [AuthController::class, 'register'])->name('auth.register');
-
+Router::get('/services', [HomeController::class, 'services'])->name('home.services');
 
 Router::get('/change-language/{lang}', [ChangeLanguageController::class, 'changeLanguage'])->name('change.language');
 

@@ -56,7 +56,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#services">
+                            <a class="nav-link text-white" href="<?= route('home.services') ?>">
                                 <i class="bi bi-wallet2 me-1"></i> <?= traducir('servicios') ?>
                             </a>
                         </li>
