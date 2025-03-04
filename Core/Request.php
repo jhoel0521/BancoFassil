@@ -11,14 +11,6 @@ class Request
     protected $token;
     public function __construct()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-        header("Access-Control-Allow-Headers: Authorization, Content-Type, Accept, X-Requested-With");
-        header("Access-Control-Allow-Credentials: true");
-        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            header("HTTP/1.1 200 OK");
-            exit();
-        }
         // Obtenemos los datos de la solicitud
         $this->data = json_decode(file_get_contents('php://input'), true);
     }
