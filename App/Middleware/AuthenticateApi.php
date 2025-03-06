@@ -13,6 +13,9 @@ class AuthenticateApi
     {
         // Obtener el token del encabezado Authorization
         $token = $request->header('Authorization');
+        if (empty($token)) {
+            $token = $request->getHeaders()['X-Mi-Token'];
+        }
 
         // Verificar el formato del token
         if (empty($token) || !is_string($token) || !str_starts_with($token, 'Bearer ')) {

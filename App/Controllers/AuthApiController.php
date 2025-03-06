@@ -92,7 +92,7 @@ class AuthApiController extends ApiController
     }
     public function me(Request $request): Response
     {
-        $data = $request->user();
+        $data = $request->user()->getAttributes();
         unset($data['password']);
         unset($data['hasCard']);
         return $this->success(['user' => $data]);
