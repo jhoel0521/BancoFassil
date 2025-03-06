@@ -104,7 +104,7 @@ class AccountController extends Controller
 
         if ($type === 'W') {
             // Validar que tenga saldo suficiente
-            if ($account->currentBalance <= $amount) {
+            if ($account->currentBalance < $amount) {
                 Session::flash('errors', ['amount' => traducir('Saldo insuficiente')]);
                 return Response::json(['errors' => ['amount' => traducir('Saldo insuficiente')]], StatusCode::BAD_REQUEST);
             }
