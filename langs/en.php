@@ -15,6 +15,7 @@ return [
     'sucursales_desc' => 'Find our network of branches nationwide',
     'historial' => 'Transaction History',
     'historial_desc' => 'Check and download your banking transactions',
+    'Bienvenido'=> 'Welcome',
 
 
 

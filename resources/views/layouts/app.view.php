@@ -47,7 +47,7 @@
         <nav class="navbar navbar-expand-lg container">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="<?= route('home') ?>">
-                    <img src="<?= asset('images/logo-bancofassil.jpg') ?>" alt="BancoFassil" class="rounded-circle me-2"
+                    <img src="<?= asset('images/logo-bancofassil.webp') ?>" alt="BancoFassil" class="rounded-circle me-2"
                         style="width: 50px; height: 50px; object-fit: cover;">
                     <h1 class="h4 mb-0">BancoFassil</h1>
                 </a>

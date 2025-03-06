@@ -22,6 +22,7 @@
         <div class="container text-center py-5">
             <h2 class="display-4 mb-4"><?= traducir('bienvenida') ?></h2>
             <p class="lead mb-4"><?= traducir('subtítulo') ?></p>
+            <p class="lead mb-4"><?= traducir('descripcion-meta') ?></p>
             <div class="d-flex gap-3 justify-content-center">
                 <?php if (isAuth()): ?>
                     <a class="btn btn-primary btn-lg" href="<?= route('account.index') ?>">
