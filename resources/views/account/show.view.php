@@ -205,7 +205,7 @@
                         <label for="amount" class="form-label">
                             <i class="bi bi-cash-coin me-1"></i><?= traducir('amount') ?>
                         </label>
-                        <input type="number" class="form-control" id="amount" name="amount" required>
+                        <input type="number" class="form-control" id="amount" name="amount" required step="0.01">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">
