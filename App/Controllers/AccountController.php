@@ -220,16 +220,24 @@ class AccountController extends Controller
         $from = $request->input('from', null);
         $to = $request->input('to', null);
         if (isset($from) && isset($to)) {
-            $accounts = Account::with(['transactions', 'person'])
-                ->whereHas('transactions', function ($query) use ($from, $to) {
-                    $query->whereBetween('created_at', [$from, $to]);
-                })
+            $transactions = Transaction::query()
+                ->whereBetween('DATE(created_at)', [$from, $to])
+                ->orderBy('created_at', 'DESC')
                 ->get();
             $isAll = false;
         } else {
-            $accounts = Account::with(['transactions', 'person'])->get();
+            $transactions = Transaction::query()
+                ->orderBy('created_at', 'DESC')
+                ->get();
             $isAll = true;
         }
+        $idAccounts = [];
+        foreach ($transactions as $transaction) {
+            if (!in_array($transaction->accountId, $idAccounts)) {
+                $idAccounts[] = $transaction->accountId;
+            }
+        }
+        $accounts = Account::whereIn('id', $idAccounts)->get();
         $header = new Header(
             traducir('all_accounts_report'),
             traducir('generated_report'),
@@ -238,18 +246,23 @@ class AccountController extends Controller
         $pdf = new PDF($header);
         $pdf->SetTitle(traducir('all_accounts_report'));
         $pdf->AliasNbPages();
-        $idAccount = [];
-        foreach ($accounts as $account) {
-            $idAccount[] = $account->id;
-        }
-        $transactions = Transaction::whereIn('accountId', $idAccount)
-            ->orderBy('created_at', 'DESC')
-            ->get();
+
+
 
         foreach ($accounts as $account) {
             // Agregar sección por cada cuenta
             $pdf->AddPage();
             $pdf->Ln(10);
+            if ($isAll) {
+                $transactions = Transaction::where('accountId', '=', $account->id)
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
+            } else {
+                $transactions = Transaction::where('accountId', '=', $account->id)
+                    ->whereBetween('DATE(created_at)', [$from, $to])
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
+            }
             $this->generateAccountReport($account, $transactions, $pdf, $isAll, $from, $to);
         }
 

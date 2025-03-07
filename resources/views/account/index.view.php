@@ -4,7 +4,7 @@
         <a href="<?= route('account.create') ?>" class="btn btn-primary mb-4">
             <?= traducir('create_account') ?>
         </a>
-        <button class="btn btn-success mb-4"><i class="bi bi-file-pdf-fill"></i> <?= traducir('report_all_accounts') ?></button>
+        <button class="btn btn-success mb-4" data-bs-toggle="modal" data-bs-target="#allReportsModal"><i class="bi bi-file-pdf-fill"></i> <?= traducir('report_all_accounts') ?></button>
     </div>
 
     <table class="table table-bordered table-striped">
@@ -63,6 +63,33 @@
                 <form id="reportForm" method="GET">
                     <div class="modal-body">
                         <!-- rango de fecha opcionales  -->
+                        <div class="mb-3">
+                            <label for="from" class="form-label"><?= traducir('from') ?></label>
+                            <input type="date" class="form-control" id="from" name="from">
+                        </div>
+                        <div class="mb-3">
+                            <label for="to" class="form-label"><?= traducir('to') ?></label>
+                            <input type="date" class="form-control" id="to" name="to">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= traducir('cancel') ?></button>
+                        <button type="submit" class="btn btn-primary"><?= traducir('generate') ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Reporte Total -->
+    <div class="modal fade" id="allReportsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><?= traducir('generate_all_reports') ?></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?= route('accounts.allReports') ?>" method="GET">
+                    <div class="modal-body">
                         <div class="mb-3">
                             <label for="from" class="form-label"><?= traducir('from') ?></label>
                             <input type="date" class="form-control" id="from" name="from">
