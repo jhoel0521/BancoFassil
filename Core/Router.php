@@ -142,7 +142,7 @@ class Router
      */
     private static function normalizeUri(string $uri): string
     {
-        $url= '/' . trim(str_replace(BASE_URL, '', $uri), '/');
+        $url = '/' . trim(str_replace(BASE_URL, '', $uri), '/');
         $url = explode('?', $url)[0];
         return $url;
     }
@@ -156,10 +156,23 @@ class Router
     protected static function resolveAction($action, Request $request, $parameters = [])
     {
         list($controller, $method) = $action;
-        // Verificar si el controlador y el método existen
-        if (class_exists($controller) && method_exists($controller, $method)) {
-            $controllerInstance = new $controller;
-            return $controllerInstance->$method($request, ...$parameters);
+        try {
+
+            // Verificar si el controlador y el método existen
+            if (class_exists($controller) && method_exists($controller, $method)) {
+                $controllerInstance = new $controller;
+                return $controllerInstance->$method($request, ...$parameters);
+            }
+        } catch (\Exception $e) {
+            // si es api mostramos internal server error
+            if (str_starts_with($request->uri(), '/api/')) {
+                return Response::json([
+                    'success' => false,
+                    'message' => 'Error interno del servidor'
+                ], 500);
+            }
+            // si no mostramos la vista de error
+            throw $e;
         }
         // Si no existe, devolver un error 404
         return new Response('Página no encontrada', 404);
