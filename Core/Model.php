@@ -27,21 +27,28 @@ class Model
 
     public function fill(array $attributes)
     {
-        foreach ($attributes as $key => $value) {
-            if (in_array($key, $this->fillable)) {
+        $isHydrating = isset($attributes[$this->primaryKey]);
+
+        if ($isHydrating) {
+            foreach ($attributes as $key => $value) {
                 $this->attributes[$key] = $value;
                 $this->$key = $value;
             }
-        }
-        if (array_key_exists($this->primaryKey, $attributes)) {
-            $this->attributes[$this->primaryKey] = $attributes[$this->primaryKey];
-            $this->{$this->primaryKey} = $attributes[$this->primaryKey];
             $this->exists = true;
+        } else {
+            foreach ($attributes as $key => $value) {
+                if (in_array($key, $this->fillable)) {
+                    $this->attributes[$key] = $value;
+                    $this->$key = $value;
+                }
+            }
         }
-        if ($this->timestamps) {
+
+        if ($this->timestamps && !$this->exists) {
             $this->attributes['created_at'] = $this->attributes['created_at'] ?? date('Y-m-d H:i:s');
             $this->attributes['updated_at'] = $this->attributes['updated_at'] ?? date('Y-m-d H:i:s');
         }
+
         return $this;
     }
 
