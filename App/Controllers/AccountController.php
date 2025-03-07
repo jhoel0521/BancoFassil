@@ -7,6 +7,8 @@ use App\Models\Account;
 use App\Models\Card;
 use App\Models\Office;
 use App\Models\Transaction;
+use Core\Header;
+use Core\PDF;
 use Core\Request;
 use Core\Response;
 use Core\Validation;
@@ -176,5 +178,115 @@ class AccountController extends Controller
         $card->save();
         Session::flash('success', traducir('Tarjeta actualizada correctamente'));
         return redirect(route('account.show', ['id' => $idAccont]));
+    }
+    public function report($id)
+    {
+        $account = Account::with(['transactions', 'person'])->where('id', '=', $id)->first();
+        if (!isset($account) || $account->personId !== auth()->personId) {
+            return new Response(traducir('Cuenta no encontrada'), 404);
+        }
+        $header = new Header(
+            traducir('transaction_history'),
+            traducir('account') . ' N° ' . $account->id,
+            date('d/m/Y H:i')
+        );
+        $pdf = new PDF($header);
+        $pdf->SetTitle(utf8_decode(traducir('transaction_history')));
+        $pdf->AliasNbPages();
+
+        // Configurar contenido del PDF
+        $pdf->AddPage();
+        $pdf->Ln(10);
+        $this->generateAccountReport($account, $pdf);
+        $pdf->Output('I', 'reporte_cuenta_' . $id . '.pdf');
+        exit;
+    }
+
+    public function allReports()
+    {
+        $accounts = Account::with(['transactions', 'person'])->get();
+        $header = new Header(
+            traducir('all_accounts_report'),
+            traducir('generated_report'),
+            date('d/m/Y H:i')
+        );
+
+        $pdf = new PDF($header);
+        $pdf->SetTitle(utf8_decode(traducir('all_accounts_report')));
+        $pdf->AliasNbPages();
+
+        foreach ($accounts as $account) {
+            // Agregar sección por cada cuenta
+            $pdf->AddPage();
+            $pdf->Ln(10);
+            $this->generateAccountReport($account, $pdf);
+        }
+
+        $pdf->Output('I', 'reporte_general.pdf');
+        exit;
+    }
+    // En AccountController.php o en un servicio externo
+    protected function generateAccountReport(Account $account, PDF $pdf): void
+    {
+        // Encabezado de la cuenta
+        $pdf->setLetterTitle(0, 0, 0, 'B');
+        $pdf->Cell(0, 10, traducir('Cuenta N° ') . str_pad($account->id, 8, '0', STR_PAD_LEFT), 0, 1);
+
+        $pdf->setLetterNormal(0, 0, 0);
+        $pdf->Cell(0, 7, traducir('Saldo actual: ') . number_format($account->currentBalance, 2), 0, 1);
+        $pdf->Cell(0, 7, traducir('Cliente: ') . $account->person->name, 0, 1);
+        $pdf->Cell(0, 7, traducir('Fecha de apertura: ') . $account->created_at, 0, 1);
+
+        // Espacio antes de la tabla
+        $pdf->Ln(10);
+
+        // Encabezados de la tabla
+        $pdf->setTitleStyle(true);
+        $pdf->Cell(20, 10, traducir('Tipo'), 1, 0, 'C', true);
+        $pdf->Cell(50, 10, traducir('Descripción'), 1, 0, 'C', true);
+        $pdf->Cell(35, 10, traducir('Fecha y Hora'), 1, 0, 'C', true);
+        $pdf->Cell(30, 10, traducir('Saldo Anterior'), 1, 0, 'C', true);
+        $pdf->Cell(30, 10, traducir('Monto'), 1, 0, 'C', true);
+        $pdf->Cell(30, 10, traducir('Saldo Nuevo'), 1, 1, 'C', true);
+
+        // Contenido de transacciones
+        $pdf->setTitleStyle(false);
+        $fill = false;
+        $totalDepositos = 0;
+        $totalRetiros = 0;
+
+        foreach ($account->transactions as $transaction) {
+            // Alternar color de fondo
+            $fill = !$fill;
+            $pdf->SetFillColor($fill ? 240 : 255);
+
+            // Determinar tipo y color
+            $tipo = $transaction->type == 'DEPOSITO' ? 'Depósito' : 'Retiro';
+            $color = $transaction->type == 'DEPOSITO' ? [0, 100, 0] : [139, 0, 0];
+
+            $pdf->setLetterNormal($color[0], $color[1], $color[2]);
+
+            // Celdas
+            $pdf->Cell(20, 8, $tipo, 1, 0, 'C', $fill);
+            $pdf->Cell(50, 8, substr($transaction->description, 0, 30), 1, 0, 'L', $fill);
+            $pdf->Cell(35, 8, $transaction->created_at, 1, 0, 'C', $fill);
+            $pdf->Cell(30, 8, number_format($transaction->previousBalance, 2), 1, 0, 'R', $fill);
+            $pdf->Cell(30, 8, number_format($transaction->amount, 2), 1, 0, 'R', $fill);
+            $pdf->Cell(30, 8, number_format($transaction->newBalance, 2), 1, 1, 'R', $fill);
+
+            // Calcular totales
+            if ($transaction->type == 'DEPOSITO') {
+                $totalDepositos += $transaction->amount;
+            } else {
+                $totalRetiros += $transaction->amount;
+            }
+        }
+
+        // Línea de totales
+        $pdf->setLetterNormal(0, 0, 0, 'B');
+        $pdf->SetFillColor(255, 255, 255);
+        $pdf->Cell(135, 8, 'TOTALES:', 1, 0, 'R', true);
+        $pdf->Cell(30, 8, number_format($totalDepositos, 2), 1, 0, 'R', true);
+        $pdf->Cell(30, 8, number_format($totalRetiros, 2), 1, 1, 'R', true);
     }
 }

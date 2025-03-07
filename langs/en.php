@@ -15,7 +15,7 @@ return [
     'sucursales_desc' => 'Find our network of branches nationwide',
     'historial' => 'Transaction History',
     'historial_desc' => 'Check and download your banking transactions',
-    'Bienvenido'=> 'Welcome',
+    'Bienvenido' => 'Welcome',
 
 
 
@@ -174,4 +174,23 @@ return [
     'gestionar_tarjetas' => 'Manage cards',
     'compra_en_línea' => 'Online purchase',
     'descripcion-meta' => "Simulation of Banco Fassil's banking system (Bolivia). Educational project for the Development of Systems I course at UPDS. Explore how an online bank would work.",
+    'report_all_accounts' => 'All Accounts Report',
+    'generate_report' => 'Generate Report',
+    'all_accounts_report' => 'All Accounts Report',
+    'generated_report' => 'Report generated',
+    'transaction_history' => 'Transaction History',
+    'Página' => 'Page',
+    'de' => 'of',
+    'Cuenta N° ' => 'Account N° ',
+    'Saldo actual: ' => 'Current Balance: ',
+    'Cliente: ' => 'Client: ',
+    'Fecha de apertura: ' => 'Opening Date: ',
+    'Tipo' => 'Type',
+    'Descripción' => 'Description',
+    'Fecha y Hora' => 'Date and Time',
+    'Saldo Anterior' => 'Previous Balance',
+    'Monto' => 'Amount',
+    'Saldo Nuevo' => 'New Balance',
+
+
 ];

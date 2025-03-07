@@ -44,4 +44,8 @@ class Account extends Model
     {
         return $this->belongsTo(Person::class, 'personId', 'id');
     }
+    public function office()
+    {
+        return $this->belongsTo(Office::class, 'officeId', 'id');
+    }
 }

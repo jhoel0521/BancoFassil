@@ -12,6 +12,7 @@ class QueryBuilder
     private $query;
     private $bindings = [];
     private $modelClass = null;
+    private $eagerLoads = [];
     public function __construct(DB $db, string $table, string $modelClass = '')
     {
         $this->db = $db;
@@ -65,9 +66,36 @@ class QueryBuilder
                 $model->fill((array) $result);
                 return $model;
             }, $results);
+
+            if (!empty($this->eagerLoads)) {
+                foreach ($results as $model) {
+                    $this->loadRelations($model);
+                }
+            }
         }
         return $results;
     }
+    private function loadRelations(Model $model)
+    {
+        foreach ($this->eagerLoads as $relation) {
+            if (method_exists($model, $relation)) {
+                $this->loadRelation($model, $relation);
+            }
+        }
+    }
+    private function loadRelation(Model $model, $relation)
+{
+    $relationMethod = $relation;
+    $relationResult = $model->$relationMethod();
+    
+    if ($relationResult instanceof Model) {
+        // Relación belongsTo
+        $model->setRelation($relation, $relationResult);
+    } elseif (is_array($relationResult)) {
+        // Relación hasMany/hasOne
+        $model->setRelation($relation, $relationResult);
+    }
+}
 
     public function first()
     {
@@ -82,6 +110,11 @@ class QueryBuilder
     public function orderBy(string $column, string $direction = 'ASC')
     {
         $this->query->orderBy = "ORDER BY {$column} {$direction}";
+        return $this;
+    }
+    public function with(array $relationships)
+    {
+        $this->eagerLoads = $relationships;
         return $this;
     }
 }

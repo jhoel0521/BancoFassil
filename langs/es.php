@@ -149,4 +149,8 @@ return [
     'gestionar_tarjetas' => 'Gestionar tarjetas',
     'compra_en_línea' => 'Compra en línea',
     'descripcion-meta' => 'Simulación del sistema bancario de Banco Fassil (Bolivia). Proyecto educativo para la materia de Desarrollo de Sistemas I en la UPDS. Explora cómo funcionaría un banco en línea.',
+    'report_all_accounts' => 'Reporte de todas las cuentas',
+    'all_accounts_report' => 'Reporte de todas las cuentas',
+    'generated_report' => 'Reporte generado',
+    'transaction_history' => 'Historial de transacciones',
 ];

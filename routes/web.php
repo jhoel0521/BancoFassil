@@ -27,3 +27,6 @@ Router::post('/account/{id}/transfer', [AccountController::class, 'transfer'])->
 Router::post('/account/{id}/card/create', [AccountController::class, 'createCard'])->name('card.create')->middleware(AuthMiddleware::class);
 // habilitar compras por internet togle
 Router::post('/account/{idAccont}/purchaseOnline/{idCard}', [AccountController::class, 'purchaseOnline'])->name('account.purchaseOnline')->middleware(AuthMiddleware::class);
+// Reportes
+Router::get('/account/{id}/report', [AccountController::class, 'report'])->name('account.report')->middleware(AuthMiddleware::class);
+Router::get('/accounts/report', [AccountController::class, 'allReports'])->name('accounts.allReports')->middleware(AuthMiddleware::class);

@@ -163,7 +163,9 @@ class Model
             return $this->attributes[$name];
         }
         if (method_exists($this, $name)) {
-            return $this->$name();
+            $result = $this->$name();
+            $this->attributes[$name] = $result;
+            return $result;
         }
         return null;
     }
@@ -270,5 +272,19 @@ class Model
         $relatedClass = get_class($this);
         $relatedClassName = class_basename($relatedClass);
         return strtolower($relatedClassName) . 'Id';
+    }
+    public function setRelation($name, $value)
+    {
+        $this->attributes[$name] = $value;
+    }
+
+    public function getRelation($name)
+    {
+        return $this->attributes[$name] ?? null;
+    }
+    public static function with(array $relations): QueryBuilder
+    {
+        $instance = new static();
+        return DB::getInstance()->table($instance->table, static::class)->with($relations);
     }
 }
