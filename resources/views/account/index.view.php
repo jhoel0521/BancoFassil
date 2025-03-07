@@ -37,6 +37,9 @@
                                 <a href="<?= route('account.show', ['id' => $account->id]) ?>" class="btn btn-info btn-sm">
                                     <?= traducir('view') ?>
                                 </a>
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#reportModal" data-account-id="<?= $account->id ?>">
+                                    <?= traducir('generate_report') ?>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -60,11 +63,7 @@
                 <form id="reportForm" method="GET">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label"><?= traducir('report_format') ?></label>
-                            <select class="form-select" name="format">
-                                <option value="pdf">PDF</option>
-                                <option value="excel">Excel</option>
-                            </select>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -80,11 +79,11 @@
             // Configurar formulario individual
             const reportModal = document.getElementById('reportModal');
             const reportForm = document.getElementById('reportForm');
-
+            const baseUrl = '<?= route('account.report') ?>';
             reportModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 const accountId = button.getAttribute('data-account-id');
-                reportForm.action = `/account/${accountId}/report`;
+                reportForm.action =  baseUrl.replace('{id}', accountId);
             });
         });
     </script>

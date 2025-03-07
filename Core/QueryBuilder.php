@@ -84,23 +84,37 @@ class QueryBuilder
         }
     }
     private function loadRelation(Model $model, $relation)
-{
-    $relationMethod = $relation;
-    $relationResult = $model->$relationMethod();
-    
-    if ($relationResult instanceof Model) {
-        // Relación belongsTo
-        $model->setRelation($relation, $relationResult);
-    } elseif (is_array($relationResult)) {
-        // Relación hasMany/hasOne
-        $model->setRelation($relation, $relationResult);
+    {
+        $relationMethod = $relation;
+        $relationResult = $model->$relationMethod();
+
+        if ($relationResult instanceof Model) {
+            // Relación belongsTo
+            $model->setRelation($relation, $relationResult);
+        } elseif (is_array($relationResult)) {
+            // Relación hasMany/hasOne
+            $model->setRelation($relation, $relationResult);
+        }
     }
-}
 
     public function first()
     {
         $results = $this->limit(1)->get();
         return $results[0] ?? null;
+    }
+    private function getSqlDebug()
+    {
+        $sql = "SELECT {$this->query->select} FROM {$this->table}";
+        if (!empty($this->query->where)) {
+            $sql .= " WHERE " . implode(' AND ', $this->query->where);
+        }
+        if (!empty($this->query->orderBy)) {
+            $sql .= " {$this->query->orderBy}";
+        }
+        if (!empty($this->query->limit)) {
+            $sql .= " LIMIT {$this->query->limit}";
+        }
+        return $sql;
     }
     public function limit(int $limit)
     {

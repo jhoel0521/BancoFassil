@@ -179,11 +179,10 @@ class AccountController extends Controller
         Session::flash('success', traducir('Tarjeta actualizada correctamente'));
         return redirect(route('account.show', ['id' => $idAccont]));
     }
-    public function report($id)
+    public function report(Request $request, $id): void
     {
-        $account = Account::with(['transactions', 'person'])->where('id', '=', $id)->first();
+        $account = Account::where('id', '=', $id)->first();
         if (!isset($account) || $account->personId !== auth()->personId) {
-            return new Response(traducir('Cuenta no encontrada'), 404);
         }
         $header = new Header(
             traducir('transaction_history'),
