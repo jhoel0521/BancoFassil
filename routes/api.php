@@ -16,6 +16,9 @@ Router::post(API_PREFIX . '/me', [AuthApiController::class, 'me'])->name('api.au
 // getAccounts
 Router::get(API_PREFIX . '/accounts', [AuthApiController::class, 'accounts'])->name('api.auth.getAccounts')->middleware(AuthenticateApi::class);
 
+// getHistorialTransacciones
+Router::get(API_PREFIX . '/transactions', [AuthApiController::class, 'transactions'])->name('api.auth.transactions')->middleware(AuthenticateApi::class);
+
 // account/withdraw
 Router::post(API_PREFIX . '/account/withdraw', [AuthApiController::class, 'withdraw'])->name('api.auth.withdraw')->middleware(AuthenticateApi::class);
 

@@ -185,4 +185,60 @@ class AuthApiController extends ApiController
 
         return $this->success(['message' => 'Compra exitosa']);
     }
+
+    public function transactions(Request $request): Response
+    {
+        $token = $request->token();
+        // validamos que token sea de tipo ATM 
+        if ($token->type !== 'ATM') {
+            return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
+        }
+        $user = $request->user();
+        $person = $user->person;
+        $idAccount = $request->input('idAccount', null);
+        $from = $request->input('from', null);
+        $to = $request->input('to', null);
+        if (isset($idAccount)) {
+            $account = Account::find($idAccount);
+            if (!$account) {
+                return $this->error(['message' => 'Cuenta no encontrada'], StatusCode::NOT_FOUND);
+            }
+            if ($account->personId != $person->id) {
+                return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
+            }
+            if (isset($from) && isset($to)) {
+                $transactions = Transaction::where('accountId', '=', $account->id)
+                    ->whereBetween('DATE(created_at)', [$from, $to])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                $transactions = Transaction::where('accountId', '=', $account->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            }
+            $result = $account->getAttributes();
+            $result['transactions'] = $transactions;
+            return $this->success(['message' => 'Transacciones', 'accounts' => [$result]]);
+        } else {
+            $accounts = $person->accounts;
+            $result = [];
+            $i = 0;
+            foreach ($accounts as $account) {
+                $result[$i] = $account->getAttributes();
+                if (isset($from) && isset($to)) {
+                    $transactions = Transaction::where('accountId', '=', $account->id)
+                        ->whereBetween('DATE(created_at)', [$from, $to])
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+                } else {
+                    $transactions = Transaction::where('accountId', '=', $account->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+                }
+                $result[$i]['transactions'] = $transactions;
+                $i++;
+            }
+            return $this->success(['message' => 'Transacciones', 'accounts' => $result]);
+        }
+    }
 }
