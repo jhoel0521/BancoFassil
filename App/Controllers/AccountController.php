@@ -179,10 +179,11 @@ class AccountController extends Controller
         Session::flash('success', traducir('Tarjeta actualizada correctamente'));
         return redirect(route('account.show', ['id' => $idAccont]));
     }
-    public function report(Request $request, $id): void
+    public function report(Request $request, $id)
     {
         $account = Account::where('id', '=', $id)->first();
         if (!isset($account) || $account->personId !== auth()->personId) {
+            return view('errors.404', ['title' => '404']);
         }
         $header = new Header(
             traducir('transaction_history'),
@@ -198,7 +199,7 @@ class AccountController extends Controller
         $pdf->Ln(10);
         $from = $request->input('from', null);
         $to = $request->input('to', null);
-        if (isset($from) && isset($to)) {
+        if (isset($from) && isset($to) && $from != '' && $to != '') {
             $transactions = Transaction::where('accountId', '=', $id)
                 ->whereBetween('DATE(created_at)', [$from, $to])
                 ->orderBy('created_at', 'DESC')
@@ -219,7 +220,7 @@ class AccountController extends Controller
     {
         $from = $request->input('from', null);
         $to = $request->input('to', null);
-        if (isset($from) && isset($to)) {
+        if (isset($from) && isset($to) && $from != '' && $to != '') {
             $transactions = Transaction::query()
                 ->whereBetween('DATE(created_at)', [$from, $to])
                 ->orderBy('created_at', 'DESC')

@@ -206,7 +206,7 @@ class AuthApiController extends ApiController
             if ($account->personId != $person->id) {
                 return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
             }
-            if (isset($from) && isset($to)) {
+            if (isset($from) && isset($to) && $from != '' && $to != '') {
                 $transactions = Transaction::where('accountId', '=', $account->id)
                     ->whereBetween('DATE(created_at)', [$from, $to])
                     ->orderBy('created_at', 'desc')
@@ -228,7 +228,7 @@ class AuthApiController extends ApiController
             $i = 0;
             foreach ($accounts as $account) {
                 $result[$i] = $account->getAttributes();
-                if (isset($from) && isset($to)) {
+                if (isset($from) && isset($to) && $from != '' && $to != '') {
                     $transactions = Transaction::where('accountId', '=', $account->id)
                         ->whereBetween('DATE(created_at)', [$from, $to])
                         ->orderBy('created_at', 'desc')
