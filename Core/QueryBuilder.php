@@ -104,7 +104,8 @@ class QueryBuilder
     }
     private function getSqlDebug()
     {
-        $sql = "SELECT {$this->query->select} FROM {$this->table}";
+        $select =$this->query->select ?? '*';
+        $sql = "SELECT {$select} FROM {$this->table}";
         if (!empty($this->query->where)) {
             $sql .= " WHERE " . implode(' AND ', $this->query->where);
         }
@@ -113,6 +114,9 @@ class QueryBuilder
         }
         if (!empty($this->query->limit)) {
             $sql .= " LIMIT {$this->query->limit}";
+        }
+        foreach ($this->bindings as $binding) {
+            $sql = preg_replace('/\?/', "'{$binding}'", $sql, 1);
         }
         return $sql;
     }
@@ -130,6 +134,68 @@ class QueryBuilder
     {
         $this->eagerLoads = $relationships;
         return $this;
+    }
+    public function whereBetween(string $column, array $value1)
+    {
+        $this->query->where[] = "{$column} BETWEEN ? AND ?";
+        $this->bindings[] = $value1[0];
+        $this->bindings[] = $value1[1] ?? $value1[0];
+        return $this;
+    }
+    public function whereHas(string $relation, \Closure $callback)
+    {
+        $model = new $this->modelClass();
+
+        if (!method_exists($model, $relation)) {
+            throw new \Exception("Relation {$relation} not found on model.");
+        }
+
+        $relationQuery = $model->$relation();
+        $callback($relationQuery);
+
+        $relationQuery->selectRaw('1');
+        $subquerySql = $relationQuery->toSql();
+        $subqueryBindings = $relationQuery->getBindings();
+
+        $this->whereRaw("EXISTS ({$subquerySql})", $subqueryBindings);
+
+        return $this;
+    }
+    public function whereRaw(string $sql, array $bindings = [])
+    {
+        $this->query->where[] = $sql;
+        $this->bindings = array_merge($this->bindings, $bindings);
+        return $this;
+    }
+    public function selectRaw(string $expression)
+    {
+        $this->query->select = $expression;
+        return $this;
+    }
+    public function toSql()
+    {
+        $select = $this->query->select ?? '*';
+        $sql = "SELECT {$select} FROM {$this->table}";
+        if (!empty($this->query->where)) {
+            $sql .= " WHERE " . implode(' AND ', $this->query->where);
+        }
+        if (!empty($this->query->orderBy)) {
+            $sql .= " {$this->query->orderBy}";
+        }
+        if (!empty($this->query->limit)) {
+            $sql .= " LIMIT {$this->query->limit}";
+        }
+        return $sql;
+    }
+    public function whereIn(string $column, array $values)
+    {
+        $this->query->where[] = "{$column} IN (" . implode(', ', array_fill(0, count($values), '?')) . ")";
+        $this->bindings = array_merge($this->bindings, $values);
+        return $this;
+    }
+    public function getBindings()
+    {
+        return $this->bindings;
     }
 }
 class QueryException extends \RuntimeException

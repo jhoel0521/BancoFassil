@@ -153,4 +153,7 @@ return [
     'all_accounts_report' => 'Reporte de todas las cuentas',
     'generated_report' => 'Reporte generado',
     'transaction_history' => 'Historial de transacciones',
+    'generate_report' => 'Generar Reporte',
+    'generate' => 'Generar',
+    'cancel' => 'Cancelar',
 ];

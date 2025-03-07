@@ -242,6 +242,11 @@ class Model
     {
         return static::query()->get();
     }
+
+    public static function whereIn($column, array $values)
+    {
+        return static::query()->whereIn($column, $values);
+    }
     // relaciones 
 
     public function belongsTo($related, $foreignKey = null, $ownerKey = null)

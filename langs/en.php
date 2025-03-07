@@ -191,6 +191,9 @@ return [
     'Saldo Anterior' => 'Previous Balance',
     'Monto' => 'Amount',
     'Saldo Nuevo' => 'New Balance',
-
-
+    'Desde: ' => 'To: ',
+    'Hasta: ' => 'From: ',
+    'Todo el historial' => 'All History',
+    'generate'=> 'Generate',
+    'cancel' => 'Cancel', 
 ];

@@ -186,7 +186,7 @@ class AccountController extends Controller
         }
         $header = new Header(
             traducir('transaction_history'),
-            traducir('account') . ' N° ' . $account->id,
+            traducir('account') . ' N° ' . str_pad($id, 8, '0', STR_PAD_LEFT),
             date('d/m/Y H:i')
         );
         $pdf = new PDF($header);
@@ -196,36 +196,76 @@ class AccountController extends Controller
         // Configurar contenido del PDF
         $pdf->AddPage();
         $pdf->Ln(10);
-        $this->generateAccountReport($account, $pdf);
+        $from = $request->input('from', null);
+        $to = $request->input('to', null);
+        if (isset($from) && isset($to)) {
+            $transactions = Transaction::where('accountId', '=', $id)
+                ->whereBetween('DATE(created_at)', [$from, $to])
+                ->orderBy('created_at', 'DESC')
+                ->get();
+            $isAll = false;
+        } else {
+            $transactions = Transaction::where('accountId', '=', $id)
+                ->orderBy('created_at', 'DESC')
+                ->get();
+            $isAll = true;
+        }
+        $this->generateAccountReport($account, $transactions, $pdf, $isAll, $from, $to);
         $pdf->Output('I', 'reporte_cuenta_' . $id . '.pdf');
         exit;
     }
 
-    public function allReports()
+    public function allReports(Request $request)
     {
-        $accounts = Account::with(['transactions', 'person'])->get();
+        $from = $request->input('from', null);
+        $to = $request->input('to', null);
+        if (isset($from) && isset($to)) {
+            $accounts = Account::with(['transactions', 'person'])
+                ->whereHas('transactions', function ($query) use ($from, $to) {
+                    $query->whereBetween('created_at', [$from, $to]);
+                })
+                ->get();
+            $isAll = false;
+        } else {
+            $accounts = Account::with(['transactions', 'person'])->get();
+            $isAll = true;
+        }
         $header = new Header(
             traducir('all_accounts_report'),
             traducir('generated_report'),
             date('d/m/Y H:i')
         );
-
         $pdf = new PDF($header);
-        $pdf->SetTitle(utf8_decode(traducir('all_accounts_report')));
+        $pdf->SetTitle(traducir('all_accounts_report'));
         $pdf->AliasNbPages();
+        $idAccount = [];
+        foreach ($accounts as $account) {
+            $idAccount[] = $account->id;
+        }
+        $transactions = Transaction::whereIn('accountId', $idAccount)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         foreach ($accounts as $account) {
             // Agregar sección por cada cuenta
             $pdf->AddPage();
             $pdf->Ln(10);
-            $this->generateAccountReport($account, $pdf);
+            $this->generateAccountReport($account, $transactions, $pdf, $isAll, $from, $to);
         }
 
         $pdf->Output('I', 'reporte_general.pdf');
         exit;
     }
     // En AccountController.php o en un servicio externo
-    protected function generateAccountReport(Account $account, PDF $pdf): void
+    /**
+     * Summary of generateAccountReport
+     * @param \App\Models\Account $account
+     * @param \App\Models\Transaction[] $transactions
+     * @param \Core\PDF $pdf
+     * @param bool $isAll
+     * @return void
+     */
+    protected function generateAccountReport(Account $account, array $transactions, PDF $pdf, bool $isAll = true, $from = null, $to = null): void
     {
         // Encabezado de la cuenta
         $pdf->setLetterTitle(0, 0, 0, 'B');
@@ -235,6 +275,11 @@ class AccountController extends Controller
         $pdf->Cell(0, 7, traducir('Saldo actual: ') . number_format($account->currentBalance, 2), 0, 1);
         $pdf->Cell(0, 7, traducir('Cliente: ') . $account->person->name, 0, 1);
         $pdf->Cell(0, 7, traducir('Fecha de apertura: ') . $account->created_at, 0, 1);
+        if (!$isAll) {
+            $pdf->Cell(0, 7, traducir('Desde: ') . $from . ' ' . traducir('Hasta: ') . $to, 0, 1);
+        } else {
+            $pdf->Cell(0, 7, traducir('Todo el historial'), 0, 1);
+        }
 
         // Espacio antes de la tabla
         $pdf->Ln(10);
@@ -254,7 +299,7 @@ class AccountController extends Controller
         $totalDepositos = 0;
         $totalRetiros = 0;
 
-        foreach ($account->transactions as $transaction) {
+        foreach ($transactions as $transaction) {
             // Alternar color de fondo
             $fill = !$fill;
             $pdf->SetFillColor($fill ? 240 : 255);

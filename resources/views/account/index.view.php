@@ -62,8 +62,14 @@
                 </div>
                 <form id="reportForm" method="GET">
                     <div class="modal-body">
+                        <!-- rango de fecha opcionales  -->
                         <div class="mb-3">
-                            
+                            <label for="from" class="form-label"><?= traducir('from') ?></label>
+                            <input type="date" class="form-control" id="from" name="from">
+                        </div>
+                        <div class="mb-3">
+                            <label for="to" class="form-label"><?= traducir('to') ?></label>
+                            <input type="date" class="form-control" id="to" name="to">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -83,7 +89,7 @@
             reportModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 const accountId = button.getAttribute('data-account-id');
-                reportForm.action =  baseUrl.replace('{id}', accountId);
+                reportForm.action = baseUrl.replace('{id}', accountId);
             });
         });
     </script>
