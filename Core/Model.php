@@ -39,8 +39,8 @@ class Model
             $this->exists = true;
         }
         if ($this->timestamps) {
-            $this->attributes['created_at'] = date('Y-m-d H:i:s');
-            $this->attributes['updated_at'] = date('Y-m-d H:i:s');
+            $this->attributes['created_at'] = $this->attributes['created_at'] ?? date('Y-m-d H:i:s');
+            $this->attributes['updated_at'] = $this->attributes['updated_at'] ?? date('Y-m-d H:i:s');
         }
         return $this;
     }
@@ -161,6 +161,9 @@ class Model
     {
         if (array_key_exists($name, $this->attributes)) {
             return $this->attributes[$name];
+        }
+        if ($this->timestamps && in_array($name, ['created_at', 'updated_at'])) {
+            return $this->attributes[$name] ?? null;
         }
         if (method_exists($this, $name)) {
             $result = $this->$name();
