@@ -217,7 +217,10 @@ class AuthApiController extends ApiController
                     ->get();
             }
             $result = $account->getAttributes();
-            $result['transactions'] = $transactions;
+            $result['transactions'] = [];
+            foreach ($transactions as $transaction) {
+                $result['transactions'][] = $transaction->getAttributes();
+            }
             return $this->success(['message' => 'Transacciones', 'accounts' => [$result]]);
         } else {
             $accounts = $person->accounts;
@@ -235,7 +238,10 @@ class AuthApiController extends ApiController
                         ->orderBy('created_at', 'desc')
                         ->get();
                 }
-                $result[$i]['transactions'] = $transactions;
+                $result[$i]['transactions'] = [];
+                foreach ($transactions as $transaction) {
+                    $result[$i]['transactions'][] = $transaction->getAttributes();
+                }
                 $i++;
             }
             return $this->success(['message' => 'Transacciones', 'accounts' => $result]);
