@@ -19,7 +19,7 @@ class AccountController extends Controller
     public function index(): Response
     {
         $user = auth();
-        $accounts = $user->person->accounts;
+        $accounts = Account::where('personId','=',$user->personId)->get();
         $types = Account::types();
         return view('account.index', ['title' => traducir('Lista de Cuentas'), 'accounts' => $accounts, 'types' => $types]);
     }
@@ -222,23 +222,27 @@ class AccountController extends Controller
         $to = $request->input('to', null);
         if (isset($from) && isset($to) && $from != '' && $to != '') {
             $transactions = Transaction::query()
-                ->whereBetween('DATE(created_at)', [$from, $to])
-                ->orderBy('created_at', 'DESC')
-                ->get();
+            ->whereBetween('DATE(created_at)', [$from, $to])
+            ->orderBy('created_at', 'DESC')
+            ->get();
             $isAll = false;
         } else {
             $transactions = Transaction::query()
-                ->orderBy('created_at', 'DESC')
-                ->get();
+            ->orderBy('created_at', 'DESC')
+            ->get();
             $isAll = true;
         }
         $idAccounts = [];
         foreach ($transactions as $transaction) {
-            if (!in_array($transaction->accountId, $idAccounts)) {
+            if (!in_array($transaction->accountId, $idAccounts) && $transaction->account->personId == $request->user()->personId) {
                 $idAccounts[] = $transaction->accountId;
             }
         }
-        $accounts = Account::whereIn('id', $idAccounts)->get();
+        if(count($idAccounts)>0){
+            $accounts = Account::whereIn('id', $idAccounts)->get();
+        }else{
+            $accounts=[];
+        }
         $header = new Header(
             traducir('all_accounts_report'),
             traducir('generated_report'),
