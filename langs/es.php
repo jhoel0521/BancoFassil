@@ -156,4 +156,7 @@ return [
     'generate_report' => 'Generar Reporte',
     'generate' => 'Generar',
     'cancel' => 'Cancelar',
+    'generate_all_reports'=>'Generar todos los informes',
+    'to'=>'Desde: ',
+    'from'=>'Hasta: ',
 ];

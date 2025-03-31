@@ -196,4 +196,5 @@ return [
     'Todo el historial' => 'All History',
     'generate'=> 'Generate',
     'cancel' => 'Cancel', 
+    'generate_all_reports' => 'Generate all reports',
 ];
