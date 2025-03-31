@@ -127,7 +127,10 @@ class AuthApiController extends ApiController
         if ($account->currentBalance < $amount) {
             return $this->error(['message' => 'Fondos insuficientes'], StatusCode::UNPROCESSABLE_ENTITY);
         }
-
+        // que amount sea mayor a 0 y sea multiplo de 10
+        if ($amount < 1 || $amount % 10 != 0) {
+            return $this->error(['message' => 'Monto no válido'], StatusCode::UNPROCESSABLE_ENTITY);
+        }
         $newTs = new Transaction();
         $newTs->accountId = $account->id;
         $newTs->type = 'W';
@@ -141,6 +144,43 @@ class AuthApiController extends ApiController
         $account->save();
 
         return $this->success(['message' => 'Retiro exitoso']);
+    }
+    public function deposit(Request $request): Response {
+        $token = $request->token();
+        // validamos que token sea de tipo ATM
+        if ($token->type !== 'ATM') {
+            return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
+        }
+        $account = Account::find($request->account_id);
+        if (!$account) {
+            return $this->error(['message' => 'Cuenta no encontrada'], StatusCode::NOT_FOUND);
+        }
+        // validamos que la cuenta pertenezca al usuario autenticado
+        $person = $account->person;
+        if ($person->id != $request->user()->personId) {
+            return $this->error(['message' => 'No autorizado'], StatusCode::UNAUTHORIZED);
+        }
+        $amount = $request->amount;
+        if ($amount < 1) {
+            return $this->error(['message' => 'Monto no válido'], StatusCode::UNPROCESSABLE_ENTITY);
+        }
+        // que sea multiplo de 10
+        if ($amount % 10 != 0) {
+            return $this->error(['message' => 'Monto no válido'], StatusCode::UNPROCESSABLE_ENTITY);
+        }
+        $newTs = new Transaction();
+        $newTs->accountId = $account->id;
+        $newTs->type = 'D';
+        $newTs->previousBalance = $account->currentBalance;
+        $newTs->newBalance = $account->currentBalance + $amount;
+        $newTs->amount = $amount;
+        $newTs->commentSystem = 'Cajero automático de Depósito';
+        $newTs->description = '';
+        $newTs->save();
+        $account->currentBalance = $newTs->newBalance;
+        $account->save();
+
+        return $this->success(['message' => 'Depósito exitoso']);
     }
     public function purchaseOnline(Request $request): Response
     {
