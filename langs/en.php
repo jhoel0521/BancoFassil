@@ -33,8 +33,8 @@ return [
     'inicia_sesión' => 'Log In',
 
     'footer_leyenda' => '<p>© 2025 BancoFassil - Systems Development I - UPDS - Bolivia</p><p> This is an educational project to simulate Banco Fassil\'s banking system for the Systems Development I course at UPDS. Banco Fassil is a real entity and you can visit its official website at <a href="http://www.fassil.com.bo/" target="_blank" class="text-white" >www.fassil.com.bo</a>.</p>',
-    'footer_email' => 'info@bancofassil.com',
-    'footer_teléfono' => '+591 12345678',
+    'footer_email' => 'jhoel0521@gmail.com',
+    'footer_teléfono' => '+591 00000000',
     'footer_privacidad' => 'Privacy Policy',
     'footer_términos' => 'Terms of Service',
     'mi_cuenta' => 'My Account',
